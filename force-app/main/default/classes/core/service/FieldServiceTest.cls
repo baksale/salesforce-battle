@@ -49,13 +49,11 @@ public class FieldServiceTest {
         final ApexTank tankNotOnTheField = newTank();
         final FieldService service = FieldService.service(3, 3);
         final Point tankCoordinate = new Point(1, 2);
-        final Point emptyCell = new Point(2, 1);
         service.addTankToField(testTank, tankCoordinate);
 
-        final Point foundCoordinate = service.coordinateFor(testTank);
+        final Set<Point> foundCoordinates = service.getCoordinatesWithTanks();
 
-        System.assertEquals(tankCoordinate, foundCoordinate);
-        System.assertEquals(null, service.coordinateFor(tankNotOnTheField));
+        System.assert(foundCoordinates.contains(tankCoordinate));
     }
 
     @isTest static void movesTankWithinFieldByOnePointUsingDirections() {
@@ -96,7 +94,7 @@ public class FieldServiceTest {
 
         service.moveTank(testTank, MoveDirectionEnum.UP);
 
-        System.assertEquals(targetLocation, service.coordinateFor(testTank));
+        System.assert(service.getCoordinatesWithTanks().contains(targetLocation));
     }
 
     @isTest static void cannotMoveTanksMissingOnTheField() {
@@ -146,11 +144,6 @@ public class FieldServiceTest {
             final Boolean tankAdded = service.addTankRandomly(testTank);
 
             System.assertEquals(true, tankAdded, 'failed on index: ' + i);
-
-            final Point tankAddedAt = service.coordinateFor(testTank);
-
-            System.assertNotEquals(null, tankAddedAt);
-            System.assertEquals(testTank, service.tankAt(tankAddedAt));
         }
     }
 
@@ -181,7 +174,6 @@ public class FieldServiceTest {
         System.assertEquals(true,  service.fieldExists(theOnlyPoint, MoveDirectionEnum.NOMOVE));
     }
 
-
     @isTest static void seesFieldAround() {
         final FieldService service = FieldService.service(3, 3);
         final Point center = new Point(1, 1);
@@ -191,6 +183,26 @@ public class FieldServiceTest {
         System.assertEquals(true, service.fieldExists(center, MoveDirectionEnum.RIGHT));
         System.assertEquals(true, service.fieldExists(center, MoveDirectionEnum.DOWN));
         System.assertEquals(true, service.fieldExists(center, MoveDirectionEnum.NOMOVE));
+    }
+
+    @isTest static void detectsCellsWithTanks() {
+        final Integer singleDimensionSize = 10;
+        final FieldService service = FieldService.service(singleDimensionSize, singleDimensionSize);
+        final Integer numberOfTanks = 5;
+
+        final Set<ApexTank> tanks = new Set<ApexTank>();
+
+        for(Integer i = 0; i < numberOfTanks; i++) {
+            final ApexTank tank = newTank();
+            tanks.add(tank);
+            service.addTankRandomly(tank);
+        }
+
+        final Set<Point> coordinates = service.getCoordinatesWithTanks();
+
+        for(Point coordinate: coordinates) {
+            System.assert(tanks.contains(service.tankAt(coordinate)));
+        }
     }
 
     private static TestTank newTank() {

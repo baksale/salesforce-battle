@@ -41,7 +41,6 @@ public class GameEngine {
             pointsToAttack.add(tankAction.coordinateToAttack);
         }
         for(Point pointToAttack: pointsToAttack) {
-            System.debug('Attacking: ' + pointToAttack);
             final ApexTank tankAtPoint = fieldService.tankAt(pointToAttack);
             if(null != tankAtPoint) {
                 lifeService.modifyLifeLevel(tankAtPoint, -1);

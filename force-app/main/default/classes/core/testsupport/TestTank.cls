@@ -23,6 +23,12 @@ private class TestTank extends ApexTankBase {
     }
 
     protected override Point pointToAttack() {
-        return locator.coordinateFor(tankToAttack);
+        final Set<Point> cellsWithTank = locator.getCoordinatesWithTanks();
+        for(Point p: cellsWithTank) {
+            if(locator.tankAt(p).equals(tankToAttack)) {
+                return p;
+            }
+        }
+        return null;
     }
 }

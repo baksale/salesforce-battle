@@ -71,10 +71,6 @@ public class FieldService implements FieldLocator {
 				&& 0 <= targetCoordinate.y && targetCoordinate.y < y;
 	} 
 
-	public Point coordinateFor(final ApexTank tank){
-		return tankCoordinates.get(tank);
-	}
-
 	public Boolean fieldExists(final Point relativePoint, final MoveDirectionEnum direction) {
 		final Point targetPoint = relativePoint.add(pointsShift.get(direction));
 		return isTargetWithinField(targetPoint);
@@ -95,5 +91,9 @@ public class FieldService implements FieldLocator {
         final Integer xRandom = Integer.valueOf(Math.random() * x);
         final Integer yRandom = Integer.valueOf(Math.random() * y);
 		return new Point(xRandom, yRandom);
+	} 
+
+	public Set<Point> getCoordinatesWithTanks(){
+		return cellsWithTanks.keySet();
 	} 
 }
