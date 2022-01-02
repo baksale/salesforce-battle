@@ -135,6 +135,18 @@ public class FieldServiceTest {
         System.assertEquals(false, service.moveTank(firstTank, firstTankLocation));
     }
 
+    @isTest static void canRemoveTanksFromTheField() {
+        final ApexTank tank = newTank();
+        final FieldService service = FieldService.service(1, 1);
+        final Point location = new Point(0, 0);
+        service.addTankToField(tank, location);
+
+        service.removeTank(tank);
+        
+        System.assertEquals(null, service.tankAt(location));
+        System.assertEquals(true, service.addTankToField(newTank(), location));
+    }
+
     @isTest static void addsAllTanksRandomly() {
         final FieldService service = FieldService.service(2, 2);
         final Integer numberOfTanks = 4;

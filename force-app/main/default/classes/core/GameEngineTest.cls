@@ -41,14 +41,12 @@ public class GameEngineTest {
     @isTest static void movesTanksOnEveryRound() {
         final Integer numberOfTanks = 10;
         final Integer numberOfRounds = 20;
-        final GameEngine engine = engine();
+        final GameEngine engine = engine().withNumberOfRounds(numberOfRounds);
         for(Integer i = 0; i < numberOfTanks; i++) {
-            engine.withTank(testTank());
+            engine.withTank(testTank().direction(MoveDirectionEnum.UP));
         }
 
-        for(Integer i = 0; i < numberOfRounds; i++) {
-            engine.battleRound();
-        }
+        engine.battle();
 
         ((FieldService) mocks.verify(fieldServiceMock, numberOfTanks * numberOfRounds))
             .moveTank(
@@ -65,12 +63,11 @@ public class GameEngineTest {
         final GameEngine engine = engine()
                                     .withLifeService(lifeService)
                                     .withFieldService(FieldService.service(10, 10))
+                                    .withNumberOfRounds(numberOfRounds)
                                     .withTank(victimTank)
                                     .withTank(attackingTank);
 
-        for(Integer i = 0; i < numberOfRounds; i++) {
-            engine.battleRound();
-        }
+        engine.battle();
 
         System.assertEquals(10 - numberOfRounds, lifeService.getCurrentLifeLevel(victimTank));
         System.assertEquals(10, lifeService.getCurrentLifeLevel(attackingTank));
@@ -79,11 +76,14 @@ public class GameEngineTest {
     @isTest static void finishesBattleOnceZeroOrOneTankLeft() {
         final LifeService lifeService = new LifeService();
         final TestTank victimTank = testTank().direction(MoveDirectionEnum.UP);
-        final TestTank attackingTank = testTank().direction(MoveDirectionEnum.UP).attack(victimTank);
-        final TestTank leaderTank = testTank().direction(MoveDirectionEnum.UP).attack(attackingTank);
+        final TestTank attackingTank = testTank().direction(MoveDirectionEnum.UP)
+                                        .attack(victimTank);
+        final TestTank leaderTank = testTank().direction(MoveDirectionEnum.UP)
+                                        .attack(attackingTank)
+                                        .attack(victimTank);
         final GameEngine engine = engine()
                                     .withLifeService(lifeService)
-                                    .withFieldService(FieldService.service(10, 10))
+                                    .withFieldService(FieldService.service(8, 8))
                                     .withTank(victimTank)
                                     .withTank(attackingTank)
                                     .withTank(leaderTank);
@@ -93,6 +93,24 @@ public class GameEngineTest {
         System.assertEquals(false, lifeService.isTankAlive(victimTank));
         System.assertEquals(false, lifeService.isTankAlive(attackingTank));
         System.assertEquals(true, lifeService.isTankAlive(leaderTank));
+    }
+
+    @isTest static void doesNotSelfAttack() {
+        final LifeService lifeService = new LifeService();
+        final TestTank hippyTank = testTank().direction(MoveDirectionEnum.UP);
+        final TestTank selfAttackingTank = testTank().direction(MoveDirectionEnum.UP);
+        selfAttackingTank.attack(selfAttackingTank);
+        final GameEngine engine = engine()
+                                    .withLifeService(lifeService)
+                                    .withFieldService(FieldService.service(1, 10))
+                                    .withNumberOfRounds(20)
+                                    .withTank(hippyTank)
+                                    .withTank(selfAttackingTank);
+
+        engine.battle();
+
+        System.assertEquals(true, lifeService.isTankAlive(hippyTank));
+        System.assertEquals(true, lifeService.isTankAlive(selfAttackingTank));
     }
 
     private static TestTank testTank() {

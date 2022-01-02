@@ -96,4 +96,10 @@ public class FieldService implements FieldLocator {
 	public Set<Point> getCoordinatesWithTanks(){
 		return cellsWithTanks.keySet();
 	} 
+
+	public void removeTank(final ApexTank tank){
+		final Point tanksCoordinate = tankCoordinates.get(tank);
+		cellsWithTanks.remove(tanksCoordinate);
+		tankCoordinates.remove(tank);
+	} 
 }

@@ -1,7 +1,7 @@
 @isTest
 @TestVisible
 private class TestTank extends ApexTankBase {
-    private ApexTank tankToAttack = null;
+    private Set<ApexTank> tanksToAttack = new Set<ApexTank>();
     private MoveDirectionEnum moveDirection = MoveDirectionEnum.NOMOVE;
 
     public static TestTank testTank() {
@@ -14,7 +14,7 @@ private class TestTank extends ApexTankBase {
     }
 
     public TestTank attack(final ApexTank tankToAttack) {
-        this.tankToAttack = tankToAttack;
+        tanksToAttack.add(tankToAttack);
         return this;
     }
 
@@ -25,7 +25,7 @@ private class TestTank extends ApexTankBase {
     protected override Point pointToAttack() {
         final Set<Point> cellsWithTank = locator.getCoordinatesWithTanks();
         for(Point p: cellsWithTank) {
-            if(locator.tankAt(p).equals(tankToAttack)) {
+            if(tanksToAttack.contains(locator.tankAt(p))) {
                 return p;
             }
         }
