@@ -6,6 +6,7 @@ public class GameEngineTest {
     static {
         mocks.startStubbing();
         mocks.when(fieldServiceMock.addTankRandomly((ApexTank) fflib_Match.anyObject())).thenReturn(true);
+        mocks.when(fieldServiceMock.getCoordinatesWithTanks()).thenReturn(new Set<Point>());
         mocks.stopStubbing();
     }
 

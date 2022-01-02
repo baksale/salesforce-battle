@@ -1,4 +1,5 @@
 public interface FieldLocator {
-	Point coordinateFor(ApexTank tank);
 	Boolean fieldExists(Point relativePoint, MoveDirectionEnum direction);
+	Set<Point> getCoordinatesWithTanks();
+	ApexTank tankAt(Point point);
 }

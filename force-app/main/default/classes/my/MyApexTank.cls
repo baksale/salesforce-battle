@@ -2,10 +2,12 @@ public class MyApexTank extends ApexTankBase {
 
     @TestVisible
 	protected override MoveDirectionEnum nextMoveDirection(){
-        final Point myLocation = locator.coordinateFor(this);
-        final List<ApexTank> enemyTanks = enemies.getEnemiesOnTheField();
-        for(ApexTank enemy: enemyTanks) {
-            final Point enemyLocation = locator.coordinateFor(enemy);
+        final Set<Point> cellsWithTanks = locator.getCoordinatesWithTanks();
+        final Point myLocation = myLocation(cellsWithTanks);
+        for(Point enemyLocation: cellsWithTanks) {
+            if(enemyLocation.equals(myLocation)) {
+                continue;
+            }
             if(isBelowCurrentLocation(myLocation, enemyLocation)) {
                 return MoveDirectionEnum.NOMOVE;
             }
@@ -16,6 +18,15 @@ public class MyApexTank extends ApexTankBase {
 		return MoveDirectionEnum.DOWN;
 	}
 
+    private Point myLocation(final Set<Point> cellsWithTanks) {
+        for(Point cellWithTank: cellsWithTanks) {
+            if(locator.tankAt(cellWithTank).equals(this)) {
+                return cellWithTank;
+            }
+        }
+        return null; //TODO: throw unreachable statement exception
+    }
+
     private Boolean isBelowCurrentLocation(final Point currentLocation, final Point enemyLocation) {
         return currentLocation.x == enemyLocation.x
                 && currentLocation.y == enemyLocation.y + 1;
@@ -23,14 +34,17 @@ public class MyApexTank extends ApexTankBase {
 
     @TestVisible
 	protected override Point pointToAttack(){
-        final List<ApexTank> enemyTanks = enemies.getEnemiesOnTheField();
-        for(ApexTank enemy: enemyTanks) {
-            final Point enemyLocation = locator.coordinateFor(enemy);
+        final Set<Point> cellsWithTanks = locator.getCoordinatesWithTanks();
+        final Point myLocation = myLocation(cellsWithTanks);
+        for(Point enemyLocation: cellsWithTanks) {
+            if(enemyLocation.equals(myLocation)) {
+                continue;
+            }
             if(inTheConner(enemyLocation)) {
                 return enemyLocation;
             }
         }
-        return locator.coordinateFor(enemyTanks.get(0));
+        return cellsWithTanks.iterator().next();
 	}
     private Boolean inTheConner(final Point enemyLocation) {
         return leftTopCorner(enemyLocation)

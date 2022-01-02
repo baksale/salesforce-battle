@@ -2,21 +2,18 @@
 public class MyApexTankTest {
     private final static fflib_ApexMocks mocks = new fflib_ApexMocks();
     private final static FieldLocator locator = (FieldLocator) mocks.mock(FieldLocator.class);
-    private final static EnemyProvider enemiesProvider = (EnemyProvider) mocks.mock(EnemyProvider.class);
     private final static MyApexTank myTank = new MyApexTank();
 
     static{
         myTank
-            .withEnemyProvider(enemiesProvider)
             .withTanksLocator(locator);
 
         mocks.startStubbing();
-            mocks.when(enemiesProvider.getEnemiesOnTheField()).thenReturn(new List<ApexTank>());
-            mocks.when(locator.coordinateFor(myTank)).thenReturn(new Point(0, 9));
+            mocks.when(locator.getCoordinatesWithTanks()).thenReturn(new Set<Point>{new Point(0, 0)});
+            mocks.when(locator.tankAt(new Point(0, 0))).thenReturn(myTank);
             mocks.when(locator.fieldExists(
                                 (Point) fflib_Match.anyObject(),
-                                // (MoveDirectionEnum) fflib_Match.eq(MoveDirectionEnum.UP)))
-                                (MoveDirectionEnum) fflib_Match.anyObject()))
+                                (MoveDirectionEnum) fflib_Match.eq(MoveDirectionEnum.UP)))
                             .thenReturn(true);
         mocks.stopStubbing();
     }
@@ -45,9 +42,11 @@ public class MyApexTankTest {
         final Point currentLocation = new Point(0, 9);
         final Point enemyLocation = new Point(0, 8);
         mocks.startStubbing();
-        mocks.when(enemiesProvider.getEnemiesOnTheField()).thenReturn(new List<ApexTank>{enemyTank});
-        mocks.when(locator.coordinateFor(myTank)).thenReturn(currentLocation);
-        mocks.when(locator.coordinateFor(enemyTank)).thenReturn(enemyLocation);
+            mocks.when(locator.getCoordinatesWithTanks()).thenReturn(new Set<Point>{
+                currentLocation, enemyLocation
+            });
+            mocks.when(locator.tankAt(currentLocation)).thenReturn(myTank);
+            mocks.when(locator.tankAt(enemyLocation)).thenReturn(enemyTank);
         mocks.stopStubbing();
 
         final MoveDirectionEnum moveDirection = myTank.nextMoveDirection();
@@ -59,8 +58,6 @@ public class MyApexTankTest {
         final ApexTank enemyTank = testTank();
         final Point enemyLocation = new Point(0, 0);
         mocks.startStubbing();
-            mocks.when(enemiesProvider.getEnemiesOnTheField()).thenReturn(new List<ApexTank>{enemyTank});
-            mocks.when(locator.coordinateFor(enemyTank)).thenReturn(enemyLocation);
             mocks.when(locator.fieldExists(enemyLocation, MoveDirectionEnum.UP)).thenReturn(false);
             mocks.when(locator.fieldExists(enemyLocation, MoveDirectionEnum.LEFT)).thenReturn(false);
         mocks.stopStubbing();
@@ -76,12 +73,6 @@ public class MyApexTankTest {
         final Point enemyLocation1 = new Point(0, 0);
         final Point enemyLocation2 = new Point(3, 3);
         mocks.startStubbing();
-            mocks.when(enemiesProvider.getEnemiesOnTheField()).thenReturn(new List<ApexTank>{
-                enemyTank1,
-                enemyTank2
-            });
-            mocks.when(locator.coordinateFor(enemyTank1)).thenReturn(enemyLocation1);
-            mocks.when(locator.coordinateFor(enemyTank2)).thenReturn(enemyLocation2);
         mocks.stopStubbing();
 
         final Point pointToAttack = myTank.pointToAttack();
@@ -97,9 +88,6 @@ public class MyApexTankTest {
         final Point currentLocation = new Point(0, 9);
         final Point enemyLocation = new Point(0, 8);
         mocks.startStubbing();
-        mocks.when(enemiesProvider.getEnemiesOnTheField()).thenReturn(new List<ApexTank>{enemyTank});
-        mocks.when(locator.coordinateFor(myTank)).thenReturn(currentLocation);
-        mocks.when(locator.coordinateFor(enemyTank)).thenReturn(enemyLocation);
         // mocks.when(historyTrack.historyFor(enemyTank)).thenReturn(new List<MoveDirectionEnum>{
         //     MoveDirectionEnum.NOMOVE,
         //     MoveDirectionEnum.UP,
