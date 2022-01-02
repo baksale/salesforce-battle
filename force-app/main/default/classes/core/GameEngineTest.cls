@@ -2,15 +2,10 @@
 public class GameEngineTest {
     private final static fflib_ApexMocks mocks = new fflib_ApexMocks();
     private final static FieldService fieldServiceMock = (FieldService) mocks.mock(FieldService.class);
-    private final static NextRoundService nextRoundService = (NextRoundService) mocks.mock(NextRoundService.class);
 
     static {
         mocks.startStubbing();
         mocks.when(fieldServiceMock.addTankRandomly((ApexTank) fflib_Match.anyObject())).thenReturn(true);
-        mocks.when(nextRoundService.calculateNextCoordinates(
-                                        (ApexTank) fflib_Match.anyObject(),
-                                        (FieldService) fflib_Match.anyObject()))
-                                    .thenReturn(new RoundCoordinates(new Point(0, 0), new Point(0, 0)));
         mocks.stopStubbing();
     }
 
@@ -57,7 +52,7 @@ public class GameEngineTest {
         ((FieldService) mocks.verify(fieldServiceMock, numberOfTanks * numberOfRounds))
             .moveTank(
                 (ApexTank) fflib_Match.anyObject(),
-                (Point) fflib_Match.anyObject()
+                (MoveDirectionEnum) fflib_Match.anyObject()
             );
     }
 
@@ -69,7 +64,6 @@ public class GameEngineTest {
         final GameEngine engine = engine()
                                     .withLifeService(lifeService)
                                     .withFieldService(FieldService.service(10, 10))
-                                    .withRoundService(new NextRoundService())
                                     .withTank(victimTank)
                                     .withTank(attackingTank);
 
@@ -91,7 +85,6 @@ public class GameEngineTest {
 
     private static GameEngine engine() {
         return GameEngine.getInstance()
-                .withFieldService(fieldServiceMock)
-                .withRoundService(nextRoundService);
+                .withFieldService(fieldServiceMock);
     }
 }

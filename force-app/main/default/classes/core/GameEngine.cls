@@ -2,7 +2,6 @@ public class GameEngine {
     private List<ApexTank> initialListOfPlayersTanks;
 
     private FieldService fieldService;
-    private NextRoundService nextRoundService;
     private LifeService lifeService;
 
     private GameEngine() {
@@ -13,16 +12,15 @@ public class GameEngine {
         final GameEngine engine = new GameEngine();
         return engine
                 .withFieldService(new FieldService())
-                .withLifeService(new LifeService())
-                .withRoundService(new NextRoundService());
+                .withLifeService(new LifeService());
 	}
 
 	public void battleRound(){
         final List<Point> pointsToAttack = new List<Point>();
         for(ApexTank tank: initialListOfPlayersTanks) {
-            final RoundCoordinates roundCoordinates = nextRoundService.calculateNextCoordinates(tank, fieldService);
-            fieldService.moveTank(tank, roundCoordinates.coordinateToMove);
-            pointsToAttack.add(roundCoordinates.coordinateToAttack);
+            final RoundAction tankAction = tank.getAction();
+            fieldService.moveTank(tank, tankAction.direction);
+            pointsToAttack.add(tankAction.coordinateToAttack);
         }
         for(Point pointToAttack: pointsToAttack) {
             final ApexTank tankAtPoint = fieldService.tankAt(pointToAttack);
@@ -59,12 +57,6 @@ public class GameEngine {
     @TestVisible
 	private GameEngine withLifeService(final LifeService lifeService){
         this.lifeService = lifeService;
-        return this;
-	} 
-
-    @TestVisible
-	private GameEngine withRoundService(final NextRoundService nextRoundService){
-        this.nextRoundService = nextRoundService;
         return this;
 	} 
 }
