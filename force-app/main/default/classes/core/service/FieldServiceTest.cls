@@ -58,8 +58,7 @@ public class FieldServiceTest {
         System.assertEquals(null, service.coordinateFor(tankNotOnTheField));
     }
 
-    @isTest
-    static void movesTankWithinFieldByOnePointUsingDirections() {
+    @isTest static void movesTankWithinFieldByOnePointUsingDirections() {
         final ApexTank testTank = newTank();
         final FieldService service = FieldService.service(3, 3);
         final Point initialLocation = new Point(1, 1);
@@ -73,8 +72,7 @@ public class FieldServiceTest {
         System.assertEquals(testTank, service.tankAt(targetLocation));
     }
 
-    @isTest
-    static void movesTankWithinField() {
+    @isTest static void movesTankWithinField() {
         final ApexTank testTank = newTank();
         final FieldService service = FieldService.service(3, 3);
         final Point initialLocation = new Point(1, 2);
@@ -88,8 +86,20 @@ public class FieldServiceTest {
         System.assertEquals(testTank, service.tankAt(targetLocation));
     }
 
-    @isTest
-    static void cannotMoveTanksMissingOnTheField() {
+    @isTest static void updatesTankLocationAfterMove() {
+        final ApexTank testTank = newTank();
+        final FieldService service = FieldService.service(3, 3);
+        final Point initialLocation = new Point(1, 1);
+        final Point targetLocation = new Point(1, 2);
+        
+        service.addTankToField(testTank, initialLocation);
+
+        service.moveTank(testTank, MoveDirectionEnum.UP);
+
+        System.assertEquals(targetLocation, service.coordinateFor(testTank));
+    }
+
+    @isTest static void cannotMoveTanksMissingOnTheField() {
         final ApexTank tankNotOnTheField = newTank();
         final FieldService service = FieldService.service(3, 3);
         final Point initialLocation = new Point(1, 2);
@@ -100,8 +110,7 @@ public class FieldServiceTest {
         System.assertEquals(false, tankWasMoved);
     }
 
-    @isTest
-    static void cannotMoveTankBeyondTheField() {
+    @isTest static void cannotMoveTankBeyondTheField() {
         final ApexTank testTank = newTank();
         final FieldService service = FieldService.service(3, 3);
         final Point initialLocation = new Point(1, 2);
@@ -113,8 +122,7 @@ public class FieldServiceTest {
         System.assertEquals(false, tankWasMoved);
     }
 
-    @isTest
-    static void cannotMoveTankIntoBusyCell() {
+    @isTest static void cannotMoveTankIntoBusyCell() {
         final ApexTank firstTank = newTank();
         final ApexTank secondtank = newTank();
         final FieldService service = FieldService.service(3, 3);
@@ -129,8 +137,7 @@ public class FieldServiceTest {
         System.assertEquals(false, service.moveTank(firstTank, firstTankLocation));
     }
 
-    @isTest
-    static void addsAllTanksRandomly() {
+    @isTest static void addsAllTanksRandomly() {
         final FieldService service = FieldService.service(2, 2);
         final Integer numberOfTanks = 4;
 
@@ -147,8 +154,7 @@ public class FieldServiceTest {
         }
     }
 
-    @isTest
-    static void doesNotAddIfNoFreeCells() {
+    @isTest static void doesNotAddIfNoFreeCells() {
         final Integer singleDimensionSize = 3;
         final FieldService service = FieldService.service(singleDimensionSize, singleDimensionSize);
         final Integer numberOfTanks = service.getNumberOfCells();
@@ -164,8 +170,7 @@ public class FieldServiceTest {
         System.assertEquals(false, tankAdded, 'could add more tanks than cells available');
     }
 
-    @isTest
-    static void highlightsFieldEdges() {
+    @isTest static void highlightsFieldEdges() {
         final FieldService service = FieldService.service(1, 1);
         final Point theOnlyPoint = new Point(0, 0);
 
@@ -177,8 +182,7 @@ public class FieldServiceTest {
     }
 
 
-    @isTest
-    static void seesFieldAround() {
+    @isTest static void seesFieldAround() {
         final FieldService service = FieldService.service(3, 3);
         final Point center = new Point(1, 1);
 
