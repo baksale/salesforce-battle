@@ -59,6 +59,21 @@ public class FieldServiceTest {
     }
 
     @isTest
+    static void movesTankWithinFieldByOnePointUsingDirections() {
+        final ApexTank testTank = newTank();
+        final FieldService service = FieldService.service(3, 3);
+        final Point initialLocation = new Point(1, 1);
+        final Point targetLocation = new Point(1, 2);
+        
+        service.addTankToField(testTank, initialLocation);
+
+        service.moveTank(testTank, MoveDirectionEnum.UP);
+
+        System.assertEquals(null, service.tankAt(initialLocation));
+        System.assertEquals(testTank, service.tankAt(targetLocation));
+    }
+
+    @isTest
     static void movesTankWithinField() {
         final ApexTank testTank = newTank();
         final FieldService service = FieldService.service(3, 3);

@@ -47,6 +47,12 @@ public class FieldService implements FieldLocator {
 		return cellsWithTanks.get(tankCoordinate);
 	} 
 
+	public Boolean moveTank(final ApexTank tank, final MoveDirectionEnum moveDirection){
+		final Point currentCoordinate = tankCoordinates.get(tank);
+		final Point targetCoordinate = currentCoordinate.add(pointsShift.get(moveDirection));
+		return moveTank(tank, targetCoordinate);
+	} 
+
 	public Boolean moveTank(final ApexTank tank, final Point targetCoordinate){
 		if(tankCoordinates.containsKey(tank)
 				&& isTargetWithinField(targetCoordinate)
