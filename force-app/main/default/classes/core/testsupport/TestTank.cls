@@ -5,24 +5,23 @@ private class TestTank extends ApexTankBase {
     private MoveDirectionEnum moveDirection = MoveDirectionEnum.NOMOVE;
 
     public static TestTank testTank() {
-        return testTank(MoveDirectionEnum.NOMOVE);
+        return new TestTank();
     }
 
-    public static TestTank testTank(final MoveDirectionEnum movingDirection) {
-        final TestTank tank = new TestTank();
-        tank.moveDirection = movingDirection;
-        return tank;
+    public TestTank direction(final MoveDirectionEnum movingDirection) {
+        this.moveDirection = movingDirection;
+        return this;
     }
 
-    public static TestTank testTank(final ApexTank tankToAttack) {
-        final TestTank testTank = testTank();
-        testTank.tankToAttack = tankToAttack;
-        return testTank;
+    public TestTank attack(final ApexTank tankToAttack) {
+        this.tankToAttack = tankToAttack;
+        return this;
     }
 
     protected override MoveDirectionEnum nextMoveDirection() {
         return moveDirection;
     }
+
     protected override Point pointToAttack() {
         return locator.coordinateFor(tankToAttack);
     }

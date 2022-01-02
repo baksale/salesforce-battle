@@ -60,7 +60,7 @@ public class GameEngineTest {
         final LifeService lifeService = new LifeService();
         final Integer numberOfRounds = 4;
         final TestTank victimTank = testTank();
-        final TestTank attackingTank = testTank(victimTank);
+        final TestTank attackingTank = testTank().attack(victimTank);
         final GameEngine engine = engine()
                                     .withLifeService(lifeService)
                                     .withFieldService(FieldService.service(10, 10))
@@ -75,12 +75,27 @@ public class GameEngineTest {
         System.assertEquals(10, lifeService.getCurrentLifeLevel(attackingTank));
     }
 
-    private static TestTank testTank() {
-        return TestTank.testTank();
+    @isTest static void finishesBattleOnceZeroOrOneTankLeft() {
+        final LifeService lifeService = new LifeService();
+        final TestTank victimTank = testTank().direction(MoveDirectionEnum.UP);
+        final TestTank attackingTank = testTank().direction(MoveDirectionEnum.UP).attack(victimTank);
+        final TestTank leaderTank = testTank().direction(MoveDirectionEnum.UP).attack(attackingTank);
+        final GameEngine engine = engine()
+                                    .withLifeService(lifeService)
+                                    .withFieldService(FieldService.service(10, 10))
+                                    .withTank(victimTank)
+                                    .withTank(attackingTank)
+                                    .withTank(leaderTank);
+
+        engine.battle();
+
+        System.assertEquals(false, lifeService.isTankAlive(victimTank));
+        System.assertEquals(false, lifeService.isTankAlive(attackingTank));
+        System.assertEquals(true, lifeService.isTankAlive(leaderTank));
     }
 
-    private static TestTank testTank(final ApexTank tankToAttack) {
-        return TestTank.testTank(tankToAttack);
+    private static TestTank testTank() {
+        return TestTank.testTank();
     }
 
     private static GameEngine engine() {

@@ -60,6 +60,7 @@ public class FieldService implements FieldLocator {
 			final Point currentCoordinate = tankCoordinates.get(tank);
 			cellsWithTanks.remove(currentCoordinate);
 			cellsWithTanks.put(targetCoordinate,tank);
+			tankCoordinates.put(tank, targetCoordinate);
 			return true;
 		}
 		return false;

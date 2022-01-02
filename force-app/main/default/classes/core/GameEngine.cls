@@ -1,4 +1,6 @@
 public class GameEngine {
+    private Integer maxNumberOfRounds = 100;
+    private Integer numberOfRounds = 0;
     private List<ApexTank> initialListOfPlayersTanks;
 
     private FieldService fieldService;
@@ -15,7 +17,23 @@ public class GameEngine {
                 .withLifeService(new LifeService());
 	}
 
+	public void battle(){
+        do {
+            battleRound();
+            final Set<Integer> indexesToRemove = new Set<Integer>();
+            for(Integer i = 0; i < initialListOfPlayersTanks.size(); i++) {
+                if(!lifeService.isTankAlive(initialListOfPlayersTanks.get(i))) {
+                    indexesToRemove.add(i);
+                }
+            }
+            for(Integer removeIndex: indexesToRemove) {
+                initialListOfPlayersTanks.remove(removeIndex);
+            }
+        } while (initialListOfPlayersTanks.size() > 1 && numberOfRounds < maxNumberOfRounds);
+	}
+
 	public void battleRound(){
+        numberOfRounds++;
         final List<Point> pointsToAttack = new List<Point>();
         for(ApexTank tank: initialListOfPlayersTanks) {
             final RoundAction tankAction = tank.getAction();
@@ -23,6 +41,7 @@ public class GameEngine {
             pointsToAttack.add(tankAction.coordinateToAttack);
         }
         for(Point pointToAttack: pointsToAttack) {
+            System.debug('Attacking: ' + pointToAttack);
             final ApexTank tankAtPoint = fieldService.tankAt(pointToAttack);
             if(null != tankAtPoint) {
                 lifeService.modifyLifeLevel(tankAtPoint, -1);
