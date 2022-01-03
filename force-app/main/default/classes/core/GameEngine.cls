@@ -93,8 +93,7 @@ public class GameEngine {
         if(fieldService.addTankRandomly(extraPlayer)) {
             activePlayers.add(extraPlayer);
             lifeService.withTank(extraPlayer);
-            extraPlayer
-                .withTanksLocator(fieldService);
+            extraPlayer.withRadar(fieldService);
             return this;
         }
         throw new IllegalArgumentException('Cannot add tanks anymore');

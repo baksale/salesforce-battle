@@ -1,4 +1,4 @@
-public class FieldService implements FieldLocator {
+public class FieldService implements Radar {
 	private Map<MoveDirectionEnum, Point> pointsShift = new Map<MoveDirectionEnum,Point> {
 		MoveDirectionEnum.UP => new Point(0, 1),
 		MoveDirectionEnum.RIGHT => new Point(1, 0),
@@ -71,7 +71,7 @@ public class FieldService implements FieldLocator {
 				&& 0 <= targetCoordinate.y && targetCoordinate.y < y;
 	} 
 
-	public Boolean fieldExists(final Point relativePoint, final MoveDirectionEnum direction) {
+	public Boolean pathExists(final Point relativePoint, final MoveDirectionEnum direction) {
 		final Point targetPoint = relativePoint.add(pointsShift.get(direction));
 		return isTargetWithinField(targetPoint);
 	}
