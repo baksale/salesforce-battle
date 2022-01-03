@@ -2,7 +2,7 @@ public class MyApexTank extends ApexTankBase {
 
     @TestVisible
 	protected override MoveDirectionEnum nextMoveDirection(){
-        final Set<Point> cellsWithTanks = locator.getCoordinatesWithTanks();
+        final Set<Point> cellsWithTanks = fieldRadar.getCoordinatesWithTanks();
         final Point myLocation = myLocation(cellsWithTanks);
         for(Point enemyLocation: cellsWithTanks) {
             if(enemyLocation.equals(myLocation)) {
@@ -12,7 +12,7 @@ public class MyApexTank extends ApexTankBase {
                 return MoveDirectionEnum.NOMOVE;
             }
         }
-        if(locator.fieldExists(myLocation, MoveDirectionEnum.UP)) {
+        if(fieldRadar.pathExists(myLocation, MoveDirectionEnum.UP)) {
             return MoveDirectionEnum.UP;
         }
 		return MoveDirectionEnum.DOWN;
@@ -20,7 +20,7 @@ public class MyApexTank extends ApexTankBase {
 
     private Point myLocation(final Set<Point> cellsWithTanks) {
         for(Point cellWithTank: cellsWithTanks) {
-            if(locator.tankAt(cellWithTank).equals(this)) {
+            if(fieldRadar.tankAt(cellWithTank).equals(this)) {
                 return cellWithTank;
             }
         }
@@ -34,7 +34,7 @@ public class MyApexTank extends ApexTankBase {
 
     @TestVisible
 	protected override Point pointToAttack(){
-        final Set<Point> cellsWithTanks = locator.getCoordinatesWithTanks();
+        final Set<Point> cellsWithTanks = fieldRadar.getCoordinatesWithTanks();
         final Point myLocation = myLocation(cellsWithTanks);
         for(Point enemyLocation: cellsWithTanks) {
             if(enemyLocation.equals(myLocation)) {
@@ -54,19 +54,19 @@ public class MyApexTank extends ApexTankBase {
     }
 
 	private Boolean leftTopCorner(final Point coordinate) {
-        return !locator.fieldExists(coordinate, MoveDirectionEnum.UP)
-                && !locator.fieldExists(coordinate, MoveDirectionEnum.LEFT);
+        return !fieldRadar.pathExists(coordinate, MoveDirectionEnum.UP)
+                && !fieldRadar.pathExists(coordinate, MoveDirectionEnum.LEFT);
 	}
 	private Boolean rightTopCorner(final Point coordinate) {
-        return !locator.fieldExists(coordinate, MoveDirectionEnum.UP)
-                && !locator.fieldExists(coordinate, MoveDirectionEnum.RIGHT);
+        return !fieldRadar.pathExists(coordinate, MoveDirectionEnum.UP)
+                && !fieldRadar.pathExists(coordinate, MoveDirectionEnum.RIGHT);
 	} 
 	private Boolean rightBottomCorner(final Point coordinate) {
-        return !locator.fieldExists(coordinate, MoveDirectionEnum.DOWN)
-                && !locator.fieldExists(coordinate, MoveDirectionEnum.RIGHT);
+        return !fieldRadar.pathExists(coordinate, MoveDirectionEnum.DOWN)
+                && !fieldRadar.pathExists(coordinate, MoveDirectionEnum.RIGHT);
 	} 
 	private Boolean leftBottomCorner(final Point coordinate) {
-        return !locator.fieldExists(coordinate, MoveDirectionEnum.DOWN)
-                && !locator.fieldExists(coordinate, MoveDirectionEnum.LEFT);
+        return !fieldRadar.pathExists(coordinate, MoveDirectionEnum.DOWN)
+                && !fieldRadar.pathExists(coordinate, MoveDirectionEnum.LEFT);
 	} 
 }

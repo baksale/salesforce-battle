@@ -1,13 +1,8 @@
 public abstract class ApexTankBase implements ApexTank {
-    // protected EnemyProvider enemies;
-    protected FieldLocator locator;
+    protected Radar fieldRadar;
 
-    // public ApexTankBase withEnemyProvider(final EnemyProvider enemyProvider) {
-    //     this.enemies = enemyProvider;
-    //     return this;
-    // }
-    public ApexTankBase withTanksLocator(final FieldLocator locator) {
-        this.locator = locator;
+    public ApexTankBase withRadar(final Radar fieldRadar) {
+        this.fieldRadar = fieldRadar;
         return this;
     }
 

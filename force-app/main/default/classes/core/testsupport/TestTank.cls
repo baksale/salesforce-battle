@@ -23,9 +23,9 @@ private class TestTank extends ApexTankBase {
     }
 
     protected override Point pointToAttack() {
-        final Set<Point> cellsWithTank = locator.getCoordinatesWithTanks();
+        final Set<Point> cellsWithTank = fieldRadar.getCoordinatesWithTanks();
         for(Point p: cellsWithTank) {
-            if(tanksToAttack.contains(locator.tankAt(p))) {
+            if(tanksToAttack.contains(fieldRadar.tankAt(p))) {
                 return p;
             }
         }

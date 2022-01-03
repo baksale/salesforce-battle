@@ -179,22 +179,22 @@ public class FieldServiceTest {
         final FieldService service = FieldService.service(1, 1);
         final Point theOnlyPoint = new Point(0, 0);
 
-        System.assertEquals(false, service.fieldExists(theOnlyPoint, MoveDirectionEnum.UP));
-        System.assertEquals(false, service.fieldExists(theOnlyPoint, MoveDirectionEnum.LEFT));
-        System.assertEquals(false, service.fieldExists(theOnlyPoint, MoveDirectionEnum.RIGHT));
-        System.assertEquals(false, service.fieldExists(theOnlyPoint, MoveDirectionEnum.DOWN));
-        System.assertEquals(true,  service.fieldExists(theOnlyPoint, MoveDirectionEnum.NOMOVE));
+        System.assertEquals(false, service.pathExists(theOnlyPoint, MoveDirectionEnum.UP));
+        System.assertEquals(false, service.pathExists(theOnlyPoint, MoveDirectionEnum.LEFT));
+        System.assertEquals(false, service.pathExists(theOnlyPoint, MoveDirectionEnum.RIGHT));
+        System.assertEquals(false, service.pathExists(theOnlyPoint, MoveDirectionEnum.DOWN));
+        System.assertEquals(true,  service.pathExists(theOnlyPoint, MoveDirectionEnum.NOMOVE));
     }
 
     @isTest static void seesFieldAround() {
         final FieldService service = FieldService.service(3, 3);
         final Point center = new Point(1, 1);
 
-        System.assertEquals(true, service.fieldExists(center, MoveDirectionEnum.UP));
-        System.assertEquals(true, service.fieldExists(center, MoveDirectionEnum.LEFT));
-        System.assertEquals(true, service.fieldExists(center, MoveDirectionEnum.RIGHT));
-        System.assertEquals(true, service.fieldExists(center, MoveDirectionEnum.DOWN));
-        System.assertEquals(true, service.fieldExists(center, MoveDirectionEnum.NOMOVE));
+        System.assertEquals(true, service.pathExists(center, MoveDirectionEnum.UP));
+        System.assertEquals(true, service.pathExists(center, MoveDirectionEnum.LEFT));
+        System.assertEquals(true, service.pathExists(center, MoveDirectionEnum.RIGHT));
+        System.assertEquals(true, service.pathExists(center, MoveDirectionEnum.DOWN));
+        System.assertEquals(true, service.pathExists(center, MoveDirectionEnum.NOMOVE));
     }
 
     @isTest static void detectsCellsWithTanks() {
