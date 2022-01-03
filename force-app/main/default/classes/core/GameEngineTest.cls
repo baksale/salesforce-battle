@@ -2,6 +2,7 @@
 public class GameEngineTest {
     private final static fflib_ApexMocks mocks = new fflib_ApexMocks();
     private final static FieldService fieldServiceMock = (FieldService) mocks.mock(FieldService.class);
+    private final static HistoryService historyServiceMock = (HistoryService) mocks.mock(HistoryService.class);
 
     static {
         mocks.startStubbing();
@@ -111,6 +112,25 @@ public class GameEngineTest {
 
         System.assertEquals(true, lifeService.isTankAlive(hippyTank));
         System.assertEquals(true, lifeService.isTankAlive(selfAttackingTank));
+    }
+
+    @isTest static void recordsTanksAttempts() {
+        final Integer numberOfRounds = 10;
+        final Integer numberOfTanks = 4;
+        final GameEngine engine = engine()
+                                    .withNumberOfRounds(numberOfRounds)
+                                    .withHistoryService(historyServiceMock);
+        for(Integer i = 0; i < numberOfTanks; i++) {
+            engine.withTank(testTank());
+        }
+
+        engine.battle();
+
+        ((HistoryService)mocks.verify(historyServiceMock, numberOfRounds * numberOfTanks))
+                                        .recordMoveAttempt(
+                                            fflib_Match.anyInteger(),
+                                            (ApexTankBase) fflib_Match.anyObject(),
+                                            (MoveDirectionEnum) fflib_Match.anyObject());
     }
 
     private static TestTank testTank() {
