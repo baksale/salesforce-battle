@@ -163,24 +163,22 @@ public class GameEngineTest {
 
     @isTest static void recordsTankAttackAndStatus() {
         final ApexTankBase victimTank = testTank();
-        final ApexTankBase attacker = testTank()
-                                        .direction(MoveDirectionEnum.UP)
-                                        .attack(victimTank);
-        final Point attackPoint = new Point(0, 0);
+        final ApexTankBase attacker = testTank().attack(victimTank);
+        final Point victimLocation = new Point(0, 0);
         final GameEngine engine = engine()
-                                    .withFieldService(FieldService.service(2, 2))
                                     .withNumberOfRounds(1)
                                     .withTank(victimTank)
                                     .withTank(attacker);
 
         mocks.startStubbing();
-        mocks.when(fieldServiceMock.getCoordinatesWithTanks()).thenReturn(new Set<Point>{attackPoint});
-        mocks.when(fieldServiceMock.tankAt(attackPoint)).thenReturn(victimTank);
+        mocks.when(fieldServiceMock.getCoordinatesWithTanks()).thenReturn(new Set<Point>{victimLocation});
+        mocks.when(fieldServiceMock.tankAt(victimLocation)).thenReturn(victimTank);
         mocks.stopStubbing();
                             
         engine.battle();
 
-        ((HistoryService)mocks.verify(historyServiceMock)).recordAttack(0, attacker, attackPoint);
+        ((HistoryService)mocks.verify(historyServiceMock)).recordAttack(0, victimTank, null);
+        ((HistoryService)mocks.verify(historyServiceMock)).recordAttack(0, attacker, victimLocation);
         ((HistoryService)mocks.verify(historyServiceMock)).updateAttackStatus(0, attacker, true);
     }
 

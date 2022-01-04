@@ -28,15 +28,8 @@ public class GameEngine {
 	}
 
 	private void battleRound() {
-        final TankMoveVisitor movesVisitor = moveVisitor();
-        movesVisitor
-            .withRoundNumber(numberOfRounds)
-            .withHistoryService(historyService);
-
-        final TankAttackVisitor attacksVisitor = attackVisitor();
-        attacksVisitor
-            .withRoundNumber(numberOfRounds)
-            .withHistoryService(historyService);        
+        final TankMoveVisitor movesVisitor = moveVisitorForRound();
+        final TankAttackVisitor attacksVisitor = attackVisitorForRound();
         visitAliveTanks(new List<TankVisitor>{movesVisitor, attacksVisitor});
 
         moveTanks(movesVisitor.moves);
@@ -61,9 +54,11 @@ public class GameEngine {
         for(ApexTankBase attacker: attackers.keySet()) {
             final Point pointToAttack = attackers.get(attacker);
             final ApexTank tankUnderAttack = fieldService.tankAt(pointToAttack);
+            Boolean successfullAttack = false;
             if(!attacker.equals(tankUnderAttack)) {
-                lifeService.modifyLifeLevel(tankUnderAttack, -1);
+                successfullAttack = lifeService.modifyLifeLevel(tankUnderAttack, -1);
             }
+            historyService.updateAttackStatus(numberOfRounds, attacker, successfullAttack);
         }
 
     }
@@ -149,8 +144,14 @@ public class GameEngine {
         }
     }
 
-    public static TankMoveVisitor moveVisitor() {
-        return new TankMoveVisitor();
+    private TankMoveVisitor moveVisitorForRound() {
+        final TankMoveVisitor visitor = new TankMoveVisitor();
+        setupVisitor(visitor);
+        return visitor;
+    }
+    private void setupVisitor(final TankVisitor visitor) {
+        visitor.withRoundNumber(numberOfRounds);
+        visitor.withHistoryService(historyService);
     }
     private class TankMoveVisitor extends TankVisitor {
         private Map<ApexTankBase, MoveDirectionEnum> moves = new Map<ApexTankBase, MoveDirectionEnum>();
@@ -163,8 +164,10 @@ public class GameEngine {
         }
     }
 
-    public static TankAttackVisitor attackVisitor() {
-        return new TankAttackVisitor();
+    public TankAttackVisitor attackVisitorForRound() {
+        final TankAttackVisitor visitor = new TankAttackVisitor();
+        setupVisitor(visitor);
+        return visitor;
     }
     private class TankAttackVisitor extends TankVisitor {
         private Map<ApexTankBase, Point> attacks = new Map<ApexTankBase, Point>();

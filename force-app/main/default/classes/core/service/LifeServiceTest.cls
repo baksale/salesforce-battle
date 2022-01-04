@@ -63,6 +63,12 @@ public class LifeServiceTest {
         System.assertEquals(false, lifeService.isTankAlive(testTank()));
     }
 
+
+    @isTest static void cannotManageLifeOfMissingTank() {
+        System.assertEquals(false, lifeService.modifyLifeLevel(testTank(), 1));
+        System.assertEquals(false, lifeService.modifyLifeLevel(null, 1));
+    }
+
     private static TestTank testTank() {
         return TestTank.testTank();
     }
