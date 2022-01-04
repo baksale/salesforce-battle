@@ -155,6 +155,7 @@ public class GameEngine {
     }
     private class TankMoveVisitor extends TankVisitor {
         private Map<ApexTankBase, MoveDirectionEnum> moves = new Map<ApexTankBase, MoveDirectionEnum>();
+        
         public void visit(final ApexTankBase apexTank, final RoundAction tankAction) {
             final MoveDirectionEnum direction = tankAction.direction;
             historyService.recordMoveAttempt(roundNumber, apexTank, tankAction.direction);
