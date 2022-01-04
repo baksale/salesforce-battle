@@ -2,6 +2,7 @@
 public class GameEngineTest {
     private final static fflib_ApexMocks mocks = new fflib_ApexMocks();
     private final static FieldService fieldServiceMock = (FieldService) mocks.mock(FieldService.class);
+    private final static HistoryService historyServiceMock = (HistoryService) mocks.mock(HistoryService.class);
 
     static {
         mocks.startStubbing();
@@ -113,12 +114,81 @@ public class GameEngineTest {
         System.assertEquals(true, lifeService.isTankAlive(selfAttackingTank));
     }
 
+    @isTest static void recordsTanksMoveAttemptsForEveryTank() {
+        final Integer numberOfRounds = 10;
+        final Integer numberOfTanks = 4;
+        final GameEngine engine = engine().withNumberOfRounds(numberOfRounds);
+        for(Integer i = 0; i < numberOfTanks; i++) {
+            engine.withTank(testTank());
+        }
+
+        engine.battle();
+
+        ((HistoryService)mocks.verify(historyServiceMock, numberOfRounds * numberOfTanks))
+                                        .recordMoveAttempt(
+                                            fflib_Match.anyInteger(),
+                                            (ApexTankBase) fflib_Match.anyObject(),
+                                            (MoveDirectionEnum) fflib_Match.anyObject());
+    }
+
+    @isTest static void recordsMoveAttemptAndUpdatesStatus() {
+        final ApexTankBase testTank = testTank().direction(MoveDirectionEnum.UP);
+        final GameEngine engine = engine()
+                                    .withFieldService(FieldService.service(1, 1))
+                                    .withNumberOfRounds(1)
+                                    .withTank(testTank);
+
+        engine.battle();
+
+        ((HistoryService)mocks.verify(historyServiceMock)).recordMoveAttempt(0, testTank, MoveDirectionEnum.UP);
+        ((HistoryService)mocks.verify(historyServiceMock)).updateMoveStatus(0, testTank, false);
+    }
+
+    @isTest static void recordsTanksAttackForEveryTank() {
+        final Integer numberOfRounds = 10;
+        final Integer numberOfTanks = 4;
+        final GameEngine engine = engine().withNumberOfRounds(numberOfRounds);
+        for(Integer i = 0; i < numberOfTanks; i++) {
+            engine.withTank(testTank());
+        }
+
+        engine.battle();
+
+        ((HistoryService)mocks.verify(historyServiceMock, numberOfRounds * numberOfTanks))
+                                        .recordAttack(
+                                            fflib_Match.anyInteger(),
+                                            (ApexTankBase) fflib_Match.anyObject(),
+                                            (Point) fflib_Match.isNull());
+    }
+
+    @isTest static void recordsTankAttackAndStatus() {
+        final ApexTankBase victimTank = testTank();
+        final ApexTankBase attacker = testTank().attack(victimTank);
+        final Point victimLocation = new Point(0, 0);
+        final GameEngine engine = engine()
+                                    .withNumberOfRounds(1)
+                                    .withTank(victimTank)
+                                    .withTank(attacker);
+
+        mocks.startStubbing();
+        mocks.when(fieldServiceMock.getCoordinatesWithTanks()).thenReturn(new Set<Point>{victimLocation});
+        mocks.when(fieldServiceMock.tankAt(victimLocation)).thenReturn(victimTank);
+        mocks.stopStubbing();
+                            
+        engine.battle();
+
+        ((HistoryService)mocks.verify(historyServiceMock)).recordAttack(0, victimTank, null);
+        ((HistoryService)mocks.verify(historyServiceMock)).recordAttack(0, attacker, victimLocation);
+        ((HistoryService)mocks.verify(historyServiceMock)).updateAttackStatus(0, attacker, true);
+    }
+
     private static TestTank testTank() {
         return TestTank.testTank();
     }
 
     private static GameEngine engine() {
         return GameEngine.getInstance()
-                .withFieldService(fieldServiceMock);
+                .withFieldService(fieldServiceMock)
+                .withHistoryService(historyServiceMock);
     }
 }

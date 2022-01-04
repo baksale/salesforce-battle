@@ -5,6 +5,7 @@ public class GameEngine {
 
     private FieldService fieldService;
     private LifeService lifeService;
+    private HistoryService historyService;
 
     private GameEngine() {
         this.activePlayers = new List<ApexTankBase>();
@@ -13,22 +14,23 @@ public class GameEngine {
 	public static GameEngine getInstance(){
         final GameEngine engine = new GameEngine();
         return engine
-                .withFieldService(new FieldService())
-                .withLifeService(new LifeService());
+                .withFieldService(FieldService.service(10, 10))
+                .withLifeService(new LifeService())
+                .withHistoryService(new HistoryService());
 	}
 
 	public void battle(){
         do {
-            numberOfRounds++;
             battleRound();
             removeDeadTanksFromTheField();
+            numberOfRounds++;
         } while (hasFightingTanks() && hasMoreRounds());
 	}
 
-	private void battleRound(){
-        final TankMoveVisitor movesVisitor = new TankMoveVisitor();
-        final TankAttackVisitor attacksVisitor = new TankAttackVisitor();
-        visitAliveTanks(new List<RoundTankVisitor>{movesVisitor, attacksVisitor});
+	private void battleRound() {
+        final TankMoveVisitor movesVisitor = moveVisitorForRound();
+        final TankAttackVisitor attacksVisitor = attackVisitorForRound();
+        visitAliveTanks(new List<TankVisitor>{movesVisitor, attacksVisitor});
 
         moveTanks(movesVisitor.moves);
         attackTanks(attacksVisitor.attacks);
@@ -43,16 +45,20 @@ public class GameEngine {
     }
     private void moveTanks(final Map<ApexTankBase, MoveDirectionEnum> moves) {
         for(ApexTankBase tank: moves.keySet()) {
-            fieldService.moveTank(tank, moves.get(tank));
+            final MoveDirectionEnum direction = moves.get(tank);
+            final Boolean moveAttemptResult = fieldService.moveTank(tank, direction);
+            historyService.updateMoveStatus(numberOfRounds, tank, moveAttemptResult);
         }
     }
     private void attackTanks(final Map<ApexTankBase, Point> attackers) {
         for(ApexTankBase attacker: attackers.keySet()) {
             final Point pointToAttack = attackers.get(attacker);
             final ApexTank tankUnderAttack = fieldService.tankAt(pointToAttack);
+            Boolean successfullAttack = false;
             if(!attacker.equals(tankUnderAttack)) {
-                lifeService.modifyLifeLevel(tankUnderAttack, -1);
+                successfullAttack = lifeService.modifyLifeLevel(tankUnderAttack, -1);
             }
+            historyService.updateAttackStatus(numberOfRounds, attacker, successfullAttack);
         }
 
     }
@@ -112,27 +118,63 @@ public class GameEngine {
 	}
 
     @TestVisible
+	private GameEngine withHistoryService(final HistoryService historyService){
+        this.historyService = historyService;
+        return this;
+	}
+
+    @TestVisible
 	private GameEngine withNumberOfRounds(final Integer maximumNumberOfRounds){
         this.maxNumberOfRounds = maximumNumberOfRounds;
         return this;
 	}
 
-    private class TankMoveVisitor implements RoundTankVisitor {
-        private Map<ApexTankBase, MoveDirectionEnum> moves = new Map<ApexTankBase, MoveDirectionEnum>();
+    private abstract class TankVisitor implements RoundTankVisitor {
+        protected Integer roundNumber;
+        protected HistoryService historyService;
 
+        public TankVisitor withRoundNumber(final Integer roundNumber) {
+            this.roundNumber = roundNumber;
+            return this;
+        }
+
+        public TankVisitor withHistoryService(final HistoryService historyService) {
+            this.historyService = historyService;
+            return this;
+        }
+    }
+
+    private TankMoveVisitor moveVisitorForRound() {
+        final TankMoveVisitor visitor = new TankMoveVisitor();
+        setupVisitor(visitor);
+        return visitor;
+    }
+    private void setupVisitor(final TankVisitor visitor) {
+        visitor.withRoundNumber(numberOfRounds);
+        visitor.withHistoryService(historyService);
+    }
+    private class TankMoveVisitor extends TankVisitor {
+        private Map<ApexTankBase, MoveDirectionEnum> moves = new Map<ApexTankBase, MoveDirectionEnum>();
         public void visit(final ApexTankBase apexTank, final RoundAction tankAction) {
             final MoveDirectionEnum direction = tankAction.direction;
+            historyService.recordMoveAttempt(roundNumber, apexTank, tankAction.direction);
             if(MoveDirectionEnum.NOMOVE != direction) {
                 moves.put(apexTank, direction);
             }
         }
     }
 
-    private class TankAttackVisitor implements RoundTankVisitor {
+    public TankAttackVisitor attackVisitorForRound() {
+        final TankAttackVisitor visitor = new TankAttackVisitor();
+        setupVisitor(visitor);
+        return visitor;
+    }
+    private class TankAttackVisitor extends TankVisitor {
         private Map<ApexTankBase, Point> attacks = new Map<ApexTankBase, Point>();
 
         public void visit(final ApexTankBase apexTank, final RoundAction tankAction) {
             final Point coordinateToAttack = tankAction.coordinateToAttack;
+            historyService.recordAttack(roundNumber, apexTank, coordinateToAttack);            
             if(null != coordinateToAttack) {
                 attacks.put(apexTank, coordinateToAttack);
             }

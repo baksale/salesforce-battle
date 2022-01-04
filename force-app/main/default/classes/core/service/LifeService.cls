@@ -1,12 +1,12 @@
 public class LifeService {
     private Map<ApexTank, Integer> lifeLevels = new Map<ApexTank, Integer>();
 
-	public LifeService withTank(final ApexTank tank){
+    public LifeService withTank(final ApexTank tank){
         lifeLevels.put(tank, 10);
         return this;
 	} 
 
-	public Integer getCurrentLifeLevel(final ApexTank tank){
+    public Integer getCurrentLifeLevel(final ApexTank tank){
         return lifeLevels.get(tank);
 	} 
 

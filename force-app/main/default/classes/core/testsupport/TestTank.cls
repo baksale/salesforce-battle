@@ -31,4 +31,7 @@ private class TestTank extends ApexTankBase {
         }
         return null;
     }
+    public override String toString() {
+        return tanksToAttack.isEmpty() ? 'victim' : 'attacker';
+    }
 }
