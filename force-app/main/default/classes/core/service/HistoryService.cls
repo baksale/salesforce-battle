@@ -3,6 +3,6 @@ public class HistoryService {
 
     }
 
-	public void updateAttemptStatus(final Integer roundNumber, final ApexTankBase tank, final Boolean result){
+	public void updateMoveStatus(final Integer roundNumber, final ApexTankBase tank, final Boolean moved){
 	} 
 }

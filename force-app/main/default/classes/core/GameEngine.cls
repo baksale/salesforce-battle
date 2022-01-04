@@ -21,9 +21,9 @@ public class GameEngine {
 
 	public void battle(){
         do {
-            numberOfRounds++;
             battleRound();
             removeDeadTanksFromTheField();
+            numberOfRounds++;
         } while (hasFightingTanks() && hasMoreRounds());
 	}
 
@@ -49,9 +49,8 @@ public class GameEngine {
     private void moveTanks(final Map<ApexTankBase, MoveDirectionEnum> moves) {
         for(ApexTankBase tank: moves.keySet()) {
             final MoveDirectionEnum direction = moves.get(tank);
-            historyService.recordMoveAttempt(numberOfRounds, tank, direction);
             final Boolean moveAttemptResult = fieldService.moveTank(tank, direction);
-            historyService.updateAttemptStatus(numberOfRounds, tank, moveAttemptResult);
+            historyService.updateMoveStatus(numberOfRounds, tank, moveAttemptResult);
         }
     }
     private void attackTanks(final Map<ApexTankBase, Point> attackers) {

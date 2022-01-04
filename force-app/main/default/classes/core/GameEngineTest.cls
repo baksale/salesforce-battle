@@ -114,12 +114,10 @@ public class GameEngineTest {
         System.assertEquals(true, lifeService.isTankAlive(selfAttackingTank));
     }
 
-    @isTest static void recordsTanksAttempts() {
+    @isTest static void recordsTanksAttemptsForEveryTank() {
         final Integer numberOfRounds = 10;
         final Integer numberOfTanks = 4;
-        final GameEngine engine = engine()
-                                    .withNumberOfRounds(numberOfRounds)
-                                    .withHistoryService(historyServiceMock);
+        final GameEngine engine = engine().withNumberOfRounds(numberOfRounds);
         for(Integer i = 0; i < numberOfTanks; i++) {
             engine.withTank(testTank());
         }
@@ -133,12 +131,26 @@ public class GameEngineTest {
                                             (MoveDirectionEnum) fflib_Match.anyObject());
     }
 
+    @isTest static void recordsAttemptAndUpdatesStatus() {
+        final ApexTankBase testTank = testTank().direction(MoveDirectionEnum.UP);
+        final GameEngine engine = engine()
+                                    .withFieldService(FieldService.service(1, 1))
+                                    .withNumberOfRounds(1)
+                                    .withTank(testTank);
+
+        engine.battle();
+
+        ((HistoryService)mocks.verify(historyServiceMock)).recordMoveAttempt(0, testTank, MoveDirectionEnum.UP);
+        ((HistoryService)mocks.verify(historyServiceMock)).updateMoveStatus(0, testTank, false);
+    }
+
     private static TestTank testTank() {
         return TestTank.testTank();
     }
 
     private static GameEngine engine() {
         return GameEngine.getInstance()
-                .withFieldService(fieldServiceMock);
+                .withFieldService(fieldServiceMock)
+                .withHistoryService(historyServiceMock);
     }
 }
