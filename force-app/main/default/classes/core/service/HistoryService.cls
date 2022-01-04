@@ -3,6 +3,10 @@ public class HistoryService {
 
     }
 
+    public void recordAttack(final Integer roundNumber, final ApexTankBase tank, final Point pointToAttack) {
+
+    }
+
 	public void updateMoveStatus(final Integer roundNumber, final ApexTankBase tank, final Boolean moved){
 	} 
 }

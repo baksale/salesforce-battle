@@ -28,12 +28,16 @@ public class GameEngine {
 	}
 
 	private void battleRound() {
-        final TankMoveVisitor movesVisitor = new TankMoveVisitor();
-        final TankAttackVisitor attacksVisitor = new TankAttackVisitor();
-        final AttemptRecordVisitor attemptVisitor = attemptVisitor()
-                                                    .withRoundNumber(numberOfRounds)
-                                                    .withHistoryService(historyService);
-        visitAliveTanks(new List<RoundTankVisitor>{movesVisitor, attacksVisitor, attemptVisitor});
+        final TankMoveVisitor movesVisitor = moveVisitor();
+        movesVisitor
+            .withRoundNumber(numberOfRounds)
+            .withHistoryService(historyService);
+
+        final TankAttackVisitor attacksVisitor = attackVisitor();
+        attacksVisitor
+            .withRoundNumber(numberOfRounds)
+            .withHistoryService(historyService);        
+        visitAliveTanks(new List<TankVisitor>{movesVisitor, attacksVisitor});
 
         moveTanks(movesVisitor.moves);
         attackTanks(attacksVisitor.attacks);
@@ -130,47 +134,47 @@ public class GameEngine {
         return this;
 	}
 
-    private class TankMoveVisitor implements RoundTankVisitor {
-        private Map<ApexTankBase, MoveDirectionEnum> moves = new Map<ApexTankBase, MoveDirectionEnum>();
+    private abstract class TankVisitor implements RoundTankVisitor {
+        protected Integer roundNumber;
+        protected HistoryService historyService;
 
+        public TankVisitor withRoundNumber(final Integer roundNumber) {
+            this.roundNumber = roundNumber;
+            return this;
+        }
+
+        public TankVisitor withHistoryService(final HistoryService historyService) {
+            this.historyService = historyService;
+            return this;
+        }
+    }
+
+    public static TankMoveVisitor moveVisitor() {
+        return new TankMoveVisitor();
+    }
+    private class TankMoveVisitor extends TankVisitor {
+        private Map<ApexTankBase, MoveDirectionEnum> moves = new Map<ApexTankBase, MoveDirectionEnum>();
         public void visit(final ApexTankBase apexTank, final RoundAction tankAction) {
             final MoveDirectionEnum direction = tankAction.direction;
+            historyService.recordMoveAttempt(roundNumber, apexTank, tankAction.direction);
             if(MoveDirectionEnum.NOMOVE != direction) {
                 moves.put(apexTank, direction);
             }
         }
     }
 
-    private class TankAttackVisitor implements RoundTankVisitor {
+    public static TankAttackVisitor attackVisitor() {
+        return new TankAttackVisitor();
+    }
+    private class TankAttackVisitor extends TankVisitor {
         private Map<ApexTankBase, Point> attacks = new Map<ApexTankBase, Point>();
 
         public void visit(final ApexTankBase apexTank, final RoundAction tankAction) {
             final Point coordinateToAttack = tankAction.coordinateToAttack;
+            historyService.recordAttack(roundNumber, apexTank, coordinateToAttack);            
             if(null != coordinateToAttack) {
                 attacks.put(apexTank, coordinateToAttack);
             }
-        }
-    }
-
-    private static AttemptRecordVisitor attemptVisitor() {
-        return new AttemptRecordVisitor();
-    } 
-    private class AttemptRecordVisitor implements RoundTankVisitor {
-        private Integer roundNumber;
-        private HistoryService historyService;
-
-        public AttemptRecordVisitor withRoundNumber(final Integer roundNumber) {
-            this.roundNumber = roundNumber;
-            return this;
-        }
-
-        public AttemptRecordVisitor withHistoryService(final HistoryService historyService) {
-            this.historyService = historyService;
-            return this;
-        }
-
-        public void visit(final ApexTankBase tank, final RoundAction tankAction) {
-            historyService.recordMoveAttempt(roundNumber, tank, tankAction.direction);
         }
     }
 }
