@@ -8,5 +8,8 @@ public class HistoryService {
     }
 
 	public void updateMoveStatus(final Integer roundNumber, final ApexTankBase tank, final Boolean moved){
+	}
+
+	public void updateAttackStatus(final Integer roundNumber, final ApexTankBase tank, final Boolean hit){
 	} 
 }
