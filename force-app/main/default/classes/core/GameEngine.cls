@@ -60,24 +60,17 @@ public class GameEngine {
             }
             historyService.updateAttackStatus(numberOfRounds, attacker, successfullAttack);
         }
-
     }
     private void removeDeadTanksFromTheField() {
-        final Set<Integer> tankIndexesToRemove = collectDeadTanksIndexes();
-        for(Integer removeIndex: tankIndexesToRemove) {
-            final ApexTankBase tankToRemove = activePlayers.remove(removeIndex);
-            fieldService.removeTank(tankToRemove);
-        }
-    }
-
-    private Set<Integer> collectDeadTanksIndexes() {
-        final Set<Integer> result = new Set<Integer>();
-        for(Integer i = 0; i < activePlayers.size(); i++) {
-            if(!lifeService.isTankAlive(activePlayers.get(i))) {
-                result.add(i);
+        final List<ApexTankBase> activePlayersSwap = new List<ApexTankBase>();
+        for(ApexTankBase tank: activePlayers) {
+            if(!lifeService.isTankAlive(tank)) {
+                fieldService.removeTank(tank);
+            } else {
+                activePlayersSwap.add(tank);
             }
         }
-        return result;
+        activePlayers = activePlayersSwap;
     }
 
     private Boolean hasFightingTanks() {
