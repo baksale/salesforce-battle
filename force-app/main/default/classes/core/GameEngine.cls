@@ -15,7 +15,7 @@ public class GameEngine {
         final GameEngine engine = new GameEngine();
         return engine
                 .withFieldService(FieldService.service(10, 10))
-                .withLifeService(new LifeService())
+                .withLifeService(LifeService.lifeService(10))
                 .withHistoryService(new HistoryService());
 	}
 
@@ -181,4 +181,12 @@ public class GameEngine {
             }
         }
     }
+
+	public Set<ApexTank> winners() {
+        final Set<ApexTank> winners = new Set<ApexTank>();
+        for(ApexTankBase leftPlayer: activePlayers) {
+            winners.add(leftPlayer);
+        }
+        return winners;
+    } 
 }

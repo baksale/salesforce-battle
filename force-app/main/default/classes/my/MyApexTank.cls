@@ -36,6 +36,7 @@ public class MyApexTank extends ApexTankBase {
 	protected override Point pointToAttack(){
         final Set<Point> cellsWithTanks = fieldRadar.getCoordinatesWithTanks();
         final Point myLocation = myLocation(cellsWithTanks);
+        cellsWithTanks.remove(myLocation);
         for(Point enemyLocation: cellsWithTanks) {
             if(enemyLocation.equals(myLocation)) {
                 continue;

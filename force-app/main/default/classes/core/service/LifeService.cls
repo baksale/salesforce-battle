@@ -1,8 +1,17 @@
 public class LifeService {
+    private Integer initialLifeLevel;
     private Map<ApexTank, Integer> lifeLevels = new Map<ApexTank, Integer>();
 
+    private LifeService(final Integer initialLifeLevel) {
+        this.initialLifeLevel = initialLifeLevel;
+    }
+
+    public static LifeService lifeService(final Integer initialLifeLevel) {
+        return new LifeService(initialLifeLevel);
+    }
+
     public LifeService withTank(final ApexTank tank){
-        lifeLevels.put(tank, 10);
+        lifeLevels.put(tank, initialLifeLevel);
         return this;
 	} 
 
