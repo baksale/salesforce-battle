@@ -15,7 +15,7 @@ public class GameEngine {
         final GameEngine engine = new GameEngine();
         return engine
                 .withFieldService(FieldService.service(10, 10))
-                .withLifeService(new LifeService())
+                .withLifeService(LifeService.lifeService(10))
                 .withHistoryService(new HistoryService());
 	}
 
@@ -60,24 +60,17 @@ public class GameEngine {
             }
             historyService.updateAttackStatus(numberOfRounds, attacker, successfullAttack);
         }
-
     }
     private void removeDeadTanksFromTheField() {
-        final Set<Integer> tankIndexesToRemove = collectDeadTanksIndexes();
-        for(Integer removeIndex: tankIndexesToRemove) {
-            final ApexTankBase tankToRemove = activePlayers.remove(removeIndex);
-            fieldService.removeTank(tankToRemove);
-        }
-    }
-
-    private Set<Integer> collectDeadTanksIndexes() {
-        final Set<Integer> result = new Set<Integer>();
-        for(Integer i = 0; i < activePlayers.size(); i++) {
-            if(!lifeService.isTankAlive(activePlayers.get(i))) {
-                result.add(i);
+        final List<ApexTankBase> activePlayersSwap = new List<ApexTankBase>();
+        for(ApexTankBase tank: activePlayers) {
+            if(!lifeService.isTankAlive(tank)) {
+                fieldService.removeTank(tank);
+            } else {
+                activePlayersSwap.add(tank);
             }
         }
-        return result;
+        activePlayers = activePlayersSwap;
     }
 
     private Boolean hasFightingTanks() {
@@ -155,6 +148,7 @@ public class GameEngine {
     }
     private class TankMoveVisitor extends TankVisitor {
         private Map<ApexTankBase, MoveDirectionEnum> moves = new Map<ApexTankBase, MoveDirectionEnum>();
+        
         public void visit(final ApexTankBase apexTank, final RoundAction tankAction) {
             final MoveDirectionEnum direction = tankAction.direction;
             historyService.recordMoveAttempt(roundNumber, apexTank, tankAction.direction);
@@ -180,4 +174,12 @@ public class GameEngine {
             }
         }
     }
+
+	public Set<ApexTank> winners() {
+        final Set<ApexTank> winners = new Set<ApexTank>();
+        for(ApexTankBase leftPlayer: activePlayers) {
+            winners.add(leftPlayer);
+        }
+        return winners;
+    } 
 }
