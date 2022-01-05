@@ -1,6 +1,6 @@
-public class TowerTank extends ApexTankBase {
+public virtual class TowerTank extends ApexTankBase {
     @TestVisible
-    protected override MoveDirectionEnum nextMoveDirection() {
+    protected virtual override MoveDirectionEnum nextMoveDirection() {
         return MoveDirectionEnum.NOMOVE;
     }
 
