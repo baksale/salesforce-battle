@@ -2,8 +2,8 @@ public class MyApexTank extends ApexTankBase {
 
     @TestVisible
 	protected override MoveDirectionEnum nextMoveDirection(){
-        final Set<Point> cellsWithTanks = fieldRadar.getCoordinatesWithTanks();
-        final Point myLocation = myLocation(cellsWithTanks);
+        final List<Point> cellsWithTanks = fieldRadar.getCoordinatesWithTanks();
+        final Point myLocation = fieldRadar.coordinateFor(this);
         for(Point enemyLocation: cellsWithTanks) {
             if(enemyLocation.equals(myLocation)) {
                 continue;
@@ -18,15 +18,6 @@ public class MyApexTank extends ApexTankBase {
 		return MoveDirectionEnum.DOWN;
 	}
 
-    private Point myLocation(final Set<Point> cellsWithTanks) {
-        for(Point cellWithTank: cellsWithTanks) {
-            if(fieldRadar.tankAt(cellWithTank).equals(this)) {
-                return cellWithTank;
-            }
-        }
-        return null; //TODO: throw unreachable statement exception
-    }
-
     private Boolean isBelowCurrentLocation(final Point currentLocation, final Point enemyLocation) {
         return currentLocation.x == enemyLocation.x
                 && currentLocation.y == enemyLocation.y + 1;
@@ -34,13 +25,10 @@ public class MyApexTank extends ApexTankBase {
 
     @TestVisible
 	protected override Point pointToAttack(){
-        final Set<Point> cellsWithTanks = fieldRadar.getCoordinatesWithTanks();
-        final Point myLocation = myLocation(cellsWithTanks);
-        cellsWithTanks.remove(myLocation);
+        final List<Point> cellsWithTanks = fieldRadar.getCoordinatesWithTanks();
+        final Point myLocation = fieldRadar.coordinateFor(this);
+        cellsWithTanks.remove(cellsWithTanks.indexOf(myLocation));
         for(Point enemyLocation: cellsWithTanks) {
-            if(enemyLocation.equals(myLocation)) {
-                continue;
-            }
             if(inTheConner(enemyLocation)) {
                 return enemyLocation;
             }

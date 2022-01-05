@@ -6,6 +6,13 @@ public class TowerTank extends ApexTankBase {
 
     @TestVisible
     protected override Point pointToAttack() {
-        return new Point(0, 0);
+        final List<Point> cellsWithTanks = fieldRadar.getCoordinatesWithTanks();
+        final Point currentLocation = fieldRadar.coordinateFor(this);
+        final Integer cellIndex = cellsWithTanks.indexOf(currentLocation);
+        cellsWithTanks.remove(cellIndex);
+        if(!cellsWithTanks.isEmpty()) {
+            return cellsWithTanks.get(Integer.valueOf(Math.random() * cellsWithTanks.size()));
+        }
+        return null;
     }
 }

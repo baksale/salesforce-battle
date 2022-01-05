@@ -93,13 +93,17 @@ public class FieldService implements Radar {
 		return new Point(xRandom, yRandom);
 	} 
 
-	public Set<Point> getCoordinatesWithTanks(){
-		return cellsWithTanks.keySet();
+	public List<Point> getCoordinatesWithTanks(){
+		return new List<Point>(cellsWithTanks.keySet());
 	} 
 
 	public void removeTank(final ApexTank tank){
 		final Point tanksCoordinate = tankCoordinates.get(tank);
 		cellsWithTanks.remove(tanksCoordinate);
 		tankCoordinates.remove(tank);
+	} 
+
+	public Point coordinateFor(final ApexTank tank){
+		return tankCoordinates.get(tank);
 	} 
 }

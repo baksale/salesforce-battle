@@ -12,9 +12,9 @@ public class MyApexTankTest {
 
         mocks.startStubbing();
             mocks.when(radar.getCoordinatesWithTanks()).thenReturn(
-                                new Set<Point>{myLocation, enemyLocation});
-            mocks.when(radar.tankAt(myLocation)).thenReturn(myTank);
-            mocks.when(radar.tankAt(enemyLocation)).thenReturn(enemyTank);
+                                new List<Point>{myLocation, enemyLocation});
+            mocks.when(radar.coordinateFor(myTank)).thenReturn(myLocation);
+            mocks.when(radar.coordinateFor(enemyTank)).thenReturn(enemyLocation);
             mocks.when(radar.pathExists(
                                 (Point) fflib_Match.anyObject(),
                                 (MoveDirectionEnum) fflib_Match.eq(MoveDirectionEnum.UP)))
@@ -45,11 +45,10 @@ public class MyApexTankTest {
         final Point currentLocation = new Point(0, 9);
         final Point enemyLocation = new Point(0, 8);
         mocks.startStubbing();
-            mocks.when(radar.getCoordinatesWithTanks()).thenReturn(new Set<Point>{
+            mocks.when(radar.getCoordinatesWithTanks()).thenReturn(new List<Point>{
                 currentLocation, enemyLocation
             });
-            mocks.when(radar.tankAt(currentLocation)).thenReturn(myTank);
-            mocks.when(radar.tankAt(enemyLocation)).thenReturn(enemyTank);
+            mocks.when(radar.coordinateFor(myTank)).thenReturn(currentLocation);
         mocks.stopStubbing();
 
         final MoveDirectionEnum moveDirection = myTank.nextMoveDirection();

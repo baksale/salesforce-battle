@@ -1,5 +1,6 @@
 public interface Radar {
 	Boolean pathExists(Point relativePoint, MoveDirectionEnum direction);
-	Set<Point> getCoordinatesWithTanks();
+	List<Point> getCoordinatesWithTanks();
 	ApexTank tankAt(Point point);
+	Point coordinateFor(ApexTank tank);
 }

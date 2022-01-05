@@ -8,7 +8,7 @@ public class GameEngineTest {
     static {
         mocks.startStubbing();
         mocks.when(fieldServiceMock.addTankRandomly((ApexTank) fflib_Match.anyObject())).thenReturn(true);
-        mocks.when(fieldServiceMock.getCoordinatesWithTanks()).thenReturn(new Set<Point>());
+        mocks.when(fieldServiceMock.getCoordinatesWithTanks()).thenReturn(new List<Point>());
         mocks.stopStubbing();
     }
 
@@ -167,7 +167,7 @@ public class GameEngineTest {
                                     .withTank(attacker);
 
         mocks.startStubbing();
-        mocks.when(fieldServiceMock.getCoordinatesWithTanks()).thenReturn(new Set<Point>{victimLocation});
+        mocks.when(fieldServiceMock.getCoordinatesWithTanks()).thenReturn(new List<Point>{victimLocation});
         mocks.when(fieldServiceMock.tankAt(victimLocation)).thenReturn(victimTank);
         mocks.stopStubbing();
                             

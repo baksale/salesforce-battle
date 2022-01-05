@@ -51,7 +51,7 @@ public class FieldServiceTest {
         final Point tankCoordinate = new Point(1, 2);
         service.addTankToField(testTank, tankCoordinate);
 
-        final Set<Point> foundCoordinates = service.getCoordinatesWithTanks();
+        final List<Point> foundCoordinates = service.getCoordinatesWithTanks();
 
         System.assert(foundCoordinates.contains(tankCoordinate));
     }
@@ -210,10 +210,28 @@ public class FieldServiceTest {
             service.addTankRandomly(tank);
         }
 
-        final Set<Point> coordinates = service.getCoordinatesWithTanks();
+        final List<Point> coordinates = service.getCoordinatesWithTanks();
 
         for(Point coordinate: coordinates) {
             System.assert(tanks.contains(service.tankAt(coordinate)));
+        }
+    }
+
+    @isTest static void providesCoordinateForTanks() {
+        final Integer singleDimensionSize = 10;
+        final FieldService service = FieldService.service(singleDimensionSize, singleDimensionSize);
+        final Integer numberOfTanks = 5;
+
+        final Set<ApexTank> tanks = new Set<ApexTank>();
+
+        for(Integer i = 0; i < numberOfTanks; i++) {
+            final ApexTank tank = newTank();
+            tanks.add(tank);
+            service.addTankRandomly(tank);
+        }
+
+        for(ApexTank tank: tanks) {
+            System.assertEquals(tank, service.tankAt(service.coordinateFor(tank)));
         }
     }
 

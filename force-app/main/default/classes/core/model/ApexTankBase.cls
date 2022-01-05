@@ -9,7 +9,7 @@ public abstract class ApexTankBase implements ApexTank {
     protected abstract MoveDirectionEnum nextMoveDirection();
     protected abstract Point pointToAttack();
 
-    public virtual RoundAction getAction() {
+    public RoundAction getAction() {
         return new RoundAction(nextMoveDirection(), pointToAttack());
     }
 }
