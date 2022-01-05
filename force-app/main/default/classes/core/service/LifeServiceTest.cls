@@ -1,13 +1,13 @@
 @isTest
 public class LifeServiceTest {
-    private final static LifeService lifeService = new LifeService();
+    private final static LifeService lifeServiceInstance = LifeService.lifeService(10);
 
     @isTest static void assignsDefaultLifeLevelToEveryTank() {
         final ApexTank testTank = testTank();
         
-        lifeService.withTank(testTank);
+        lifeServiceInstance.withTank(testTank);
 
-        System.assertEquals(10, lifeService.getCurrentLifeLevel(testTank));
+        System.assertEquals(10, lifeServiceInstance.getCurrentLifeLevel(testTank));
     }
 
     @isTest static void maintainsLifeLevelForEveryTank() {
@@ -16,57 +16,57 @@ public class LifeServiceTest {
         final ApexTank secondTank = testTank();
         final Integer secondTankLifeLevelChange = -5;
         
-        lifeService
+        lifeServiceInstance
             .withTank(firstTank)
             .withTank(secondTank);
 
-        lifeService.modifyLifeLevel(firstTank, firstTankLifeLevelChange);
-        lifeService.modifyLifeLevel(secondTank, secondTankLifeLevelChange);
+        lifeServiceInstance.modifyLifeLevel(firstTank, firstTankLifeLevelChange);
+        lifeServiceInstance.modifyLifeLevel(secondTank, secondTankLifeLevelChange);
 
-        System.assertEquals(10 + firstTankLifeLevelChange, lifeService.getCurrentLifeLevel(firstTank));
-        System.assertEquals(10 + secondTankLifeLevelChange, lifeService.getCurrentLifeLevel(secondTank));
+        System.assertEquals(10 + firstTankLifeLevelChange, lifeServiceInstance.getCurrentLifeLevel(firstTank));
+        System.assertEquals(10 + secondTankLifeLevelChange, lifeServiceInstance.getCurrentLifeLevel(secondTank));
     }
 
     @isTest static void lifeLevelCannotBecomeLessThanZero() {
         final ApexTank testTank = testTank();
         
-        lifeService.withTank(testTank);
+        lifeServiceInstance.withTank(testTank);
 
-        lifeService.modifyLifeLevel(testTank, -11);
+        lifeServiceInstance.modifyLifeLevel(testTank, -11);
 
-        System.assertEquals(0, lifeService.getCurrentLifeLevel(testTank));
+        System.assertEquals(0, lifeServiceInstance.getCurrentLifeLevel(testTank));
     }
 
     @isTest static void cannotReanimateDeadTanks() {
         final ApexTank testTank = testTank();
-        lifeService.withTank(testTank);
-        lifeService.modifyLifeLevel(testTank, -11);
+        lifeServiceInstance.withTank(testTank);
+        lifeServiceInstance.modifyLifeLevel(testTank, -11);
 
-        final Boolean lifeLevelChanged = lifeService.modifyLifeLevel(testTank, +11);
+        final Boolean lifeLevelChanged = lifeServiceInstance.modifyLifeLevel(testTank, +11);
 
         System.assertEquals(false, lifeLevelChanged);
-        System.assertEquals(0, lifeService.getCurrentLifeLevel(testTank));
+        System.assertEquals(0, lifeServiceInstance.getCurrentLifeLevel(testTank));
     }
 
     @isTest static void tankIsAliveIfLifeLevelIsPositive() {
         final ApexTank testTank = testTank();
-        lifeService.withTank(testTank);
+        lifeServiceInstance.withTank(testTank);
 
-        final Boolean tankIsAlive = lifeService.isTankAlive(testTank);
+        final Boolean tankIsAlive = lifeServiceInstance.isTankAlive(testTank);
         System.assertEquals(true, tankIsAlive);
         
-        lifeService.modifyLifeLevel(testTank, -11);
-        System.assertEquals(false, lifeService.isTankAlive(testTank));
+        lifeServiceInstance.modifyLifeLevel(testTank, -11);
+        System.assertEquals(false, lifeServiceInstance.isTankAlive(testTank));
     }
 
     @isTest static void missingTankIsAlwaysDead() {
-        System.assertEquals(false, lifeService.isTankAlive(testTank()));
+        System.assertEquals(false, lifeServiceInstance.isTankAlive(testTank()));
     }
 
 
     @isTest static void cannotManageLifeOfMissingTank() {
-        System.assertEquals(false, lifeService.modifyLifeLevel(testTank(), 1));
-        System.assertEquals(false, lifeService.modifyLifeLevel(null, 1));
+        System.assertEquals(false, lifeServiceInstance.modifyLifeLevel(testTank(), 1));
+        System.assertEquals(false, lifeServiceInstance.modifyLifeLevel(null, 1));
     }
 
     private static TestTank testTank() {

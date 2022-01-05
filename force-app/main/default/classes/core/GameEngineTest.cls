@@ -1,5 +1,6 @@
 @isTest
 public class GameEngineTest {
+    private final static LifeService lifeServiceInstance = LifeService.lifeService(10);
     private final static fflib_ApexMocks mocks = new fflib_ApexMocks();
     private final static FieldService fieldServiceMock = (FieldService) mocks.mock(FieldService.class);
     private final static HistoryService historyServiceMock = (HistoryService) mocks.mock(HistoryService.class);
@@ -57,12 +58,10 @@ public class GameEngineTest {
     }
 
     @isTest static void letsTanksAttackEachOther() {
-        final LifeService lifeService = new LifeService();
         final Integer numberOfRounds = 4;
         final TestTank victimTank = testTank();
         final TestTank attackingTank = testTank().attack(victimTank);
         final GameEngine engine = engine()
-                                    .withLifeService(lifeService)
                                     .withFieldService(FieldService.service(10, 10))
                                     .withNumberOfRounds(numberOfRounds)
                                     .withTank(victimTank)
@@ -70,12 +69,12 @@ public class GameEngineTest {
 
         engine.battle();
 
-        System.assertEquals(10 - numberOfRounds, lifeService.getCurrentLifeLevel(victimTank));
-        System.assertEquals(10, lifeService.getCurrentLifeLevel(attackingTank));
+        System.assertEquals(10 - numberOfRounds, lifeServiceInstance.getCurrentLifeLevel(victimTank));
+        System.assertEquals(10, lifeServiceInstance.getCurrentLifeLevel(attackingTank));
     }
 
     @isTest static void finishesBattleOnceZeroOrOneTankLeft() {
-        final LifeService lifeService = new LifeService();
+        
         final TestTank victimTank = testTank().direction(MoveDirectionEnum.UP);
         final TestTank attackingTank = testTank().direction(MoveDirectionEnum.UP)
                                         .attack(victimTank);
@@ -83,7 +82,6 @@ public class GameEngineTest {
                                         .attack(attackingTank)
                                         .attack(victimTank);
         final GameEngine engine = engine()
-                                    .withLifeService(lifeService)
                                     .withFieldService(FieldService.service(8, 8))
                                     .withTank(victimTank)
                                     .withTank(attackingTank)
@@ -91,18 +89,16 @@ public class GameEngineTest {
 
         engine.battle();
 
-        System.assertEquals(false, lifeService.isTankAlive(victimTank));
-        System.assertEquals(false, lifeService.isTankAlive(attackingTank));
-        System.assertEquals(true, lifeService.isTankAlive(leaderTank));
+        System.assertEquals(false, lifeServiceInstance.isTankAlive(victimTank));
+        System.assertEquals(false, lifeServiceInstance.isTankAlive(attackingTank));
+        System.assertEquals(true, lifeServiceInstance.isTankAlive(leaderTank));
     }
 
     @isTest static void doesNotSelfAttack() {
-        final LifeService lifeService = new LifeService();
         final TestTank hippyTank = testTank().direction(MoveDirectionEnum.UP);
         final TestTank selfAttackingTank = testTank().direction(MoveDirectionEnum.UP);
         selfAttackingTank.attack(selfAttackingTank);
         final GameEngine engine = engine()
-                                    .withLifeService(lifeService)
                                     .withFieldService(FieldService.service(1, 10))
                                     .withNumberOfRounds(20)
                                     .withTank(hippyTank)
@@ -110,8 +106,8 @@ public class GameEngineTest {
 
         engine.battle();
 
-        System.assertEquals(true, lifeService.isTankAlive(hippyTank));
-        System.assertEquals(true, lifeService.isTankAlive(selfAttackingTank));
+        System.assertEquals(true, lifeServiceInstance.isTankAlive(hippyTank));
+        System.assertEquals(true, lifeServiceInstance.isTankAlive(selfAttackingTank));
     }
 
     @isTest static void recordsTanksMoveAttemptsForEveryTank() {
@@ -189,6 +185,7 @@ public class GameEngineTest {
     private static GameEngine engine() {
         return GameEngine.getInstance()
                 .withFieldService(fieldServiceMock)
+                .withLifeService(lifeServiceInstance)
                 .withHistoryService(historyServiceMock);
     }
 }

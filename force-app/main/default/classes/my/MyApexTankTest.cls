@@ -3,13 +3,18 @@ public class MyApexTankTest {
     private final static fflib_ApexMocks mocks = new fflib_ApexMocks();
     private final static Radar radar = (Radar) mocks.mock(Radar.class);
     private final static MyApexTank myTank = new MyApexTank();
+    private final static ApexTank enemyTank = testTank();
+    private final static Point myLocation = new Point(1, 1);
+    private final static Point enemyLocation = new Point(0, 0);
 
     static{
         myTank.withRadar(radar);
 
         mocks.startStubbing();
-            mocks.when(radar.getCoordinatesWithTanks()).thenReturn(new Set<Point>{new Point(0, 0)});
-            mocks.when(radar.tankAt(new Point(0, 0))).thenReturn(myTank);
+            mocks.when(radar.getCoordinatesWithTanks()).thenReturn(
+                                new Set<Point>{myLocation, enemyLocation});
+            mocks.when(radar.tankAt(myLocation)).thenReturn(myTank);
+            mocks.when(radar.tankAt(enemyLocation)).thenReturn(enemyTank);
             mocks.when(radar.pathExists(
                                 (Point) fflib_Match.anyObject(),
                                 (MoveDirectionEnum) fflib_Match.eq(MoveDirectionEnum.UP)))
@@ -37,7 +42,6 @@ public class MyApexTankTest {
     }
 
     @isTest static void willStayIfEnemyIsBelow() {
-        final ApexTank enemyTank = testTank();
         final Point currentLocation = new Point(0, 9);
         final Point enemyLocation = new Point(0, 8);
         mocks.startStubbing();
@@ -55,7 +59,6 @@ public class MyApexTankTest {
 
     @isTest static void attackEnemyInTheCorner() {
         final ApexTank enemyTank = testTank();
-        final Point enemyLocation = new Point(0, 0);
         mocks.startStubbing();
             mocks.when(radar.pathExists(enemyLocation, MoveDirectionEnum.UP)).thenReturn(false);
             mocks.when(radar.pathExists(enemyLocation, MoveDirectionEnum.LEFT)).thenReturn(false);
@@ -67,16 +70,16 @@ public class MyApexTankTest {
     }
 
     @isTest static void attackFirstEnemyIfNobodyInTheCorner() {
-        final ApexTank enemyTank1 = testTank();
-        final ApexTank enemyTank2 = testTank();
-        final Point enemyLocation1 = new Point(0, 0);
-        final Point enemyLocation2 = new Point(3, 3);
         mocks.startStubbing();
+        mocks.when(radar.pathExists(
+                (Point) fflib_Match.anyObject(), 
+                (MoveDirectionEnum) fflib_Match.anyObject()))
+            .thenReturn(false);
         mocks.stopStubbing();
 
         final Point pointToAttack = myTank.pointToAttack();
 
-        System.assertEquals(enemyLocation1, pointToAttack);
+        System.assertEquals(enemyLocation, pointToAttack);
     }
 
     //TODO: [ ] - support history for each enemy tank
