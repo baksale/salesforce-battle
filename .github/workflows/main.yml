@@ -20,11 +20,17 @@ jobs:
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      # setup sfdx using action 
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Navigate to checked out folder
+        run: cd $GITHUB_WORKSPACE
+
+     # setup sfdx using action 
       - uses: sfdx-actions/setup-sfdx@v1
         with:
           sfdx-auth-url: ${{ secrets.AUTH_SECRET }}
 
       # Check deploy with single test run
       - name: Test Apex Tank Candidate
-        run: sfdx force:source:deploy -c -l RunSpecifiedTests -r CandidateTest -p "force-app/main/default/classes/competition/CandidateTest.cls,force-app/main/default/classes/tanks" --verbose
+        run: sfdx force:source:deploy -c -l RunSpecifiedTests -r CandidateTest -p "force-app/main/default/classes/competition/CandidateFactory.cls,force-app/main/default/classes/tanks"
