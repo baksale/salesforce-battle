@@ -27,5 +27,4 @@ jobs:
 
       # Check deploy with single test run
       - name: Test Apex Tank Candidate
-        run: sfdx force:source:deploy -c -l RunSpecifiedTests -r CandidateTest \
-              -p "force-app/main/default/classes/competition/CandidateTest.cls,force-app/main/default/classes/tanks" --verbose
+        run: sfdx force:source:deploy -c -l RunSpecifiedTests -r CandidateTest -p "force-app/main/default/classes/competition/CandidateTest.cls,force-app/main/default/classes/tanks" --verbose
