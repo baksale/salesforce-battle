@@ -8,6 +8,6 @@ public class CandidateFactory {
 	} 
 
 	public ApexTankBase candidate(){
-		return new HorizontallyMovingTank();
+		return new VerticallyMovingTank();
 	} 
 }
