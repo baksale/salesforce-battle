@@ -35,7 +35,7 @@ jobs:
       - name: Test Apex Tank Candidate
         run: |
           URL="https://api.github.com/repos/${GITHUB_REPOSITORY}/pulls/${{ github.event.pull_request.number }}/files"
-          changesArray=($(curl -s -X GET -G $URL | jq -r '.[] | .filename' | grep ".cls"))
-          echo $changesArray[@]
-          changes=$(echo "${changesArray[*]// /,}")
+          changes=($(curl -s -X GET -G $URL | jq -r '.[] | .filename' | grep ".cls"))
+          echo $changes
+          changes=$(echo "${changes// /,}")
           sfdx force:source:deploy -c -l RunSpecifiedTests -r CandidateTest -p "$changes"
