@@ -26,6 +26,12 @@ jobs:
       - name: Navigate to checked out folder
         run: cd $GITHUB_WORKSPACE
 
+      - name: Changed Files
+        run: |
+          URL="https://api.github.com/repos/${GITHUB_REPOSITORY}/pulls/${{ github.event.pull_request.number }}/files"
+          FILES=$(curl -s -X GET -G $URL | jq -r '.[] | .filename')
+          echo $FILES
+
      # setup sfdx using action 
       - uses: sfdx-actions/setup-sfdx@v1
         with:
