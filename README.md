@@ -1,18 +1,74 @@
-# Salesforce DX Project: Next Steps
+# Salesforce Battle
+Practice :muscle: your Salesforce Platform skills by implementing move and shoot algorithms for your tank.  
+Win a league and become a champion :trophy:.  
+  
+The concept is taken from a popular Robocode game.  
+  
+- [Mission](#mission)
+- [How it works?](#how-does-it-work)
+    - [Move](#move)
+    - [Attack](#attack)
+- [Roadmap](#roadmap)
+    - [Leagues](#leagues)
+    - [Leaderboard](#leaderboard)
+    - [Visualization](#visualization)
 
-Now that you’ve created a Salesforce DX project, what’s next? Here are some documentation resources to get you started.
+## Mission
+Get familiar with many Salesforce Platform Apex capabilities via playing the game with other Trailblazers (kudo to [Trailhead](https://trailhead.salesforce.com/en)).  
 
-## How Do You Plan to Deploy Your Changes?
+## How does it work?
+1. The battle happens on a field (e.g. a square 10x10)
+1. In the beginning, tanks are placed randomly onto the field
+1. On every round 2 things happen:
+    1. tanks move
+    1. tanks attack other tanks
+1. Tanks with no lifes left are removed from the field
+1. The winner is the only tank left after the last round
 
-Do you want to deploy a set of changes, or create a self-contained application? Choose a [development model](https://developer.salesforce.com/tools/vscode/en/user-guide/development-models).
-
-## Configure Your Salesforce DX Project
-
-The `sfdx-project.json` file contains useful configuration information for your project. See [Salesforce DX Project Configuration](https://developer.salesforce.com/docs/atlas.en-us.sfdx_dev.meta/sfdx_dev/sfdx_dev_ws_config.htm) in the _Salesforce DX Developer Guide_ for details about this file.
-
-## Read All About It
-
-- [Salesforce Extensions Documentation](https://developer.salesforce.com/tools/vscode/)
-- [Salesforce CLI Setup Guide](https://developer.salesforce.com/docs/atlas.en-us.sfdx_setup.meta/sfdx_setup/sfdx_setup_intro.htm)
-- [Salesforce DX Developer Guide](https://developer.salesforce.com/docs/atlas.en-us.sfdx_dev.meta/sfdx_dev/sfdx_dev_intro.htm)
-- [Salesforce CLI Command Reference](https://developer.salesforce.com/docs/atlas.en-us.sfdx_cli_reference.meta/sfdx_cli_reference/cli_reference.htm)
+### Move
+Tanks notify engine about their desired move via [ApexTankBase.cls#nextMoveDirection](force-app/main/default/classes/core/model/ApexTankBase.cls) method.  
+  
+Tanks can make [5 decisions](force-app/main/default/classes/core/model/MoveDirectionEnum.cls) for the next round move:
+1. UP
+1. RIGHT
+1. DOWN
+1. LEFT
+1. NOMOVE
+  
+Tanks movements happen during every round *move* phase:
+1. Engine iterates over alive tanks in random order
+1. Tank is moved in the chosen direction
+1. The move fails and the tank remains in the current location:
+    1. if there is another tank in the target field already
+    1. if there is no field in the target direction
+  
+Every tank has access to [Radar](force-app/main/default/classes/core/service/Radar.cls) to implement its *move* tactics:
+```java
+Point coordinateFor(ApexTank tank);
+Boolean pathExists(Point relativePoint, MoveDirectionEnum direction);
+```  
+  
+### Attack
+Tanks notify engine via [ApexTankBase.cls#pointToAttack](force-app/main/default/classes/core/model/ApexTankBase.cls) method about their attack coordinate for the next round.  
+[Radar](force-app/main/default/classes/core/service/Radar.cls) methods allow to implement *attack* strategy:
+```java
+List<Point> getCoordinatesWithTanks();
+ApexTank tankAt(Point point);
+```  
+  
+## Roadmap
+### Leagues
+Leagues will be focusing on different aspects of the platform
+- Apex League  
+basic apex knowledge(loops, variables, data structures)
+- Limits  
+consume the smallest amount of the platform resources
+- Teams  
+communicate between tanks to win as a team
+- Flows  
+implement move tactics or shoot strategy via flows
+- ...
+### Leaderboard
+Use Digital Experience, Reporting, Guest Profile, Contact, Opportunity, etc. platform capabilities to build leaderboard where everyone can see the results.
+### Visualization
+Implement custom UI via visualforce page or lwc to replay battles visually.
