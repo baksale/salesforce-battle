@@ -34,6 +34,6 @@ jobs:
       # Check deploy with single test run
       - name: Test Apex Tank Candidate
         run: |
-          changesArray=($(git --no-pager diff --name-only main...HEAD | grep ".cls"))
+          changesArray=($(git --no-pager diff --name-only main | grep ".cls"))
           changes=$(echo "${changesArray[*]// /,}")
           sfdx force:source:deploy -c -l RunSpecifiedTests -r CandidateTest -p "$changes"
