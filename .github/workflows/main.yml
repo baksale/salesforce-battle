@@ -29,8 +29,8 @@ jobs:
       - name: Changed Files
         run: |
           URL="https://api.github.com/repos/${GITHUB_REPOSITORY}/pulls/${{ github.event.pull_request.number }}/files"
-          FILES=$(curl -s -X GET -G $URL | jq -r '.[] | .filename')
-          echo $FILES
+          changes=$(curl -s -X GET -G $URL | jq -r '.[] | .filename' | grep ".cls")
+          echo $changes
 
      # setup sfdx using action 
       - uses: sfdx-actions/setup-sfdx@v1
@@ -39,7 +39,4 @@ jobs:
 
       # Check deploy with single test run
       - name: Test Apex Tank Candidate
-        run: |
-          changesArray=($(git --no-pager diff --name-only main | grep ".cls"))
-          changes=$(echo "${changesArray[*]// /,}")
-          sfdx force:source:deploy -c -l RunSpecifiedTests -r CandidateTest -p "$changes"
+        run: sfdx force:source:deploy -c -l RunSpecifiedTests -r CandidateTest -p "$changes"
