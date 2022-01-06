@@ -18,8 +18,8 @@ Get familiar with many Salesforce Platform Apex capabilities via playing the gam
 
 ## How does it work?
 1. The battle happens on a field (e.g. a square 10x10)
-1. In the beginning, tanks are placed randomly onto the field
-1. On every round 2 things happen:
+1. At the beginning, tanks are placed randomly onto the field
+1. On every round two things happen:
     1. tanks move
     1. tanks attack other tanks
 1. Tanks with no lifes left are removed from the field
