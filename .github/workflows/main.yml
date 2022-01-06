@@ -22,13 +22,9 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-        with:
-          path: main
 
-      # setup sfdx using action 
-      - uses: sfdx-actions/setup-sfdx@v1
-        with:
-          sfdx-auth-url: ${{ secrets.AUTH_SECRET }}
+      - name: Navigate to checked out folder
+        run: cd {{$GITHUB_WORKSPACE}}
 
       # Check deploy with single test run
       - name: Test Apex Tank Candidate
