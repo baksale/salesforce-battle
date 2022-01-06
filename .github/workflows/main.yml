@@ -24,7 +24,7 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Navigate to checked out folder
-        run: cd {{$GITHUB_WORKSPACE}}
+        run: cd $GITHUB_WORKSPACE
 
       # Check deploy with single test run
       - name: Test Apex Tank Candidate
