@@ -37,7 +37,7 @@ jobs:
           URL="https://api.github.com/repos/${GITHUB_REPOSITORY}/pulls/${{ github.event.pull_request.number }}/files"
           changes=($(curl -s -X GET -G $URL | jq -r '.[] | .filename' | grep ".cls"))
           echo ${changes[@]}
-          echo "${changes[*]// /,}"
-          echo "${changes[@]// /,}"
-          changes=$(echo "${changes[*]// /,}")
+          echo "${changes[*]/ /,}"
+          echo "${changes[@]/ /,}"
+          changes=$(echo "${changes[*]/ /,}")
           sfdx force:source:deploy -c -l RunSpecifiedTests -r CandidateTest -p "$changes" --verbose
