@@ -26,12 +26,6 @@ jobs:
       - name: Navigate to checked out folder
         run: cd $GITHUB_WORKSPACE
 
-      - name: Changed Files
-        run: |
-          URL="https://api.github.com/repos/${GITHUB_REPOSITORY}/pulls/${{ github.event.pull_request.number }}/files"
-          changes=$(curl -s -X GET -G $URL | jq -r '.[] | .filename' | grep ".cls")
-          echo $changes
-
      # setup sfdx using action 
       - uses: sfdx-actions/setup-sfdx@v1
         with:
@@ -39,4 +33,8 @@ jobs:
 
       # Check deploy with single test run
       - name: Test Apex Tank Candidate
-        run: sfdx force:source:deploy -c -l RunSpecifiedTests -r CandidateTest -p "$changes"
+        run: |
+          URL="https://api.github.com/repos/${GITHUB_REPOSITORY}/pulls/${{ github.event.pull_request.number }}/files"
+          changesArray=($(curl -s -X GET -G $URL | jq -r '.[] | .filename' | grep ".cls"))
+          changes=$(echo "${changesArray[*]// /,}")
+          sfdx force:source:deploy -c -l RunSpecifiedTests -r CandidateTest -p "$changes"
