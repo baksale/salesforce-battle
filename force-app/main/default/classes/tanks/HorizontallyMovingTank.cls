@@ -1,8 +1,8 @@
-public class VerticallyMovingTank extends LineMovingTank {
+public class HorizontallyMovingTank extends LineMovingTank {
     protected override MoveDirectionEnum getDefaultDirection() {
-        return MoveDirectionEnum.UP;
+        return MoveDirectionEnum.RIGHT;
     }
     protected override MoveDirectionEnum getOppositeDirection() {
-        return MoveDirectionEnum.DOWN;
+        return MoveDirectionEnum.LEFT;
     }
 }
