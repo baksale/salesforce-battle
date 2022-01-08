@@ -2,27 +2,36 @@
 public class BattleManagerTest {
   private final static String LEAGUE_NAME_APEX = 'Apex League';
   private final static String LEAGUE_NAME_FLOW = 'Flow League';
-  private final static BattleManager battleOrchestrator = BattleManager.orchestrate();
+  private final static BattleManager battleOrchestrator = BattleManager.orchestrate()
+    .withPriceBook(Test.getStandardPricebookId());
 
   @TestSetup
   static void makeData() {
+    setupLeaguesAccounts();
+    setupTankModels();
+  }
+  static void setupLeaguesAccounts() {
     insert new List<Account>{
       new Account(Name = LEAGUE_NAME_APEX),
       new Account(Name = LEAGUE_NAME_FLOW)
     };
-    final Id priceBookEntryId = Test.getStandardPricebookId();
+  }
+  static void setupTankModels() {
     final List<Product2> tankModels = new List<Product2>{
       new Product2(Name = PiecefulTank.class.toString()),
       new Product2(Name = TowerTank.class.toString()),
       new Product2(Name = VerticallyMovingTank.class.toString())
     };
     insert tankModels;
+    setupPrices(tankModels);
+  }
+  static void setupPrices(final List<Product2> tankModels) {
     final List<PricebookEntry> prices = new List<PricebookEntry>();
     for (Product2 tankModel : tankModels) {
       prices.add(
         new PricebookEntry(
           Product2Id = tankModel.Id,
-          Pricebook2Id = priceBookEntryId,
+          Pricebook2Id = Test.getStandardPricebookId(),
           UnitPrice = 1,
           IsActive = true
         )
@@ -90,12 +99,12 @@ public class BattleManagerTest {
   @isTest
   static void recordsBattlePlayersInformationAsOpportunityFields() {
     final Integer numberOfAims = 4;
-    final Integer initialLifeLevel = 2;
-    final Integer numberOfRoundsCompleted = numberOfAims * initialLifeLevel;
+    final Integer initialLiveLevel = 2;
+    final Integer numberOfRoundsCompleted = numberOfAims * initialLiveLevel;
     final Integer numberOfWinners = 1;
 
     final GameEngine battle = GameEngine.getInstance()
-      .withLifeService(LifeService.lifeService(initialLifeLevel));
+      .withLifeService(LifeService.lifeService(initialLiveLevel));
 
     for (Integer i = 0; i < numberOfAims; i++) {
       battle.withTank(new PiecefulTank());
@@ -115,7 +124,7 @@ public class BattleManagerTest {
       battleAsOpportunity.RoundsCompleted__c
     );
     System.assertEquals(
-      initialLifeLevel,
+      initialLiveLevel,
       battleAsOpportunity.InitialLiveLevel__c
     );
     System.assertEquals(
@@ -128,13 +137,12 @@ public class BattleManagerTest {
   @isTest
   static void addsAllProductsAsTanksIntoBattle() {
     final Integer amountOfTanks = 3;
-    final Integer tanksAmount = [SELECT Id FROM Product2].size();
-    System.assertEquals(amountOfTanks, tanksAmount);
+    final List<Product2> tanksModels = [SELECT Id, Name FROM Product2];
+    System.assertEquals(amountOfTanks, tanksModels.size());
 
     final GameEngine singleBattle = battleOrchestrator
       .inLeague(LEAGUE_NAME_APEX)
-      .withPriceBook(Test.getStandardPricebookId())
-      .withTanksModels([SELECT Name FROM Product2])
+      .withTanksModels(tanksModels)
       .runBattle();
 
     System.assertEquals(amountOfTanks, singleBattle.initialNumberOfPlayers);
@@ -142,10 +150,10 @@ public class BattleManagerTest {
 
   @isTest
   static void eachPlayerIsAddedAsOpportunityLineItemIntoBattleOportunity() {
+    final List<Product2> tanksModels = [SELECT Name FROM Product2];
     battleOrchestrator
       .inLeague(LEAGUE_NAME_APEX)
-      .withTanksModels([SELECT Name FROM Product2])
-      .withPriceBook(Test.getStandardPricebookId())
+      .withTanksModels(tanksModels)
       .runBattle();
 
     final Opportunity battle = [SELECT Id FROM Opportunity];
@@ -155,6 +163,6 @@ public class BattleManagerTest {
       WHERE OpportunityId = :battle.Id
     ];
 
-    System.assertEquals(3, players.size());
+    System.assertEquals(tanksModels.size(), players.size());
   }
 }

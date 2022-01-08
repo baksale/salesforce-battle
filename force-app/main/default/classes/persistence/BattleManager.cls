@@ -69,16 +69,6 @@ public class BattleManager {
     );
   }
 
-  public GameEngine completeBattle(final GameEngine completedGame) {
-    update new Opportunity(
-      Id = battleOpportunities.get(completedGame).Id,
-      RoundsCompleted__c = completedGame.numberOfRounds,
-      Players__c = completedGame.initialNumberOfPlayers,
-      Winners__c = completedGame.winners().size()
-    );
-    return completedGame;
-  }
-
   private ApexTankBase tankInstance(final Product2 product) {
     final String tankModelClassName = product.Name;
     return (ApexTankBase) Type.forName(tankModelClassName).newInstance();
@@ -94,5 +84,15 @@ public class BattleManager {
       Quantity = 1,
       TotalPrice = 1
     );
+  }
+
+  public GameEngine completeBattle(final GameEngine completedGame) {
+    update new Opportunity(
+      Id = battleOpportunities.get(completedGame).Id,
+      RoundsCompleted__c = completedGame.numberOfRounds,
+      Players__c = completedGame.initialNumberOfPlayers,
+      Winners__c = completedGame.winners().size()
+    );
+    return completedGame;
   }
 }
