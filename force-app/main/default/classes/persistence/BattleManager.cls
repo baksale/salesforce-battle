@@ -14,6 +14,7 @@ public class BattleManager {
       AccountId = apexLeague.Id,
       FieldDefinition__c = battle.fieldDefinition(),
       MaxRounds__c = battle.maxNumberOfRounds,
+      InitialLiveLevel__c = battle.initialLiveLevel,
       RoundsCompleted__c = battle.numberOfRounds,
       Players__c = battle.initialNumberOfPlayers,
       Winners__c = battle.winners().size()

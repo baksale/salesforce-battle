@@ -2,6 +2,11 @@ public class GameEngine {
   public Integer maxNumberOfRounds { get; private set; }
   public Integer numberOfRounds { get; private set; }
   public Integer initialNumberOfPlayers;
+  public Integer initialLiveLevel {
+    get {
+      return this.lifeService.initialLifeLevel;
+    }
+  }
   private List<ApexTankBase> activePlayers;
 
   private FieldService fieldService;
