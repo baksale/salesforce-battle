@@ -1,3 +1,3 @@
 public interface ApexTank {
-    RoundAction getAction();
+  RoundAction getAction();
 }
