@@ -9,11 +9,6 @@ public class BattleManager {
     return battleOpportunity;
   }
 
-  public GameEngine runBattle(final GameEngine singleGame) {
-    singleGame.battle();
-    return singleGame;
-  }
-
   private Opportunity battleOpportunity(final GameEngine gameBeforeStart) {
     final Account apexLeague = [
       SELECT Id
@@ -58,7 +53,7 @@ public class BattleManager {
       olis.add(player(battleOpportunity, tankModel));
     }
     insert olis;
-    runBattle(singleBattle);
+    singleBattle.battle();
     return completeBattle(singleBattle);
   }
   private ApexTankBase modelInstance(final Product2 product) {

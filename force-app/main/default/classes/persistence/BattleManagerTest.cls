@@ -101,9 +101,9 @@ public class BattleManagerTest {
       battle.withTank(new PiecefulTank());
     }
     battle.withTank(new TowerTank());
+    battle.battle();
 
     battleOrchestrator.createBattleOpportunity(battle);
-    battleOrchestrator.runBattle(battle);
     battleOrchestrator.completeBattle(battle);
 
     final Opportunity battleAsOpportunity = [
