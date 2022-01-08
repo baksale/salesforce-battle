@@ -121,4 +121,10 @@ public class FieldService implements Radar {
   public Point coordinateFor(final ApexTank tank) {
     return tankCoordinates.get(tank);
   }
+
+  public String definition() {
+    return JSON.serialize(
+      new Map<String, Integer>{ 'fieldSizeX' => x, 'fieldSizeY' => y }
+    );
+  }
 }
