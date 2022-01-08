@@ -1,6 +1,11 @@
 public class BattleManager {
+  private String leagueName = 'Apex League';
   public void runBattle(final GameEngine battle) {
-    final Account apexLeague = [SELECT Id FROM Account];
+    final Account apexLeague = [
+      SELECT Id
+      FROM Account
+      WHERE Name = :leagueName
+    ];
     final Opportunity battleAsOpportunity = new Opportunity(
       Name = 'Test',
       StageName = 'Open',
@@ -8,5 +13,10 @@ public class BattleManager {
       AccountId = apexLeague.Id
     );
     insert battleAsOpportunity;
+  }
+
+  public BattleManager inLeague(final String leagueName) {
+    this.leagueName = leagueName;
+    return this;
   }
 }

@@ -1,12 +1,15 @@
 @isTest
 public class BattleManagerTest {
   private final static String LEAGUE_NAME_APEX = 'Apex League';
+  private final static String LEAGUE_NAME_FLOW = 'Flow League';
   private final static BattleManager battleOrchestrator = new BattleManager();
 
   @TestSetup
   static void makeData() {
-    final String leagueName = 'Apex League';
-    insert new Account(Name = leagueName);
+    insert new List<Account>{
+      new Account(Name = LEAGUE_NAME_APEX),
+      new Account(Name = LEAGUE_NAME_FLOW)
+    };
   }
 
   @isTest
@@ -25,6 +28,19 @@ public class BattleManagerTest {
 
     System.assertEquals(
       LEAGUE_NAME_APEX,
+      [SELECT Account.Name FROM Opportunity]
+      .Account.Name
+    );
+  }
+
+  @isTest
+  static void choosesLeagueBasedOnParameter() {
+    battleOrchestrator
+      .inLeague(LEAGUE_NAME_FLOW)
+      .runBattle(GameEngine.getInstance());
+
+    System.assertEquals(
+      LEAGUE_NAME_FLOW,
       [SELECT Account.Name FROM Opportunity]
       .Account.Name
     );
