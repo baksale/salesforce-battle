@@ -64,17 +64,22 @@ public class BattleManager {
   }
 
   public GameEngine runBattle() {
-    singleGame();
-    ensureOpportunityForBattle();
     setupBattle();
 
     singleBattle.battle();
+
     completeBattle();
 
     return singleBattle;
   }
 
-  private void singleGame() {
+  private void setupBattle() {
+    setupGameEngine();
+    ensureOpportunityForBattle();
+    setupPlayers();
+  }
+
+  private void setupGameEngine() {
     singleBattle = GameEngine.getInstance()
       .withNumberOfRounds(maxNumberOfRounds)
       .withFieldService(battleFieldService)
@@ -102,7 +107,7 @@ public class BattleManager {
     );
   }
 
-  private void setupBattle() {
+  private void setupPlayers() {
     for (Product2 tankModel : tanksModels) {
       final ApexTankBase tank = tankFrom(tankModel);
       singleBattle.withTank(tank);
@@ -128,12 +133,19 @@ public class BattleManager {
   }
 
   private void completeBattle() {
+    recordHistory();
+    updateBattleInfo();
+  }
+
+  private void recordHistory() {
     for (ApexTank tank : tankPlayerRecords.keySet()) {
       final OpportunityLineItem battlePlayer = tankPlayerRecords.get(tank);
       battlePlayer.BattleHistory__c = battleHistoryService.getHistory(tank);
     }
     update tankPlayerRecords.values();
+  }
 
+  private void updateBattleInfo() {
     update new Opportunity(
       Id = battleOpportunity.Id,
       RoundsCompleted__c = singleBattle.numberOfRounds,
