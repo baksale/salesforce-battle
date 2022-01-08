@@ -53,6 +53,10 @@
                 <behavior>Required</behavior>
                 <field>Winners__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Required</behavior>
+                <field>InitialLiveLevel__c</field>
+            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>

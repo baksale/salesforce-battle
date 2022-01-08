@@ -73,12 +73,12 @@ public class BattleManagerTest {
   @isTest
   static void recordsBattlePlayersInformationAsOpportunityFields() {
     final Integer numberOfAims = 4;
-    final Integer initialLiveLevel = 2;
-    final Integer numberOfRoundsCompleted = numberOfAims * initialLiveLevel;
+    final Integer initialLifeLevel = 2;
+    final Integer numberOfRoundsCompleted = numberOfAims * initialLifeLevel;
     final Integer numberOfWinners = 1;
 
     final GameEngine battle = GameEngine.getInstance()
-      .withLifeService(LifeService.lifeService(initialLiveLevel));
+      .withLifeService(LifeService.lifeService(initialLifeLevel));
 
     for (Integer i = 0; i < numberOfAims; i++) {
       battle.withTank(new PiecefulTank());
@@ -96,7 +96,7 @@ public class BattleManagerTest {
       battleAsOpportunity.RoundsCompleted__c
     );
     System.assertEquals(
-      initialLiveLevel,
+      initialLifeLevel,
       battleAsOpportunity.InitialLiveLevel__c
     );
     System.assertEquals(
