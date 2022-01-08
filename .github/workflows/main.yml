@@ -22,7 +22,7 @@ jobs:
       - name: Navigate to checked out folder
         run: cd $GITHUB_WORKSPACE
 
-     # setup sfdx using action 
+      # setup sfdx using action
       - uses: sfdx-actions/setup-sfdx@v1
         with:
           sfdx-auth-url: ${{ secrets.AUTH_SECRET }}

@@ -1,3 +1,7 @@
 public enum MoveDirectionEnum {
-    UP, RIGHT, LEFT, DOWN, NOMOVE
+  UP,
+  RIGHT,
+  LEFT,
+  DOWN,
+  NOMOVE
 }

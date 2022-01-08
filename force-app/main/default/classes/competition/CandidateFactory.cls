@@ -1,13 +1,13 @@
 @isTest
 public class CandidateFactory {
+  private CandidateFactory() {
+  }
 
-    private CandidateFactory() {}
+  public static CandidateFactory getInstane() {
+    return new CandidateFactory();
+  }
 
-	public static CandidateFactory getInstane() {
-        return new CandidateFactory();
-	} 
-
-	public ApexTankBase candidate(){
-		return new VerticallyMovingTank();
-	} 
+  public ApexTankBase candidate() {
+    return new VerticallyMovingTank();
+  }
 }
