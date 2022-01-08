@@ -78,11 +78,10 @@ public class BattleManagerTest {
     final Integer fieldSizeY = 20;
     final Integer maxNumberOfRounds = 23;
 
-    final GameEngine battle = GameEngine.getInstance()
+    battleOrchestrator
       .withFieldService(FieldService.service(fieldSizeX, fieldSizeY))
-      .withNumberOfRounds(maxNumberOfRounds);
-
-    battleOrchestrator.ensureOpportunityFor(battle);
+      .withMaxNumberOfRounds(maxNumberOfRounds)
+      .runBattle();
 
     final Opportunity battleAsOpportunity = [
       SELECT Id, FieldDefinition__c, MaxRounds__c
@@ -99,21 +98,28 @@ public class BattleManagerTest {
   @isTest
   static void recordsBattlePlayersInformationAsOpportunityFields() {
     final Integer numberOfAims = 4;
+    final Product2 piecefullModel = [
+      SELECT Id, Name
+      FROM Product2
+      WHERE Name LIKE 'Piece%'
+    ];
     final Integer initialLiveLevel = 2;
     final Integer numberOfRoundsCompleted = numberOfAims * initialLiveLevel;
     final Integer numberOfWinners = 1;
 
-    final GameEngine battle = GameEngine.getInstance()
-      .withLifeService(LifeService.lifeService(initialLiveLevel));
-
     for (Integer i = 0; i < numberOfAims; i++) {
-      battle.withTank(new PiecefulTank());
+      battleOrchestrator.withTankModel(piecefullModel);
     }
-    battle.withTank(new TowerTank());
-    battle.battle();
+    final Product2 towerModel = [
+      SELECT Id, Name
+      FROM Product2
+      WHERE Name LIKE 'Tower%'
+    ];
+    battleOrchestrator.withTankModel(towerModel);
 
-    battleOrchestrator.ensureOpportunityFor(battle);
-    battleOrchestrator.completeBattle(battle);
+    battleOrchestrator
+      .withLifeService(LifeService.lifeService(initialLiveLevel))
+      .runBattle();
 
     final Opportunity battleAsOpportunity = [
       SELECT Id, InitialLiveLevel__c, RoundsCompleted__c, Players__c, Winners__c
@@ -164,5 +170,9 @@ public class BattleManagerTest {
     ];
 
     System.assertEquals(tanksModels.size(), players.size());
+  }
+
+  @isTest
+  static void tankActionsAreStoredOnOpportunityLineItems() {
   }
 }

@@ -1,11 +1,18 @@
 public class BattleManager {
-  private String leagueName = 'Apex League';
+  private String leagueName;
   private Id priceBookId;
   private List<Product2> tanksModels;
+  private Integer maxNumberOfRounds;
+  private FieldService battleFieldService;
+  private LifeService battleLifeService;
   private Map<GameEngine, Opportunity> battleOpportunities = new Map<GameEngine, Opportunity>();
 
   private BattleManager() {
+    leagueName = 'Apex League';
     tanksModels = new List<Product2>();
+    maxNumberOfRounds = 100;
+    battleLifeService = LifeService.lifeService(10);
+    battleFieldService = FieldService.service(10, 10);
   }
 
   public static BattleManager orchestrate() {
@@ -34,20 +41,40 @@ public class BattleManager {
     return this;
   }
 
+  public BattleManager withMaxNumberOfRounds(final Integer maxNumberOfRounds) {
+    this.maxNumberOfRounds = maxNumberOfRounds;
+    return this;
+  }
+
+  public BattleManager withFieldService(final FieldService fieldService) {
+    this.battleFieldService = fieldService;
+    return this;
+  }
+
+  public BattleManager withLifeService(final LifeService lifeService) {
+    this.battleLifeService = lifeService;
+    return this;
+  }
+
   public GameEngine runBattle() {
-    final GameEngine singleBattle = GameEngine.getInstance();
+    final GameEngine singleBattle = GameEngine.getInstance()
+      .withNumberOfRounds(maxNumberOfRounds)
+      .withFieldService(battleFieldService)
+      .withLifeService(battleLifeService);
     final Opportunity battleOpportunity = ensureOpportunityFor(singleBattle);
     final List<OpportunityLineItem> battlePlayers = new List<OpportunityLineItem>();
     for (Product2 tankModel : tanksModels) {
-      singleBattle.withTank(tankInstance(tankModel));
-      battlePlayers.add(player(battleOpportunity, tankModel));
+      singleBattle.withTank(tankFrom(tankModel));
+      battlePlayers.add(
+        playerAsOpportunityLineItem(battleOpportunity, tankModel)
+      );
     }
     insert battlePlayers;
     singleBattle.battle();
     return completeBattle(singleBattle);
   }
 
-  public Opportunity ensureOpportunityFor(final GameEngine singleBattle) {
+  private Opportunity ensureOpportunityFor(final GameEngine singleBattle) {
     final Opportunity battleOpportunity = battleOpportunity(singleBattle);
     insert battleOpportunity;
     battleOpportunities.put(singleBattle, battleOpportunity);
@@ -69,12 +96,12 @@ public class BattleManager {
     );
   }
 
-  private ApexTankBase tankInstance(final Product2 product) {
+  private ApexTankBase tankFrom(final Product2 product) {
     final String tankModelClassName = product.Name;
     return (ApexTankBase) Type.forName(tankModelClassName).newInstance();
   }
 
-  private OpportunityLineItem player(
+  private OpportunityLineItem playerAsOpportunityLineItem(
     final Opportunity battle,
     final Product2 tankModel
   ) {
@@ -86,7 +113,7 @@ public class BattleManager {
     );
   }
 
-  public GameEngine completeBattle(final GameEngine completedGame) {
+  private GameEngine completeBattle(final GameEngine completedGame) {
     update new Opportunity(
       Id = battleOpportunities.get(completedGame).Id,
       RoundsCompleted__c = completedGame.numberOfRounds,
