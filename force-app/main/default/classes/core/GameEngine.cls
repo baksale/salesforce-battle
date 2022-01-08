@@ -126,8 +126,7 @@ public class GameEngine {
     return this;
   }
 
-  @TestVisible
-  private GameEngine withHistoryService(final HistoryService historyService) {
+  public GameEngine withHistoryService(final HistoryService historyService) {
     this.historyService = historyService;
     return this;
   }

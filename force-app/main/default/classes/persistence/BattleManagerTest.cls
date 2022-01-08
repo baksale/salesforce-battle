@@ -174,5 +174,39 @@ public class BattleManagerTest {
 
   @isTest
   static void tankActionsAreStoredOnOpportunityLineItems() {
+    final Product2 movingTankModel = [
+      SELECT Id, Name
+      FROM Product2
+      WHERE Name LIKE '%Moving%'
+    ];
+    final List<Product2> tanksModels = [SELECT Id, Name FROM Product2];
+    final Integer numberOfRounds = 3;
+    battleOrchestrator
+      .inLeague(LEAGUE_NAME_APEX)
+      .withTanksModels(tanksModels)
+      .withMaxNumberOfRounds(numberOfRounds)
+      .runBattle();
+
+    final OpportunityLineItem movingPlayer = [
+      SELECT Id, BattleHistory__c
+      FROM OpportunityLineItem
+      WHERE Product2Id = :movingTankModel.Id
+    ];
+
+    final TankHistory tankHistory = (TankHistory) JSON.deserialize(
+      movingPlayer.BattleHistory__c,
+      TankHistory.class
+    );
+
+    for (Integer i = 0; i < numberOfRounds; i++) {
+      final RoundHistory roundHistory = tankHistory.getRoundRecord(i);
+
+      System.assert(
+        MoveDirectionEnum.UP == roundHistory.direction ||
+        MoveDirectionEnum.DOWN == roundHistory.direction
+      );
+      System.assertNotEquals(null, roundHistory.attack);
+      System.assertEquals(true, roundHistory.successfullAttack);
+    }
   }
 }

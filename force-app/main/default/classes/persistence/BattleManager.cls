@@ -5,6 +5,7 @@ public class BattleManager {
   private Integer maxNumberOfRounds;
   private FieldService battleFieldService;
   private LifeService battleLifeService;
+  private HistoryService battleHistoryService;
   private Map<GameEngine, Opportunity> battleOpportunities = new Map<GameEngine, Opportunity>();
 
   private BattleManager() {
@@ -13,6 +14,7 @@ public class BattleManager {
     maxNumberOfRounds = 100;
     battleLifeService = LifeService.lifeService(10);
     battleFieldService = FieldService.service(10, 10);
+    battleHistoryService = new HistoryService();
   }
 
   public static BattleManager orchestrate() {
@@ -60,17 +62,25 @@ public class BattleManager {
     final GameEngine singleBattle = GameEngine.getInstance()
       .withNumberOfRounds(maxNumberOfRounds)
       .withFieldService(battleFieldService)
-      .withLifeService(battleLifeService);
+      .withLifeService(battleLifeService)
+      .withHistoryService(battleHistoryService);
     final Opportunity battleOpportunity = ensureOpportunityFor(singleBattle);
-    final List<OpportunityLineItem> battlePlayers = new List<OpportunityLineItem>();
+    final Map<ApexTank, OpportunityLineItem> battlePlayers = new Map<ApexTank, OpportunityLineItem>();
     for (Product2 tankModel : tanksModels) {
-      singleBattle.withTank(tankFrom(tankModel));
-      battlePlayers.add(
+      final ApexTankBase tank = tankFrom(tankModel);
+      singleBattle.withTank(tank);
+      battlePlayers.put(
+        tank,
         playerAsOpportunityLineItem(battleOpportunity, tankModel)
       );
     }
-    insert battlePlayers;
+    insert battlePlayers.values();
     singleBattle.battle();
+    for (ApexTank tank : battlePlayers.keySet()) {
+      final OpportunityLineItem battlePlayer = battlePlayers.get(tank);
+      battlePlayer.BattleHistory__c = battleHistoryService.getHistory(tank);
+    }
+    update battlePlayers.values();
     return completeBattle(singleBattle);
   }
 
