@@ -9,6 +9,9 @@ The concept is taken from a popular Robocode game.
 - [How it works?](#how-does-it-work)
   - [Move](#move)
   - [Attack](#attack)
+    - [Move](#move)
+    - [Attack](#attack)
+- [Where to start?](#where-to-start)
 - [Roadmap](#roadmap)
   - [Leagues](#leagues)
   - [Leaderboard](#leaderboard)
@@ -21,7 +24,7 @@ Get familiar with many Salesforce Platform Apex capabilities via playing the gam
 ## How does it work?
 
 1. The battle happens on a field (e.g. a square 10x10)
-1. In the beginning, tanks are placed randomly onto the field
+1. At the beginning, tanks are placed randomly onto the field
 1. On every round 2 things happen:
    1. tanks move
    1. tanks attack other tanks
@@ -64,6 +67,10 @@ Tanks notify engine via [ApexTankBase.cls#pointToAttack](force-app/main/default/
 List<Point> getCoordinatesWithTanks();
 ApexTank tankAt(Point point);
 ```
+
+## Where to start?
+
+Take a look at [CONTRIBUTING.md](./CONTRIBUTING.md) or raise an issue in this repository.
 
 ## Roadmap
 
