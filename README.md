@@ -58,7 +58,8 @@ ApexTank tankAt(Point point);
 ```  
   
 ## Where to start?
-Take a look at [CONTRIBUTING.md](CONTRIUBTING.md) or raise an issue in this repository.
+Take a look at [CONTRIBUTING.md](./CONTRIUBTING.md) or raise an issue in this repository.
+  
 ## Roadmap
 ### Leagues
 Leagues will be focusing on different aspects of the platform
