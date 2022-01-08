@@ -1,17 +1,5 @@
 public class BattleManager {
   private String leagueName = 'Apex League';
-  // private Map<String, Product2> productsByName {
-  //   get {
-  //     if(null == productsByName) {
-  //       productsByName = new Map<String, Product2>();
-  //       for(Product2 tankModel: [SELECT Name FROM Product2]) {
-  //         productsByName.put(tankModel.Name, tankModel);
-  //       }
-  //     }
-  //     return productsByName;
-  //   }
-  //   set;
-  // }
   private Map<GameEngine, Opportunity> battleOpportunities = new Map<GameEngine, Opportunity>();
 
   public Opportunity createBattleOpportunity(final GameEngine singleGame) {
@@ -22,19 +10,7 @@ public class BattleManager {
   }
 
   public GameEngine runBattle(final GameEngine singleGame) {
-    // final List<OpportunityLineItem> players = new List<OpportunityLineItem>();
-    // for(ApexTankBase tank: singleGame.joinedPlayers) {
-    //   final OpportunityLineItem oli = player(tank);
-    //   oli.OpportunityId = battleOpportunity.Id;
-    //   oli.Product2Id = productsByName.get(tank.getType().toString());
-    //   players.add(oli);
-    // }
-    // insert players;
-
     singleGame.battle();
-    // final Opportunity completedBattle = completeBattle(singleGame);
-    // completedBattle.Id = battleOpportunity.Id;
-    // update completedBattle;
     return singleGame;
   }
 
