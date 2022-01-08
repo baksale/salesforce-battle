@@ -205,4 +205,37 @@ public class BattleManagerTest {
       System.assertEquals(true, roundHistory.successfullAttack);
     }
   }
+
+  @isTest
+  static void aliveTanksHaveUnitInQuantity() {
+    final List<Product2> tanksModels = [SELECT Name FROM Product2];
+    battleOrchestrator.withTanksModels(tanksModels).runBattle();
+
+    final Opportunity battle = [SELECT Id FROM Opportunity];
+    final OpportunityLineItem winner = [
+      SELECT Id, Quantity
+      FROM OpportunityLineItem
+      WHERE Product2.Name = 'VerticallyMovingTank'
+    ];
+
+    System.assertEquals(1, winner.Quantity);
+  }
+
+  @isTest
+  static void deadTanksHaveZeroQuantity() {
+    final List<Product2> tanksModels = [SELECT Name FROM Product2];
+    battleOrchestrator.withTanksModels(tanksModels).runBattle();
+
+    final Opportunity battle = [SELECT Id FROM Opportunity];
+    final List<OpportunityLineItem> players = [
+      SELECT Id, Quantity
+      FROM OpportunityLineItem
+      WHERE Product2.Name != 'VerticallyMovingTank'
+    ];
+
+    System.assert(players.size() > 0);
+    for (OpportunityLineItem player : players) {
+      System.assertEquals(0, player.Quantity);
+    }
+  }
 }

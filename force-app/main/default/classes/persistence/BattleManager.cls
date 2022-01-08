@@ -94,7 +94,7 @@ public class BattleManager {
 
   private Opportunity battleOpportunity(final GameEngine battleInTheBeginning) {
     return new Opportunity(
-      Name = 'Test',
+      Name = 'Battle in League: ' + leagueName,
       StageName = 'Open',
       CloseDate = System.today(),
       AccountId = [SELECT Id FROM Account WHERE Name = :leagueName]
