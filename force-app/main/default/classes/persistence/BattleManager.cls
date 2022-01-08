@@ -6,7 +6,11 @@ public class BattleManager {
   private FieldService battleFieldService;
   private LifeService battleLifeService;
   private HistoryService battleHistoryService;
-  private Map<GameEngine, Opportunity> battleOpportunities = new Map<GameEngine, Opportunity>();
+
+  private GameEngine singleBattle;
+  private Opportunity battleOpportunity;
+
+  private Map<ApexTank, OpportunityLineItem> tankPlayerRecords;
 
   private BattleManager() {
     leagueName = 'Apex League';
@@ -15,6 +19,7 @@ public class BattleManager {
     battleLifeService = LifeService.lifeService(10);
     battleFieldService = FieldService.service(10, 10);
     battleHistoryService = new HistoryService();
+    tankPlayerRecords = new Map<ApexTank, OpportunityLineItem>();
   }
 
   public static BattleManager orchestrate() {
@@ -59,36 +64,27 @@ public class BattleManager {
   }
 
   public GameEngine runBattle() {
-    final GameEngine singleBattle = GameEngine.getInstance()
+    singleGame();
+    ensureOpportunityForBattle();
+    setupBattle();
+
+    singleBattle.battle();
+    completeBattle();
+
+    return singleBattle;
+  }
+
+  private void singleGame() {
+    singleBattle = GameEngine.getInstance()
       .withNumberOfRounds(maxNumberOfRounds)
       .withFieldService(battleFieldService)
       .withLifeService(battleLifeService)
       .withHistoryService(battleHistoryService);
-    final Opportunity battleOpportunity = ensureOpportunityFor(singleBattle);
-    final Map<ApexTank, OpportunityLineItem> battlePlayers = new Map<ApexTank, OpportunityLineItem>();
-    for (Product2 tankModel : tanksModels) {
-      final ApexTankBase tank = tankFrom(tankModel);
-      singleBattle.withTank(tank);
-      battlePlayers.put(
-        tank,
-        playerAsOpportunityLineItem(battleOpportunity, tankModel)
-      );
-    }
-    insert battlePlayers.values();
-    singleBattle.battle();
-    for (ApexTank tank : battlePlayers.keySet()) {
-      final OpportunityLineItem battlePlayer = battlePlayers.get(tank);
-      battlePlayer.BattleHistory__c = battleHistoryService.getHistory(tank);
-    }
-    update battlePlayers.values();
-    return completeBattle(singleBattle);
   }
 
-  private Opportunity ensureOpportunityFor(final GameEngine singleBattle) {
-    final Opportunity battleOpportunity = battleOpportunity(singleBattle);
+  private void ensureOpportunityForBattle() {
+    battleOpportunity = battleOpportunity(singleBattle);
     insert battleOpportunity;
-    battleOpportunities.put(singleBattle, battleOpportunity);
-    return battleOpportunity;
   }
 
   private Opportunity battleOpportunity(final GameEngine battleInTheBeginning) {
@@ -106,30 +102,43 @@ public class BattleManager {
     );
   }
 
+  private void setupBattle() {
+    for (Product2 tankModel : tanksModels) {
+      final ApexTankBase tank = tankFrom(tankModel);
+      singleBattle.withTank(tank);
+      tankPlayerRecords.put(tank, playerAsOpportunityLineItem(tankModel));
+    }
+    insert tankPlayerRecords.values();
+  }
+
   private ApexTankBase tankFrom(final Product2 product) {
     final String tankModelClassName = product.Name;
     return (ApexTankBase) Type.forName(tankModelClassName).newInstance();
   }
 
   private OpportunityLineItem playerAsOpportunityLineItem(
-    final Opportunity battle,
     final Product2 tankModel
   ) {
     return new OpportunityLineItem(
-      OpportunityId = battle.Id,
+      OpportunityId = battleOpportunity.Id,
       Product2Id = tankModel.Id,
       Quantity = 1,
       TotalPrice = 1
     );
   }
 
-  private GameEngine completeBattle(final GameEngine completedGame) {
+  private void completeBattle() {
+    for (ApexTank tank : tankPlayerRecords.keySet()) {
+      final OpportunityLineItem battlePlayer = tankPlayerRecords.get(tank);
+      battlePlayer.BattleHistory__c = battleHistoryService.getHistory(tank);
+    }
+    update tankPlayerRecords.values();
+
     update new Opportunity(
-      Id = battleOpportunities.get(completedGame).Id,
-      RoundsCompleted__c = completedGame.numberOfRounds,
-      Players__c = completedGame.initialNumberOfPlayers,
-      Winners__c = completedGame.winners().size()
+      Id = battleOpportunity.Id,
+      RoundsCompleted__c = singleBattle.numberOfRounds,
+      Players__c = singleBattle.initialNumberOfPlayers,
+      Winners__c = singleBattle.winners().size()
     );
-    return completedGame;
   }
 }

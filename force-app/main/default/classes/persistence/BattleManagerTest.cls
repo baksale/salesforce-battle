@@ -3,6 +3,7 @@ public class BattleManagerTest {
   private final static String LEAGUE_NAME_APEX = 'Apex League';
   private final static String LEAGUE_NAME_FLOW = 'Flow League';
   private final static BattleManager battleOrchestrator = BattleManager.orchestrate()
+    .inLeague(LEAGUE_NAME_APEX)
     .withPriceBook(Test.getStandardPricebookId());
 
   @TestSetup
@@ -147,7 +148,6 @@ public class BattleManagerTest {
     System.assertEquals(amountOfTanks, tanksModels.size());
 
     final GameEngine singleBattle = battleOrchestrator
-      .inLeague(LEAGUE_NAME_APEX)
       .withTanksModels(tanksModels)
       .runBattle();
 
@@ -157,10 +157,7 @@ public class BattleManagerTest {
   @isTest
   static void eachPlayerIsAddedAsOpportunityLineItemIntoBattleOportunity() {
     final List<Product2> tanksModels = [SELECT Name FROM Product2];
-    battleOrchestrator
-      .inLeague(LEAGUE_NAME_APEX)
-      .withTanksModels(tanksModels)
-      .runBattle();
+    battleOrchestrator.withTanksModels(tanksModels).runBattle();
 
     final Opportunity battle = [SELECT Id FROM Opportunity];
     final List<OpportunityLineItem> players = [
@@ -182,7 +179,6 @@ public class BattleManagerTest {
     final List<Product2> tanksModels = [SELECT Id, Name FROM Product2];
     final Integer numberOfRounds = 3;
     battleOrchestrator
-      .inLeague(LEAGUE_NAME_APEX)
       .withTanksModels(tanksModels)
       .withMaxNumberOfRounds(numberOfRounds)
       .runBattle();
