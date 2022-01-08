@@ -8,6 +8,7 @@ The concept is taken from a popular Robocode game.
 - [How it works?](#how-does-it-work)
     - [Move](#move)
     - [Attack](#attack)
+- [Where to start?](#where-to-start)
 - [Roadmap](#roadmap)
     - [Leagues](#leagues)
     - [Leaderboard](#leaderboard)
@@ -56,6 +57,8 @@ List<Point> getCoordinatesWithTanks();
 ApexTank tankAt(Point point);
 ```  
   
+## Where to start?
+Take a look at [CONTRIBUTING.md](CONTRIUBTING.md) or raise an issue in this repository.
 ## Roadmap
 ### Leagues
 Leagues will be focusing on different aspects of the platform
