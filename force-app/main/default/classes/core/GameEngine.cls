@@ -8,6 +8,7 @@ public class GameEngine {
     }
   }
   private List<ApexTankBase> activePlayers;
+  public List<ApexTankBase> joinedPlayers;
 
   private FieldService fieldService;
   private LifeService lifeService;
@@ -15,6 +16,7 @@ public class GameEngine {
 
   private GameEngine() {
     this.activePlayers = new List<ApexTankBase>();
+    this.joinedPlayers = new List<ApexTankBase>();
     this.maxNumberOfRounds = 100;
     this.numberOfRounds = 0;
     this.initialNumberOfPlayers = 0;
@@ -109,6 +111,7 @@ public class GameEngine {
   public GameEngine withTank(final ApexTankBase extraPlayer) {
     if (fieldService.addTankRandomly(extraPlayer)) {
       activePlayers.add(extraPlayer);
+      joinedPlayers.add(extraPlayer);
       lifeService.withTank(extraPlayer);
       extraPlayer.withRadar(fieldService);
       return this;

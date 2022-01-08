@@ -10,13 +10,32 @@ public class BattleManagerTest {
       new Account(Name = LEAGUE_NAME_APEX),
       new Account(Name = LEAGUE_NAME_FLOW)
     };
+    final Id priceBookEntryId = Test.getStandardPricebookId();
+    final List<Product2> tankModels = new List<Product2>{
+      new Product2(Name = PiecefulTank.class.toString()),
+      new Product2(Name = TowerTank.class.toString()),
+      new Product2(Name = VerticallyMovingTank.class.toString())
+    };
+    insert tankModels;
+    final List<PricebookEntry> prices = new List<PricebookEntry>();
+    for (Product2 tankModel : tankModels) {
+      prices.add(
+        new PricebookEntry(
+          Product2Id = tankModel.Id,
+          Pricebook2Id = priceBookEntryId,
+          UnitPrice = 1,
+          IsActive = true
+        )
+      );
+    }
+    insert prices;
   }
 
   @isTest
   static void persistsEveryBattleAsOpportunity() {
     final Integer numberOfBattles = 3;
     for (Integer i = 0; i < numberOfBattles; i++) {
-      battleOrchestrator.runBattle(GameEngine.getInstance());
+      battleOrchestrator.runBattle();
     }
 
     System.assertEquals(numberOfBattles, [SELECT Id FROM Opportunity].size());
@@ -24,7 +43,7 @@ public class BattleManagerTest {
 
   @isTest
   static void associatesEachBattleWithALeagueAsAccount() {
-    battleOrchestrator.runBattle(GameEngine.getInstance());
+    battleOrchestrator.runBattle();
 
     System.assertEquals(
       LEAGUE_NAME_APEX,
@@ -35,9 +54,7 @@ public class BattleManagerTest {
 
   @isTest
   static void choosesLeagueBasedOnParameter() {
-    battleOrchestrator
-      .inLeague(LEAGUE_NAME_FLOW)
-      .runBattle(GameEngine.getInstance());
+    battleOrchestrator.inLeague(LEAGUE_NAME_FLOW).runBattle();
 
     System.assertEquals(
       LEAGUE_NAME_FLOW,
@@ -56,7 +73,7 @@ public class BattleManagerTest {
       .withFieldService(FieldService.service(fieldSizeX, fieldSizeY))
       .withNumberOfRounds(maxNumberOfRounds);
 
-    battleOrchestrator.runBattle(battle);
+    battleOrchestrator.createBattleOpportunity(battle);
 
     final Opportunity battleAsOpportunity = [
       SELECT Id, FieldDefinition__c, MaxRounds__c
@@ -85,7 +102,9 @@ public class BattleManagerTest {
     }
     battle.withTank(new TowerTank());
 
+    battleOrchestrator.createBattleOpportunity(battle);
     battleOrchestrator.runBattle(battle);
+    battleOrchestrator.completeBattle(battle);
 
     final Opportunity battleAsOpportunity = [
       SELECT Id, InitialLiveLevel__c, RoundsCompleted__c, Players__c, Winners__c
@@ -104,5 +123,32 @@ public class BattleManagerTest {
       battleAsOpportunity.Players__c
     );
     System.assertEquals(numberOfWinners, battleAsOpportunity.Winners__c);
+  }
+
+  @isTest
+  static void addsAllProductsAsTanksIntoBattle() {
+    final Integer amountOfTanks = 3;
+    final Integer tanksAmount = [SELECT Id FROM Product2].size();
+    System.assertEquals(amountOfTanks, tanksAmount);
+
+    final GameEngine singleBattle = battleOrchestrator
+      .inLeague(LEAGUE_NAME_APEX)
+      .runBattle();
+
+    System.assertEquals(amountOfTanks, singleBattle.initialNumberOfPlayers);
+  }
+
+  @isTest
+  static void eachPlayerIsAddedAsOpportunityLineItemIntoBattleOportunity() {
+    battleOrchestrator.inLeague(LEAGUE_NAME_APEX).runBattle();
+
+    final Opportunity battle = [SELECT Id FROM Opportunity];
+    final List<OpportunityLineItem> players = [
+      SELECT Id
+      FROM OpportunityLineItem
+      WHERE OpportunityId = :battle.Id
+    ];
+
+    System.assertEquals(3, players.size());
   }
 }
