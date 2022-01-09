@@ -1,0 +1,3 @@
+Name,StageName,CloseDate,Account.League__c,FieldDefinition__c,MaxRounds__c,InitialLiveLevel__c,Players__c,BattleId__c
+Battle in League: Apex League,Open,2022-01-09,Apex,"{""fieldSizeY"":10,""fieldSizeX"":10}",100,10,3,Battle-00001
+Battle in League: Apex League,Open,2022-01-09,Apex,"{""fieldSizeY"":10,""fieldSizeX"":10}",100,10,9,Battle-00002

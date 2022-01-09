@@ -34,12 +34,21 @@ fi
 echo "Exported Tank Models successfully"
 
 echo "Exporting Battles..."
-echo 'sfdx force:data:tree:export -q "SELECT Name, StageName, CloseDate, Account.League__c, FieldDefinition__c, MaxRounds__c, InitialLiveLevel__c, Players__c, (SELECT BattleHistory__c, IsWinner__c, Product2.TankModel__c, Quantity, TotalPrice FROM OpportunityLineItems) FROM Opportunity WHERE Account.League__c != null" -d data -x battles'
-sfdx force:data:tree:export -q "SELECT Name, StageName, CloseDate, Account.League__c, FieldDefinition__c, MaxRounds__c, InitialLiveLevel__c, Players__c, (SELECT BattleHistory__c, IsWinner__c, Product2.TankModel__c, Quantity, TotalPrice FROM OpportunityLineItems) FROM Opportunity WHERE Account.League__c != null" -d data -x battles
-
+echo 'sfdx force:data:soql:query -q "SELECT Name, StageName, CloseDate, Account.League__c, FieldDefinition__c, MaxRounds__c, InitialLiveLevel__c, Players__c, BattleId__c FROM Opportunity WHERE Account.League__c != null" -r csv > data/battles.csv'
+sfdx force:data:soql:query -q "SELECT Name, StageName, CloseDate, Account.League__c, FieldDefinition__c, MaxRounds__c, InitialLiveLevel__c, Players__c, BattleId__c FROM Opportunity WHERE Account.League__c != null" -r csv > data/battles.csv
 rc=$?
 if [ $rc -ne 0 ]; then
-    echo "could not export Battles from Opportunities and Opportunity Line Items";
+    echo "could not export Battles from Opportunities";
     exit $rc;
 fi
 echo "Exported Battles successfully"
+
+echo "Exporting Battle Participants..."
+echo 'afdx force:data:soql:query -q "SELECT BattleHistory__c, PlayerId__c, IsWinner__c, Product2.TankModel__c, Quantity, TotalPrice, Opportunity.BattleId__c FROM OpportunityLineItem WHERE Opportunity.Account.League__c != null" -r csv > data/players.csv'
+sfdx force:data:soql:query -q "SELECT PlayerId__c, IsWinner__c, Product2.TankModel__c, Quantity, TotalPrice, Opportunity.BattleId__c FROM OpportunityLineItem WHERE Opportunity.Account.League__c != null" -r csv > data/players.csv
+rc=$?
+if [ $rc -ne 0 ]; then
+    echo "could not export Battle Participants from Opportuniy Line Items";
+    exit $rc;
+fi
+echo "Exported Battles Participants successfully"

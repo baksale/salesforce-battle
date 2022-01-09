@@ -1,8 +1,9 @@
 #!/bin/bash
 
+scratchOrg="battle-test"
 echo "Creating scratch org for development..."
-echo "sfdx force:org:create -f config/project-scratch-def.json -s -a battle"
-# sfdx force:org:create -f config/project-scratch-def.json -s -a battle
+echo "sfdx force:org:create -f config/project-scratch-def.json -s -a $scratchOrg"
+# sfdx force:org:create -f config/project-scratch-def.json -s -a $scratchOrg
 
 rc=$?
 if [ $rc -ne 0 ]; then
@@ -25,8 +26,8 @@ echo "Clonned fflib Apex Mocks repository"
 
 
 echo "Pushing fflib Apex Mocks repositroy into scratch org..."
-echo "sfdx force:source:push -f -u battle && cd .."
-sfdx force:source:push -f -u battle && cd ..
+echo "sfdx force:source:push -f -u $scratchOrg && cd .. && rm -rf tmp"
+sfdx force:source:push -f -u $scratchOrg && cd ..&& rm -rf tmp
 
 rc=$?
 if [ $rc -ne 0 ]; then
@@ -37,8 +38,8 @@ echo "Pushed fflib Apex Mocks source code into scratch org"
 
 
 echo "Pushing Salesforce Battle repositroy into scratch org..."
-echo "sfdx force:source:push -f -u battle"
-sfdx force:source:push -f -u battle
+echo "sfdx force:source:push -f -u $scratchOrg"
+sfdx force:source:push -f -u $scratchOrg
 
 rc=$?
 if [ $rc -ne 0 ]; then
