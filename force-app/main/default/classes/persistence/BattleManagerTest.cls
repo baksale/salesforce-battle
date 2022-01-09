@@ -1,7 +1,7 @@
 @isTest
 public class BattleManagerTest {
-  private final static String LEAGUE_NAME_APEX = 'Apex League';
-  private final static String LEAGUE_NAME_FLOW = 'Flow League';
+  private final static String LEAGUE_NAME_APEX = 'Apex';
+  private final static String LEAGUE_NAME_FLOW = 'Flow';
   private final static BattleManager battleOrchestrator = BattleManager.orchestrate()
     .inLeague(LEAGUE_NAME_APEX)
     .withPriceBook(Test.getStandardPricebookId());
@@ -13,8 +13,8 @@ public class BattleManagerTest {
   }
   static void setupLeaguesAccounts() {
     insert new List<Account>{
-      new Account(Name = LEAGUE_NAME_APEX),
-      new Account(Name = LEAGUE_NAME_FLOW)
+      new Account(Name = LEAGUE_NAME_APEX, League__c = LEAGUE_NAME_APEX),
+      new Account(Name = LEAGUE_NAME_FLOW, League__c = LEAGUE_NAME_FLOW)
     };
   }
   static void setupTankModels() {
