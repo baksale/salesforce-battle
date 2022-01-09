@@ -45,6 +45,10 @@
                 <behavior>Edit</behavior>
                 <field>League__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Readonly</behavior>
+                <field>NumberOfBattles__c</field>
+            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>

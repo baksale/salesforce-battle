@@ -123,7 +123,12 @@ public class BattleManagerTest {
       .runBattle();
 
     final Opportunity battleAsOpportunity = [
-      SELECT Id, InitialLiveLevel__c, RoundsCompleted__c, Players__c, Winners__c
+      SELECT
+        Id,
+        InitialLiveLevel__c,
+        RoundsCompleted__c,
+        NumberOfPlayers__c,
+        NumberOfWinners__c
       FROM Opportunity
     ];
     System.assertEquals(
@@ -136,22 +141,12 @@ public class BattleManagerTest {
     );
     System.assertEquals(
       numberOfAims + numberOfWinners,
-      battleAsOpportunity.Players__c
+      battleAsOpportunity.NumberOfPlayers__c
     );
-    System.assertEquals(numberOfWinners, battleAsOpportunity.Winners__c);
-  }
-
-  @isTest
-  static void addsAllProductsAsTanksIntoBattle() {
-    final Integer amountOfTanks = 3;
-    final List<Product2> tanksModels = [SELECT Id, Name FROM Product2];
-    System.assertEquals(amountOfTanks, tanksModels.size());
-
-    final GameEngine singleBattle = battleOrchestrator
-      .withTanksModels(tanksModels)
-      .runBattle();
-
-    System.assertEquals(amountOfTanks, singleBattle.initialNumberOfPlayers);
+    System.assertEquals(
+      numberOfWinners,
+      battleAsOpportunity.NumberOfWinners__c
+    );
   }
 
   @isTest

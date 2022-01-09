@@ -58,8 +58,16 @@
                 <field>InitialLiveLevel__c</field>
             </layoutItems>
             <layoutItems>
-                <behavior>Readonly</behavior>
+                <behavior>Edit</behavior>
                 <field>BattleId__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Readonly</behavior>
+                <field>NumberOfPlayers__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Readonly</behavior>
+                <field>NumberOfWinners__c</field>
             </layoutItems>
         </layoutColumns>
         <layoutColumns>

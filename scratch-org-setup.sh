@@ -36,7 +36,7 @@ if [ $rc -ne 0 ]; then
 fi
 echo "Pushed fflib Apex Mocks source code into scratch org"
 
-
+echo ""
 echo "Pushing Salesforce Battle repositroy into scratch org..."
 echo "sfdx force:source:push -f -u $scratchOrg"
 sfdx force:source:push -f -u $scratchOrg
@@ -46,4 +46,16 @@ if [ $rc -ne 0 ]; then
     echo "could not push Salesforce Battle source into scratch org";
     exit $rc;
 fi
+
+echo ""
+echo "Uploading static data and battles history..."
+echo "./scripts/import-data.sh"
+./scripts/import-data.sh
+
+rc=$?
+if [ $rc -ne 0 ]; then
+    echo "could not upload static data and battles history into scratch org";
+    exit $rc;
+fi
+echo ""
 echo "Scratch Org is ready for new Tank construction"

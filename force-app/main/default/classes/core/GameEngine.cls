@@ -1,7 +1,6 @@
 public class GameEngine {
   public Integer maxNumberOfRounds { get; private set; }
   public Integer numberOfRounds { get; private set; }
-  public Integer initialNumberOfPlayers;
   public Integer initialLiveLevel {
     get {
       return this.lifeService.initialLifeLevel;
@@ -17,7 +16,6 @@ public class GameEngine {
     this.activePlayers = new List<ApexTankBase>();
     this.maxNumberOfRounds = 100;
     this.numberOfRounds = 0;
-    this.initialNumberOfPlayers = 0;
   }
 
   public static GameEngine getInstance() {
@@ -29,7 +27,6 @@ public class GameEngine {
   }
 
   public void battle() {
-    initialNumberOfPlayers = activePlayers.size();
     do {
       battleRound();
       removeDeadTanksFromTheField();
