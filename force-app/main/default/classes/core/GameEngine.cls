@@ -1,6 +1,12 @@
 public class GameEngine {
-  private Integer maxNumberOfRounds = 100;
-  private Integer numberOfRounds = 0;
+  public Integer maxNumberOfRounds { get; private set; }
+  public Integer numberOfRounds { get; private set; }
+  public Integer initialNumberOfPlayers;
+  public Integer initialLiveLevel {
+    get {
+      return this.lifeService.initialLifeLevel;
+    }
+  }
   private List<ApexTankBase> activePlayers;
 
   private FieldService fieldService;
@@ -9,6 +15,9 @@ public class GameEngine {
 
   private GameEngine() {
     this.activePlayers = new List<ApexTankBase>();
+    this.maxNumberOfRounds = 100;
+    this.numberOfRounds = 0;
+    this.initialNumberOfPlayers = 0;
   }
 
   public static GameEngine getInstance() {
@@ -20,6 +29,7 @@ public class GameEngine {
   }
 
   public void battle() {
+    initialNumberOfPlayers = activePlayers.size();
     do {
       battleRound();
       removeDeadTanksFromTheField();
@@ -35,6 +45,7 @@ public class GameEngine {
     moveTanks(movesVisitor.moves);
     attackTanks(attacksVisitor.attacks);
   }
+
   private void visitAliveTanks(final List<RoundTankVisitor> visitors) {
     for (ApexTankBase tank : activePlayers) {
       final RoundAction tankAction = tank.getAction();
@@ -43,6 +54,7 @@ public class GameEngine {
       }
     }
   }
+
   private void moveTanks(final Map<ApexTankBase, MoveDirectionEnum> moves) {
     for (ApexTankBase tank : moves.keySet()) {
       final MoveDirectionEnum direction = moves.get(tank);
@@ -50,6 +62,7 @@ public class GameEngine {
       historyService.updateMoveStatus(numberOfRounds, tank, moveAttemptResult);
     }
   }
+
   private void attackTanks(final Map<ApexTankBase, Point> attackers) {
     for (ApexTankBase attacker : attackers.keySet()) {
       final Point pointToAttack = attackers.get(attacker);
@@ -65,6 +78,7 @@ public class GameEngine {
       );
     }
   }
+
   private void removeDeadTanksFromTheField() {
     final List<ApexTankBase> activePlayersSwap = new List<ApexTankBase>();
     for (ApexTankBase tank : activePlayers) {
@@ -102,26 +116,22 @@ public class GameEngine {
     throw new IllegalArgumentException('Cannot add tanks anymore');
   }
 
-  @TestVisible
-  private GameEngine withFieldService(final FieldService fieldService) {
+  public GameEngine withFieldService(final FieldService fieldService) {
     this.fieldService = fieldService;
     return this;
   }
 
-  @TestVisible
-  private GameEngine withLifeService(final LifeService lifeService) {
+  public GameEngine withLifeService(final LifeService lifeService) {
     this.lifeService = lifeService;
     return this;
   }
 
-  @TestVisible
-  private GameEngine withHistoryService(final HistoryService historyService) {
+  public GameEngine withHistoryService(final HistoryService historyService) {
     this.historyService = historyService;
     return this;
   }
 
-  @TestVisible
-  private GameEngine withNumberOfRounds(final Integer maximumNumberOfRounds) {
+  public GameEngine withNumberOfRounds(final Integer maximumNumberOfRounds) {
     this.maxNumberOfRounds = maximumNumberOfRounds;
     return this;
   }
@@ -146,10 +156,12 @@ public class GameEngine {
     setupVisitor(visitor);
     return visitor;
   }
+
   private void setupVisitor(final TankVisitor visitor) {
     visitor.withRoundNumber(numberOfRounds);
     visitor.withHistoryService(historyService);
   }
+
   private class TankMoveVisitor extends TankVisitor {
     private Map<ApexTankBase, MoveDirectionEnum> moves = new Map<ApexTankBase, MoveDirectionEnum>();
 
@@ -174,6 +186,7 @@ public class GameEngine {
     setupVisitor(visitor);
     return visitor;
   }
+
   private class TankAttackVisitor extends TankVisitor {
     private Map<ApexTankBase, Point> attacks = new Map<ApexTankBase, Point>();
 
@@ -195,5 +208,9 @@ public class GameEngine {
       winners.add(leftPlayer);
     }
     return winners;
+  }
+
+  public String fieldDefinition() {
+    return fieldService.definition();
   }
 }

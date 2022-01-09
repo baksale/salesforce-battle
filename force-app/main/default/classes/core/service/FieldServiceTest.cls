@@ -305,6 +305,15 @@ public class FieldServiceTest {
     }
   }
 
+  @isTest
+  static void hasFieldDefinition() {
+    final Map<String, Object> fieldDefinition = (Map<String, Object>) JSON.deserializeUntyped(
+      FieldService.service(10, 20).definition()
+    );
+    System.assertEquals(10, fieldDefinition.get('fieldSizeX'));
+    System.assertEquals(20, fieldDefinition.get('fieldSizeY'));
+  }
+
   private static TestTank newTank() {
     return TestTank.testTank();
   }
