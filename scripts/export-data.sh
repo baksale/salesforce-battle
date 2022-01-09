@@ -32,3 +32,14 @@ if [ $rc -ne 0 ]; then
     exit $rc;
 fi
 echo "Exported Tank Models successfully"
+
+echo "Exporting Battles..."
+echo 'sfdx force:data:tree:export -q "SELECT Name, StageName, CloseDate, Account.League__c, FieldDefinition__c, MaxRounds__c, InitialLiveLevel__c, Players__c, (SELECT BattleHistory__c, IsWinner__c, Product2.TankModel__c, Quantity, TotalPrice FROM OpportunityLineItems) FROM Opportunity WHERE Account.League__c != null" -d data -x battles'
+sfdx force:data:tree:export -q "SELECT Name, StageName, CloseDate, Account.League__c, FieldDefinition__c, MaxRounds__c, InitialLiveLevel__c, Players__c, (SELECT BattleHistory__c, IsWinner__c, Product2.TankModel__c, Quantity, TotalPrice FROM OpportunityLineItems) FROM Opportunity WHERE Account.League__c != null" -d data -x battles
+
+rc=$?
+if [ $rc -ne 0 ]; then
+    echo "could not export Battles from Opportunities and Opportunity Line Items";
+    exit $rc;
+fi
+echo "Exported Battles successfully"

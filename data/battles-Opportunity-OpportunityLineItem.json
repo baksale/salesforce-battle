@@ -1,0 +1,256 @@
+{
+  "records": [
+    {
+      "attributes": {
+        "type": "Opportunity",
+        "referenceId": "OpportunityRef1"
+      },
+      "Name": "Battle in League: Apex League",
+      "StageName": "Open",
+      "CloseDate": "2022-01-09",
+      "Account": {
+        "attributes": {
+          "type": "Account",
+          "url": "/services/data/v53.0/sobjects/Account/0011X00000wCFtfQAG"
+        },
+        "League__c": "Apex"
+      },
+      "FieldDefinition__c": "{\"fieldSizeY\":10,\"fieldSizeX\":10}",
+      "MaxRounds__c": 100,
+      "InitialLiveLevel__c": 10,
+      "Players__c": 3,
+      "OpportunityLineItems": {
+        "records": [
+          {
+            "attributes": {
+              "type": "OpportunityLineItem",
+              "referenceId": "OpportunityLineItemRef1"
+            },
+            "BattleHistory__c": "{\"rounds\":[{\"successfullMove\":null,\"successfullAttack\":false,\"direction\":\"NOMOVE\",\"attack\":{\"y\":7,\"x\":7}},{\"successfullMove\":null,\"successfullAttack\":true,\"direction\":\"NOMOVE\",\"attack\":{\"y\":8,\"x\":2}},{\"successfullMove\":null,\"successfullAttack\":true,\"direction\":\"NOMOVE\",\"attack\":{\"y\":8,\"x\":2}},{\"successfullMove\":null,\"successfullAttack\":true,\"direction\":\"NOMOVE\",\"attack\":{\"y\":8,\"x\":2}},{\"successfullMove\":null,\"successfullAttack\":true,\"direction\":\"NOMOVE\",\"attack\":{\"y\":8,\"x\":2}},{\"successfullMove\":null,\"successfullAttack\":false,\"direction\":\"NOMOVE\",\"attack\":{\"y\":6,\"x\":7}},{\"successfullMove\":null,\"successfullAttack\":true,\"direction\":\"NOMOVE\",\"attack\":{\"y\":8,\"x\":2}},{\"successfullMove\":null,\"successfullAttack\":true,\"direction\":\"NOMOVE\",\"attack\":{\"y\":8,\"x\":2}},{\"successfullMove\":null,\"successfullAttack\":false,\"direction\":\"NOMOVE\",\"attack\":{\"y\":3,\"x\":7}},{\"successfullMove\":null,\"successfullAttack\":false,\"direction\":\"NOMOVE\",\"attack\":{\"y\":2,\"x\":7}},{\"successfullMove\":null,\"successfullAttack\":false,\"direction\":\"NOMOVE\",\"attack\":{\"y\":1,\"x\":7}},{\"successfullMove\":null,\"successfullAttack\":false,\"direction\":\"NOMOVE\",\"attack\":{\"y\":0,\"x\":7}},{\"successfullMove\":null,\"successfullAttack\":false,\"direction\":\"NOMOVE\",\"attack\":{\"y\":1,\"x\":7}},{\"successfullMove\":null,\"successfullAttack\":false,\"direction\":\"NOMOVE\",\"attack\":{\"y\":2,\"x\":7}},{\"successfullMove\":null,\"successfullAttack\":false,\"direction\":\"NOMOVE\",\"attack\":{\"y\":3,\"x\":7}}]}",
+            "IsWinner__c": false,
+            "Product2": {
+              "attributes": {
+                "type": "Product2",
+                "url": "/services/data/v53.0/sobjects/Product2/01t1X000008UbzUQAS"
+              },
+              "TankModel__c": "TowerTank"
+            },
+            "Quantity": 1,
+            "TotalPrice": 1
+          },
+          {
+            "attributes": {
+              "type": "OpportunityLineItem",
+              "referenceId": "OpportunityLineItemRef2"
+            },
+            "BattleHistory__c": "{\"rounds\":[{\"successfullMove\":true,\"successfullAttack\":true,\"direction\":\"UP\",\"attack\":{\"y\":2,\"x\":8}},{\"successfullMove\":true,\"successfullAttack\":true,\"direction\":\"UP\",\"attack\":{\"y\":2,\"x\":8}},{\"successfullMove\":true,\"successfullAttack\":true,\"direction\":\"DOWN\",\"attack\":{\"y\":8,\"x\":2}},{\"successfullMove\":true,\"successfullAttack\":true,\"direction\":\"DOWN\",\"attack\":{\"y\":8,\"x\":2}},{\"successfullMove\":true,\"successfullAttack\":true,\"direction\":\"DOWN\",\"attack\":{\"y\":8,\"x\":2}},{\"successfullMove\":true,\"successfullAttack\":true,\"direction\":\"DOWN\",\"attack\":{\"y\":2,\"x\":8}},{\"successfullMove\":true,\"successfullAttack\":true,\"direction\":\"DOWN\",\"attack\":{\"y\":8,\"x\":2}},{\"successfullMove\":true,\"successfullAttack\":false,\"direction\":\"DOWN\",\"attack\":{\"y\":8,\"x\":2}},{\"successfullMove\":true,\"successfullAttack\":true,\"direction\":\"DOWN\",\"attack\":{\"y\":2,\"x\":8}},{\"successfullMove\":true,\"successfullAttack\":true,\"direction\":\"DOWN\",\"attack\":{\"y\":2,\"x\":8}},{\"successfullMove\":true,\"successfullAttack\":true,\"direction\":\"DOWN\",\"attack\":{\"y\":2,\"x\":8}},{\"successfullMove\":true,\"successfullAttack\":true,\"direction\":\"UP\",\"attack\":{\"y\":2,\"x\":8}},{\"successfullMove\":true,\"successfullAttack\":true,\"direction\":\"UP\",\"attack\":{\"y\":2,\"x\":8}},{\"successfullMove\":true,\"successfullAttack\":true,\"direction\":\"UP\",\"attack\":{\"y\":2,\"x\":8}},{\"successfullMove\":true,\"successfullAttack\":true,\"direction\":\"UP\",\"attack\":{\"y\":2,\"x\":8}}]}",
+            "IsWinner__c": false,
+            "Product2": {
+              "attributes": {
+                "type": "Product2",
+                "url": "/services/data/v53.0/sobjects/Product2/01t1X000008UbzKQAS"
+              },
+              "TankModel__c": "VerticallyMovingTank"
+            },
+            "Quantity": 1,
+            "TotalPrice": 1
+          },
+          {
+            "attributes": {
+              "type": "OpportunityLineItem",
+              "referenceId": "OpportunityLineItemRef3"
+            },
+            "BattleHistory__c": "{\"rounds\":[{\"successfullMove\":null,\"successfullAttack\":null,\"direction\":\"NOMOVE\",\"attack\":null},{\"successfullMove\":null,\"successfullAttack\":null,\"direction\":\"NOMOVE\",\"attack\":null},{\"successfullMove\":null,\"successfullAttack\":null,\"direction\":\"NOMOVE\",\"attack\":null},{\"successfullMove\":null,\"successfullAttack\":null,\"direction\":\"NOMOVE\",\"attack\":null},{\"successfullMove\":null,\"successfullAttack\":null,\"direction\":\"NOMOVE\",\"attack\":null},{\"successfullMove\":null,\"successfullAttack\":null,\"direction\":\"NOMOVE\",\"attack\":null},{\"successfullMove\":null,\"successfullAttack\":null,\"direction\":\"NOMOVE\",\"attack\":null},{\"successfullMove\":null,\"successfullAttack\":null,\"direction\":\"NOMOVE\",\"attack\":null}]}",
+            "IsWinner__c": false,
+            "Product2": {
+              "attributes": {
+                "type": "Product2",
+                "url": "/services/data/v53.0/sobjects/Product2/01t1X000008UbzPQAS"
+              },
+              "TankModel__c": "PiecefulTank"
+            },
+            "Quantity": 1,
+            "TotalPrice": 1
+          }
+        ]
+      }
+    },
+    {
+      "attributes": {
+        "type": "Opportunity",
+        "referenceId": "OpportunityRef2"
+      },
+      "Name": "Battle in League: Apex League",
+      "StageName": "Open",
+      "CloseDate": "2022-01-09",
+      "Account": {
+        "attributes": {
+          "type": "Account",
+          "url": "/services/data/v53.0/sobjects/Account/0011X00000wCFtfQAG"
+        },
+        "League__c": "Apex"
+      },
+      "FieldDefinition__c": "{\"fieldSizeY\":10,\"fieldSizeX\":10}",
+      "MaxRounds__c": 100,
+      "InitialLiveLevel__c": 10,
+      "Players__c": 9,
+      "OpportunityLineItems": {
+        "records": [
+          {
+            "attributes": {
+              "type": "OpportunityLineItem",
+              "referenceId": "OpportunityLineItemRef4"
+            },
+            "BattleHistory__c": "{\"rounds\":[{\"successfullMove\":true,\"successfullAttack\":true,\"direction\":\"DOWN\",\"attack\":{\"y\":0,\"x\":9}},{\"successfullMove\":false,\"successfullAttack\":false,\"direction\":\"DOWN\",\"attack\":{\"y\":9,\"x\":1}},{\"successfullMove\":false,\"successfullAttack\":true,\"direction\":\"DOWN\",\"attack\":{\"y\":1,\"x\":0}},{\"successfullMove\":false,\"successfullAttack\":true,\"direction\":\"DOWN\",\"attack\":{\"y\":7,\"x\":0}},{\"successfullMove\":false,\"successfullAttack\":true,\"direction\":\"DOWN\",\"attack\":{\"y\":7,\"x\":0}},{\"successfullMove\":false,\"successfullAttack\":true,\"direction\":\"DOWN\",\"attack\":{\"y\":2,\"x\":7}},{\"successfullMove\":false,\"successfullAttack\":true,\"direction\":\"DOWN\",\"attack\":{\"y\":8,\"x\":7}},{\"successfullMove\":false,\"successfullAttack\":true,\"direction\":\"DOWN\",\"attack\":{\"y\":8,\"x\":7}},{\"successfullMove\":false,\"successfullAttack\":true,\"direction\":\"DOWN\",\"attack\":{\"y\":5,\"x\":7}},{\"successfullMove\":false,\"successfullAttack\":true,\"direction\":\"DOWN\",\"attack\":{\"y\":2,\"x\":7}},{\"successfullMove\":false,\"successfullAttack\":false,\"direction\":\"DOWN\",\"attack\":{\"y\":0,\"x\":1}},{\"successfullMove\":false,\"successfullAttack\":false,\"direction\":\"DOWN\",\"attack\":{\"y\":1,\"x\":1}},{\"successfullMove\":false,\"successfullAttack\":true,\"direction\":\"DOWN\",\"attack\":{\"y\":9,\"x\":6}},{\"successfullMove\":false,\"successfullAttack\":true,\"direction\":\"DOWN\",\"attack\":{\"y\":7,\"x\":0}},{\"successfullMove\":false,\"successfullAttack\":true,\"direction\":\"DOWN\",\"attack\":{\"y\":7,\"x\":0}},{\"successfullMove\":false,\"successfullAttack\":true,\"direction\":\"DOWN\",\"attack\":{\"y\":9,\"x\":6}},{\"successfullMove\":false,\"successfullAttack\":false,\"direction\":\"DOWN\",\"attack\":{\"y\":9,\"x\":6}},{\"successfullMove\":false,\"successfullAttack\":true,\"direction\":\"DOWN\",\"attack\":{\"y\":7,\"x\":0}},{\"successfullMove\":false,\"successfullAttack\":false,\"direction\":\"DOWN\",\"attack\":{\"y\":8,\"x\":1}},{\"successfullMove\":true,\"successfullAttack\":false,\"direction\":\"DOWN\",\"attack\":{\"y\":9,\"x\":1}},{\"successfullMove\":true,\"successfullAttack\":false,\"direction\":\"DOWN\",\"attack\":{\"y\":8,\"x\":1}},{\"successfullMove\":true,\"successfullAttack\":false,\"direction\":\"DOWN\",\"attack\":{\"y\":7,\"x\":1}},{\"successfullMove\":true,\"successfullAttack\":false,\"direction\":\"DOWN\",\"attack\":{\"y\":6,\"x\":1}},{\"successfullMove\":true,\"successfullAttack\":false,\"direction\":\"DOWN\",\"attack\":{\"y\":5,\"x\":1}},{\"successfullMove\":true,\"successfullAttack\":false,\"direction\":\"DOWN\",\"attack\":{\"y\":4,\"x\":1}},{\"successfullMove\":true,\"successfullAttack\":false,\"direction\":\"DOWN\",\"attack\":{\"y\":3,\"x\":1}},{\"successfullMove\":true,\"successfullAttack\":false,\"direction\":\"DOWN\",\"attack\":{\"y\":2,\"x\":1}},{\"successfullMove\":true,\"successfullAttack\":false,\"direction\":\"UP\",\"attack\":{\"y\":1,\"x\":1}},{\"successfullMove\":true,\"successfullAttack\":false,\"direction\":\"UP\",\"attack\":{\"y\":0,\"x\":1}},{\"successfullMove\":true,\"successfullAttack\":false,\"direction\":\"UP\",\"attack\":{\"y\":1,\"x\":1}},{\"successfullMove\":true,\"successfullAttack\":false,\"direction\":\"UP\",\"attack\":{\"y\":2,\"x\":1}},{\"successfullMove\":true,\"successfullAttack\":false,\"direction\":\"UP\",\"attack\":{\"y\":3,\"x\":1}},{\"successfullMove\":true,\"successfullAttack\":false,\"direction\":\"UP\",\"attack\":{\"y\":4,\"x\":1}},{\"successfullMove\":true,\"successfullAttack\":false,\"direction\":\"UP\",\"attack\":{\"y\":5,\"x\":1}},{\"successfullMove\":true,\"successfullAttack\":false,\"direction\":\"UP\",\"attack\":{\"y\":6,\"x\":1}},{\"successfullMove\":true,\"successfullAttack\":false,\"direction\":\"UP\",\"attack\":{\"y\":7,\"x\":1}},{\"successfullMove\":true,\"successfullAttack\":false,\"direction\":\"DOWN\",\"attack\":{\"y\":8,\"x\":1}},{\"successfullMove\":true,\"successfullAttack\":false,\"direction\":\"DOWN\",\"attack\":{\"y\":9,\"x\":1}},{\"successfullMove\":true,\"successfullAttack\":false,\"direction\":\"DOWN\",\"attack\":{\"y\":8,\"x\":1}},{\"successfullMove\":true,\"successfullAttack\":false,\"direction\":\"DOWN\",\"attack\":{\"y\":7,\"x\":1}},{\"successfullMove\":true,\"successfullAttack\":false,\"direction\":\"DOWN\",\"attack\":{\"y\":6,\"x\":1}},{\"successfullMove\":true,\"successfullAttack\":false,\"direction\":\"DOWN\",\"attack\":{\"y\":5,\"x\":1}},{\"successfullMove\":true,\"successfullAttack\":false,\"direction\":\"DOWN\",\"attack\":{\"y\":4,\"x\":1}},{\"successfullMove\":true,\"successfullAttack\":false,\"direction\":\"DOWN\",\"attack\":{\"y\":3,\"x\":1}},{\"successfullMove\":true,\"successfullAttack\":false,\"direction\":\"DOWN\",\"attack\":{\"y\":2,\"x\":1}},{\"successfullMove\":true,\"successfullAttack\":false,\"direction\":\"UP\",\"attack\":{\"y\":1,\"x\":1}},{\"successfullMove\":true,\"successfullAttack\":false,\"direction\":\"UP\",\"attack\":{\"y\":0,\"x\":1}},{\"successfullMove\":true,\"successfullAttack\":false,\"direction\":\"UP\",\"attack\":{\"y\":1,\"x\":1}},{\"successfullMove\":true,\"successfullAttack\":false,\"direction\":\"UP\",\"attack\":{\"y\":2,\"x\":1}},{\"successfullMove\":true,\"successfullAttack\":false,\"direction\":\"UP\",\"attack\":{\"y\":3,\"x\":1}},{\"successfullMove\":true,\"successfullAttack\":false,\"direction\":\"UP\",\"attack\":{\"y\":4,\"x\":1}},{\"successfullMove\":true,\"successfullAttack\":false,\"direction\":\"UP\",\"attack\":{\"y\":5,\"x\":1}},{\"successfullMove\":true,\"successfullAttack\":false,\"direction\":\"UP\",\"attack\":{\"y\":6,\"x\":1}},{\"successfullMove\":true,\"successfullAttack\":false,\"direction\":\"UP\",\"attack\":{\"y\":7,\"x\":1}},{\"successfullMove\":true,\"successfullAttack\":false,\"direction\":\"DOWN\",\"attack\":{\"y\":8,\"x\":1}},{\"successfullMove\":true,\"successfullAttack\":false,\"direction\":\"DOWN\",\"attack\":{\"y\":9,\"x\":1}},{\"successfullMove\":true,\"successfullAttack\":false,\"direction\":\"DOWN\",\"attack\":{\"y\":8,\"x\":1}},{\"successfullMove\":true,\"successfullAttack\":false,\"direction\":\"DOWN\",\"attack\":{\"y\":7,\"x\":1}},{\"successfullMove\":true,\"successfullAttack\":false,\"direction\":\"DOWN\",\"attack\":{\"y\":6,\"x\":1}},{\"successfullMove\":true,\"successfullAttack\":false,\"direction\":\"DOWN\",\"attack\":{\"y\":5,\"x\":1}},{\"successfullMove\":true,\"successfullAttack\":false,\"direction\":\"DOWN\",\"attack\":{\"y\":4,\"x\":1}},{\"successfullMove\":true,\"successfullAttack\":false,\"direction\":\"DOWN\",\"attack\":{\"y\":3,\"x\":1}},{\"successfullMove\":true,\"successfullAttack\":false,\"direction\":\"DOWN\",\"attack\":{\"y\":2,\"x\":1}},{\"successfullMove\":true,\"successfullAttack\":false,\"direction\":\"UP\",\"attack\":{\"y\":1,\"x\":1}},{\"successfullMove\":true,\"successfullAttack\":false,\"direction\":\"UP\",\"attack\":{\"y\":0,\"x\":1}},{\"successfullMove\":true,\"successfullAttack\":false,\"direction\":\"UP\",\"attack\":{\"y\":1,\"x\":1}},{\"successfullMove\":true,\"successfullAttack\":false,\"direction\":\"UP\",\"attack\":{\"y\":2,\"x\":1}},{\"successfullMove\":true,\"successfullAttack\":false,\"direction\":\"UP\",\"attack\":{\"y\":3,\"x\":1}},{\"successfullMove\":true,\"successfullAttack\":false,\"direction\":\"UP\",\"attack\":{\"y\":4,\"x\":1}},{\"successfullMove\":true,\"successfullAttack\":false,\"direction\":\"UP\",\"attack\":{\"y\":5,\"x\":1}},{\"successfullMove\":true,\"successfullAttack\":false,\"direction\":\"UP\",\"attack\":{\"y\":6,\"x\":1}},{\"successfullMove\":true,\"successfullAttack\":false,\"direction\":\"UP\",\"attack\":{\"y\":7,\"x\":1}},{\"successfullMove\":true,\"successfullAttack\":false,\"direction\":\"DOWN\",\"attack\":{\"y\":8,\"x\":1}},{\"successfullMove\":true,\"successfullAttack\":false,\"direction\":\"DOWN\",\"attack\":{\"y\":9,\"x\":1}},{\"successfullMove\":true,\"successfullAttack\":false,\"direction\":\"DOWN\",\"attack\":{\"y\":8,\"x\":1}},{\"successfullMove\":true,\"successfullAttack\":false,\"direction\":\"DOWN\",\"attack\":{\"y\":7,\"x\":1}},{\"successfullMove\":true,\"successfullAttack\":false,\"direction\":\"DOWN\",\"attack\":{\"y\":6,\"x\":1}},{\"successfullMove\":true,\"successfullAttack\":false,\"direction\":\"DOWN\",\"attack\":{\"y\":5,\"x\":1}},{\"successfullMove\":true,\"successfullAttack\":false,\"direction\":\"DOWN\",\"attack\":{\"y\":4,\"x\":1}},{\"successfullMove\":true,\"successfullAttack\":false,\"direction\":\"DOWN\",\"attack\":{\"y\":3,\"x\":1}},{\"successfullMove\":true,\"successfullAttack\":false,\"direction\":\"DOWN\",\"attack\":{\"y\":2,\"x\":1}},{\"successfullMove\":true,\"successfullAttack\":false,\"direction\":\"UP\",\"attack\":{\"y\":1,\"x\":1}},{\"successfullMove\":true,\"successfullAttack\":false,\"direction\":\"UP\",\"attack\":{\"y\":0,\"x\":1}},{\"successfullMove\":true,\"successfullAttack\":false,\"direction\":\"UP\",\"attack\":{\"y\":1,\"x\":1}},{\"successfullMove\":true,\"successfullAttack\":false,\"direction\":\"UP\",\"attack\":{\"y\":2,\"x\":1}},{\"successfullMove\":true,\"successfullAttack\":false,\"direction\":\"UP\",\"attack\":{\"y\":3,\"x\":1}},{\"successfullMove\":true,\"successfullAttack\":false,\"direction\":\"UP\",\"attack\":{\"y\":4,\"x\":1}},{\"successfullMove\":true,\"successfullAttack\":false,\"direction\":\"UP\",\"attack\":{\"y\":5,\"x\":1}},{\"successfullMove\":true,\"successfullAttack\":false,\"direction\":\"UP\",\"attack\":{\"y\":6,\"x\":1}},{\"successfullMove\":true,\"successfullAttack\":false,\"direction\":\"UP\",\"attack\":{\"y\":7,\"x\":1}},{\"successfullMove\":true,\"successfullAttack\":false,\"direction\":\"DOWN\",\"attack\":{\"y\":8,\"x\":1}},{\"successfullMove\":true,\"successfullAttack\":false,\"direction\":\"DOWN\",\"attack\":{\"y\":9,\"x\":1}},{\"successfullMove\":true,\"successfullAttack\":false,\"direction\":\"DOWN\",\"attack\":{\"y\":8,\"x\":1}},{\"successfullMove\":true,\"successfullAttack\":false,\"direction\":\"DOWN\",\"attack\":{\"y\":7,\"x\":1}},{\"successfullMove\":true,\"successfullAttack\":false,\"direction\":\"DOWN\",\"attack\":{\"y\":6,\"x\":1}},{\"successfullMove\":true,\"successfullAttack\":false,\"direction\":\"DOWN\",\"attack\":{\"y\":5,\"x\":1}},{\"successfullMove\":true,\"successfullAttack\":false,\"direction\":\"DOWN\",\"attack\":{\"y\":4,\"x\":1}},{\"successfullMove\":true,\"successfullAttack\":false,\"direction\":\"DOWN\",\"attack\":{\"y\":3,\"x\":1}},{\"successfullMove\":true,\"successfullAttack\":false,\"direction\":\"DOWN\",\"attack\":{\"y\":2,\"x\":1}},{\"successfullMove\":true,\"successfullAttack\":false,\"direction\":\"UP\",\"attack\":{\"y\":1,\"x\":1}}]}",
+            "IsWinner__c": false,
+            "Product2": {
+              "attributes": {
+                "type": "Product2",
+                "url": "/services/data/v53.0/sobjects/Product2/01t1X000008UbzKQAS"
+              },
+              "TankModel__c": "VerticallyMovingTank"
+            },
+            "Quantity": 1,
+            "TotalPrice": 1
+          },
+          {
+            "attributes": {
+              "type": "OpportunityLineItem",
+              "referenceId": "OpportunityLineItemRef5"
+            },
+            "BattleHistory__c": "{\"rounds\":[{\"successfullMove\":null,\"successfullAttack\":true,\"direction\":\"NOMOVE\",\"attack\":{\"y\":0,\"x\":9}},{\"successfullMove\":null,\"successfullAttack\":true,\"direction\":\"NOMOVE\",\"attack\":{\"y\":8,\"x\":7}},{\"successfullMove\":null,\"successfullAttack\":true,\"direction\":\"NOMOVE\",\"attack\":{\"y\":8,\"x\":7}},{\"successfullMove\":null,\"successfullAttack\":true,\"direction\":\"NOMOVE\",\"attack\":{\"y\":1,\"x\":0}},{\"successfullMove\":null,\"successfullAttack\":true,\"direction\":\"NOMOVE\",\"attack\":{\"y\":0,\"x\":9}},{\"successfullMove\":null,\"successfullAttack\":false,\"direction\":\"NOMOVE\",\"attack\":{\"y\":5,\"x\":1}},{\"successfullMove\":null,\"successfullAttack\":true,\"direction\":\"NOMOVE\",\"attack\":{\"y\":0,\"x\":9}},{\"successfullMove\":null,\"successfullAttack\":true,\"direction\":\"NOMOVE\",\"attack\":{\"y\":1,\"x\":0}},{\"successfullMove\":null,\"successfullAttack\":true,\"direction\":\"NOMOVE\",\"attack\":{\"y\":0,\"x\":9}},{\"successfullMove\":null,\"successfullAttack\":true,\"direction\":\"NOMOVE\",\"attack\":{\"y\":0,\"x\":9}}]}",
+            "IsWinner__c": false,
+            "Product2": {
+              "attributes": {
+                "type": "Product2",
+                "url": "/services/data/v53.0/sobjects/Product2/01t1X000008UbzUQAS"
+              },
+              "TankModel__c": "TowerTank"
+            },
+            "Quantity": 1,
+            "TotalPrice": 1
+          },
+          {
+            "attributes": {
+              "type": "OpportunityLineItem",
+              "referenceId": "OpportunityLineItemRef6"
+            },
+            "BattleHistory__c": "{\"rounds\":[{\"successfullMove\":null,\"successfullAttack\":null,\"direction\":\"NOMOVE\",\"attack\":null},{\"successfullMove\":null,\"successfullAttack\":null,\"direction\":\"NOMOVE\",\"attack\":null},{\"successfullMove\":null,\"successfullAttack\":null,\"direction\":\"NOMOVE\",\"attack\":null},{\"successfullMove\":null,\"successfullAttack\":null,\"direction\":\"NOMOVE\",\"attack\":null},{\"successfullMove\":null,\"successfullAttack\":null,\"direction\":\"NOMOVE\",\"attack\":null},{\"successfullMove\":null,\"successfullAttack\":null,\"direction\":\"NOMOVE\",\"attack\":null},{\"successfullMove\":null,\"successfullAttack\":null,\"direction\":\"NOMOVE\",\"attack\":null},{\"successfullMove\":null,\"successfullAttack\":null,\"direction\":\"NOMOVE\",\"attack\":null},{\"successfullMove\":null,\"successfullAttack\":null,\"direction\":\"NOMOVE\",\"attack\":null},{\"successfullMove\":null,\"successfullAttack\":null,\"direction\":\"NOMOVE\",\"attack\":null},{\"successfullMove\":null,\"successfullAttack\":null,\"direction\":\"NOMOVE\",\"attack\":null},{\"successfullMove\":null,\"successfullAttack\":null,\"direction\":\"NOMOVE\",\"attack\":null},{\"successfullMove\":null,\"successfullAttack\":null,\"direction\":\"NOMOVE\",\"attack\":null}]}",
+            "IsWinner__c": false,
+            "Product2": {
+              "attributes": {
+                "type": "Product2",
+                "url": "/services/data/v53.0/sobjects/Product2/01t1X000008UbzPQAS"
+              },
+              "TankModel__c": "PiecefulTank"
+            },
+            "Quantity": 1,
+            "TotalPrice": 1
+          },
+          {
+            "attributes": {
+              "type": "OpportunityLineItem",
+              "referenceId": "OpportunityLineItemRef7"
+            },
+            "BattleHistory__c": "{\"rounds\":[{\"successfullMove\":true,\"successfullAttack\":true,\"direction\":\"UP\",\"attack\":{\"y\":5,\"x\":7}},{\"successfullMove\":true,\"successfullAttack\":true,\"direction\":\"UP\",\"attack\":{\"y\":8,\"x\":0}},{\"successfullMove\":false,\"successfullAttack\":true,\"direction\":\"UP\",\"attack\":{\"y\":1,\"x\":0}},{\"successfullMove\":false,\"successfullAttack\":true,\"direction\":\"UP\",\"attack\":{\"y\":0,\"x\":9}},{\"successfullMove\":false,\"successfullAttack\":true,\"direction\":\"UP\",\"attack\":{\"y\":9,\"x\":6}},{\"successfullMove\":false,\"successfullAttack\":true,\"direction\":\"UP\",\"attack\":{\"y\":2,\"x\":7}},{\"successfullMove\":false,\"successfullAttack\":true,\"direction\":\"UP\",\"attack\":{\"y\":5,\"x\":7}},{\"successfullMove\":false,\"successfullAttack\":false,\"direction\":\"UP\",\"attack\":{\"y\":3,\"x\":1}},{\"successfullMove\":false,\"successfullAttack\":true,\"direction\":\"UP\",\"attack\":{\"y\":9,\"x\":6}},{\"successfullMove\":false,\"successfullAttack\":true,\"direction\":\"UP\",\"attack\":{\"y\":1,\"x\":0}},{\"successfullMove\":false,\"successfullAttack\":false,\"direction\":\"UP\",\"attack\":{\"y\":0,\"x\":1}},{\"successfullMove\":false,\"successfullAttack\":true,\"direction\":\"UP\",\"attack\":{\"y\":0,\"x\":9}},{\"successfullMove\":false,\"successfullAttack\":false,\"direction\":\"UP\",\"attack\":{\"y\":2,\"x\":1}},{\"successfullMove\":false,\"successfullAttack\":true,\"direction\":\"UP\",\"attack\":{\"y\":1,\"x\":0}},{\"successfullMove\":false,\"successfullAttack\":false,\"direction\":\"UP\",\"attack\":{\"y\":4,\"x\":1}},{\"successfullMove\":false,\"successfullAttack\":false,\"direction\":\"UP\",\"attack\":{\"y\":5,\"x\":1}},{\"successfullMove\":false,\"successfullAttack\":true,\"direction\":\"UP\",\"attack\":{\"y\":9,\"x\":6}},{\"successfullMove\":false,\"successfullAttack\":false,\"direction\":\"UP\",\"attack\":{\"y\":7,\"x\":1}},{\"successfullMove\":false,\"successfullAttack\":true,\"direction\":\"UP\",\"attack\":{\"y\":8,\"x\":0}}]}",
+            "IsWinner__c": false,
+            "Product2": {
+              "attributes": {
+                "type": "Product2",
+                "url": "/services/data/v53.0/sobjects/Product2/01t1X000008UbzKQAS"
+              },
+              "TankModel__c": "VerticallyMovingTank"
+            },
+            "Quantity": 1,
+            "TotalPrice": 1
+          },
+          {
+            "attributes": {
+              "type": "OpportunityLineItem",
+              "referenceId": "OpportunityLineItemRef8"
+            },
+            "BattleHistory__c": "{\"rounds\":[{\"successfullMove\":null,\"successfullAttack\":true,\"direction\":\"NOMOVE\",\"attack\":{\"y\":5,\"x\":7}},{\"successfullMove\":null,\"successfullAttack\":true,\"direction\":\"NOMOVE\",\"attack\":{\"y\":8,\"x\":7}},{\"successfullMove\":null,\"successfullAttack\":true,\"direction\":\"NOMOVE\",\"attack\":{\"y\":8,\"x\":7}},{\"successfullMove\":null,\"successfullAttack\":true,\"direction\":\"NOMOVE\",\"attack\":{\"y\":8,\"x\":0}},{\"successfullMove\":null,\"successfullAttack\":false,\"direction\":\"NOMOVE\",\"attack\":{\"y\":6,\"x\":1}},{\"successfullMove\":null,\"successfullAttack\":true,\"direction\":\"NOMOVE\",\"attack\":{\"y\":8,\"x\":0}},{\"successfullMove\":null,\"successfullAttack\":true,\"direction\":\"NOMOVE\",\"attack\":{\"y\":2,\"x\":7}},{\"successfullMove\":null,\"successfullAttack\":true,\"direction\":\"NOMOVE\",\"attack\":{\"y\":8,\"x\":7}},{\"successfullMove\":null,\"successfullAttack\":false,\"direction\":\"NOMOVE\",\"attack\":{\"y\":2,\"x\":1}},{\"successfullMove\":null,\"successfullAttack\":true,\"direction\":\"NOMOVE\",\"attack\":{\"y\":0,\"x\":9}},{\"successfullMove\":null,\"successfullAttack\":true,\"direction\":\"NOMOVE\",\"attack\":{\"y\":2,\"x\":7}},{\"successfullMove\":null,\"successfullAttack\":true,\"direction\":\"NOMOVE\",\"attack\":{\"y\":2,\"x\":7}},{\"successfullMove\":null,\"successfullAttack\":true,\"direction\":\"NOMOVE\",\"attack\":{\"y\":2,\"x\":7}},{\"successfullMove\":null,\"successfullAttack\":true,\"direction\":\"NOMOVE\",\"attack\":{\"y\":8,\"x\":0}},{\"successfullMove\":null,\"successfullAttack\":true,\"direction\":\"NOMOVE\",\"attack\":{\"y\":8,\"x\":0}},{\"successfullMove\":null,\"successfullAttack\":true,\"direction\":\"NOMOVE\",\"attack\":{\"y\":7,\"x\":0}},{\"successfullMove\":null,\"successfullAttack\":false,\"direction\":\"NOMOVE\",\"attack\":{\"y\":6,\"x\":1}}]}",
+            "IsWinner__c": false,
+            "Product2": {
+              "attributes": {
+                "type": "Product2",
+                "url": "/services/data/v53.0/sobjects/Product2/01t1X000008UbzUQAS"
+              },
+              "TankModel__c": "TowerTank"
+            },
+            "Quantity": 1,
+            "TotalPrice": 1
+          },
+          {
+            "attributes": {
+              "type": "OpportunityLineItem",
+              "referenceId": "OpportunityLineItemRef9"
+            },
+            "BattleHistory__c": "{\"rounds\":[{\"successfullMove\":null,\"successfullAttack\":null,\"direction\":\"NOMOVE\",\"attack\":null},{\"successfullMove\":null,\"successfullAttack\":null,\"direction\":\"NOMOVE\",\"attack\":null},{\"successfullMove\":null,\"successfullAttack\":null,\"direction\":\"NOMOVE\",\"attack\":null},{\"successfullMove\":null,\"successfullAttack\":null,\"direction\":\"NOMOVE\",\"attack\":null},{\"successfullMove\":null,\"successfullAttack\":null,\"direction\":\"NOMOVE\",\"attack\":null},{\"successfullMove\":null,\"successfullAttack\":null,\"direction\":\"NOMOVE\",\"attack\":null},{\"successfullMove\":null,\"successfullAttack\":null,\"direction\":\"NOMOVE\",\"attack\":null},{\"successfullMove\":null,\"successfullAttack\":null,\"direction\":\"NOMOVE\",\"attack\":null},{\"successfullMove\":null,\"successfullAttack\":null,\"direction\":\"NOMOVE\",\"attack\":null},{\"successfullMove\":null,\"successfullAttack\":null,\"direction\":\"NOMOVE\",\"attack\":null},{\"successfullMove\":null,\"successfullAttack\":null,\"direction\":\"NOMOVE\",\"attack\":null},{\"successfullMove\":null,\"successfullAttack\":null,\"direction\":\"NOMOVE\",\"attack\":null},{\"successfullMove\":null,\"successfullAttack\":null,\"direction\":\"NOMOVE\",\"attack\":null},{\"successfullMove\":null,\"successfullAttack\":null,\"direction\":\"NOMOVE\",\"attack\":null},{\"successfullMove\":null,\"successfullAttack\":null,\"direction\":\"NOMOVE\",\"attack\":null}]}",
+            "IsWinner__c": false,
+            "Product2": {
+              "attributes": {
+                "type": "Product2",
+                "url": "/services/data/v53.0/sobjects/Product2/01t1X000008UbzPQAS"
+              },
+              "TankModel__c": "PiecefulTank"
+            },
+            "Quantity": 1,
+            "TotalPrice": 1
+          },
+          {
+            "attributes": {
+              "type": "OpportunityLineItem",
+              "referenceId": "OpportunityLineItemRef10"
+            },
+            "BattleHistory__c": "{\"rounds\":[{\"successfullMove\":null,\"successfullAttack\":false,\"direction\":\"NOMOVE\",\"attack\":{\"y\":5,\"x\":0}},{\"successfullMove\":null,\"successfullAttack\":true,\"direction\":\"NOMOVE\",\"attack\":{\"y\":8,\"x\":0}},{\"successfullMove\":null,\"successfullAttack\":true,\"direction\":\"NOMOVE\",\"attack\":{\"y\":7,\"x\":0}},{\"successfullMove\":null,\"successfullAttack\":true,\"direction\":\"NOMOVE\",\"attack\":{\"y\":2,\"x\":7}},{\"successfullMove\":null,\"successfullAttack\":true,\"direction\":\"NOMOVE\",\"attack\":{\"y\":7,\"x\":0}},{\"successfullMove\":null,\"successfullAttack\":true,\"direction\":\"NOMOVE\",\"attack\":{\"y\":5,\"x\":7}},{\"successfullMove\":null,\"successfullAttack\":true,\"direction\":\"NOMOVE\",\"attack\":{\"y\":5,\"x\":7}},{\"successfullMove\":null,\"successfullAttack\":false,\"direction\":\"NOMOVE\",\"attack\":{\"y\":3,\"x\":1}},{\"successfullMove\":null,\"successfullAttack\":true,\"direction\":\"NOMOVE\",\"attack\":{\"y\":1,\"x\":0}},{\"successfullMove\":null,\"successfullAttack\":true,\"direction\":\"NOMOVE\",\"attack\":{\"y\":5,\"x\":7}},{\"successfullMove\":null,\"successfullAttack\":true,\"direction\":\"NOMOVE\",\"attack\":{\"y\":9,\"x\":6}},{\"successfullMove\":null,\"successfullAttack\":false,\"direction\":\"NOMOVE\",\"attack\":{\"y\":1,\"x\":1}}]}",
+            "IsWinner__c": false,
+            "Product2": {
+              "attributes": {
+                "type": "Product2",
+                "url": "/services/data/v53.0/sobjects/Product2/01t1X000008UbzUQAS"
+              },
+              "TankModel__c": "TowerTank"
+            },
+            "Quantity": 1,
+            "TotalPrice": 1
+          },
+          {
+            "attributes": {
+              "type": "OpportunityLineItem",
+              "referenceId": "OpportunityLineItemRef11"
+            },
+            "BattleHistory__c": "{\"rounds\":[{\"successfullMove\":true,\"successfullAttack\":true,\"direction\":\"UP\",\"attack\":{\"y\":5,\"x\":7}},{\"successfullMove\":true,\"successfullAttack\":true,\"direction\":\"DOWN\",\"attack\":{\"y\":8,\"x\":7}},{\"successfullMove\":true,\"successfullAttack\":true,\"direction\":\"DOWN\",\"attack\":{\"y\":0,\"x\":9}},{\"successfullMove\":true,\"successfullAttack\":true,\"direction\":\"DOWN\",\"attack\":{\"y\":2,\"x\":7}},{\"successfullMove\":true,\"successfullAttack\":true,\"direction\":\"DOWN\",\"attack\":{\"y\":1,\"x\":0}},{\"successfullMove\":true,\"successfullAttack\":true,\"direction\":\"DOWN\",\"attack\":{\"y\":5,\"x\":7}},{\"successfullMove\":true,\"successfullAttack\":true,\"direction\":\"DOWN\",\"attack\":{\"y\":9,\"x\":6}},{\"successfullMove\":true,\"successfullAttack\":true,\"direction\":\"DOWN\",\"attack\":{\"y\":5,\"x\":7}},{\"successfullMove\":true,\"successfullAttack\":true,\"direction\":\"DOWN\",\"attack\":{\"y\":1,\"x\":0}},{\"successfullMove\":true,\"successfullAttack\":true,\"direction\":\"DOWN\",\"attack\":{\"y\":9,\"x\":6}},{\"successfullMove\":true,\"successfullAttack\":true,\"direction\":\"UP\",\"attack\":{\"y\":9,\"x\":6}},{\"successfullMove\":true,\"successfullAttack\":true,\"direction\":\"UP\",\"attack\":{\"y\":8,\"x\":7}},{\"successfullMove\":true,\"successfullAttack\":true,\"direction\":\"UP\",\"attack\":{\"y\":8,\"x\":7}},{\"successfullMove\":true,\"successfullAttack\":true,\"direction\":\"UP\",\"attack\":{\"y\":1,\"x\":0}},{\"successfullMove\":true,\"successfullAttack\":true,\"direction\":\"UP\",\"attack\":{\"y\":2,\"x\":7}},{\"successfullMove\":true,\"successfullAttack\":true,\"direction\":\"UP\",\"attack\":{\"y\":9,\"x\":6}},{\"successfullMove\":true,\"successfullAttack\":true,\"direction\":\"UP\",\"attack\":{\"y\":7,\"x\":0}},{\"successfullMove\":true,\"successfullAttack\":true,\"direction\":\"UP\",\"attack\":{\"y\":8,\"x\":0}},{\"successfullMove\":true,\"successfullAttack\":true,\"direction\":\"UP\",\"attack\":{\"y\":7,\"x\":0}},{\"successfullMove\":true,\"successfullAttack\":false,\"direction\":\"DOWN\",\"attack\":{\"y\":8,\"x\":0}},{\"successfullMove\":true,\"successfullAttack\":false,\"direction\":\"DOWN\",\"attack\":{\"y\":7,\"x\":0}},{\"successfullMove\":true,\"successfullAttack\":false,\"direction\":\"DOWN\",\"attack\":{\"y\":6,\"x\":0}},{\"successfullMove\":true,\"successfullAttack\":false,\"direction\":\"DOWN\",\"attack\":{\"y\":5,\"x\":0}},{\"successfullMove\":true,\"successfullAttack\":false,\"direction\":\"DOWN\",\"attack\":{\"y\":4,\"x\":0}},{\"successfullMove\":true,\"successfullAttack\":false,\"direction\":\"DOWN\",\"attack\":{\"y\":3,\"x\":0}},{\"successfullMove\":true,\"successfullAttack\":false,\"direction\":\"DOWN\",\"attack\":{\"y\":2,\"x\":0}},{\"successfullMove\":true,\"successfullAttack\":false,\"direction\":\"DOWN\",\"attack\":{\"y\":1,\"x\":0}},{\"successfullMove\":true,\"successfullAttack\":false,\"direction\":\"DOWN\",\"attack\":{\"y\":0,\"x\":0}},{\"successfullMove\":true,\"successfullAttack\":false,\"direction\":\"UP\",\"attack\":{\"y\":1,\"x\":0}},{\"successfullMove\":true,\"successfullAttack\":false,\"direction\":\"UP\",\"attack\":{\"y\":2,\"x\":0}},{\"successfullMove\":true,\"successfullAttack\":false,\"direction\":\"UP\",\"attack\":{\"y\":3,\"x\":0}},{\"successfullMove\":true,\"successfullAttack\":false,\"direction\":\"UP\",\"attack\":{\"y\":4,\"x\":0}},{\"successfullMove\":true,\"successfullAttack\":false,\"direction\":\"UP\",\"attack\":{\"y\":5,\"x\":0}},{\"successfullMove\":true,\"successfullAttack\":false,\"direction\":\"UP\",\"attack\":{\"y\":6,\"x\":0}},{\"successfullMove\":true,\"successfullAttack\":false,\"direction\":\"UP\",\"attack\":{\"y\":7,\"x\":0}},{\"successfullMove\":true,\"successfullAttack\":false,\"direction\":\"UP\",\"attack\":{\"y\":8,\"x\":0}},{\"successfullMove\":true,\"successfullAttack\":false,\"direction\":\"UP\",\"attack\":{\"y\":9,\"x\":0}},{\"successfullMove\":true,\"successfullAttack\":false,\"direction\":\"DOWN\",\"attack\":{\"y\":8,\"x\":0}},{\"successfullMove\":true,\"successfullAttack\":false,\"direction\":\"DOWN\",\"attack\":{\"y\":7,\"x\":0}},{\"successfullMove\":true,\"successfullAttack\":false,\"direction\":\"DOWN\",\"attack\":{\"y\":6,\"x\":0}},{\"successfullMove\":true,\"successfullAttack\":false,\"direction\":\"DOWN\",\"attack\":{\"y\":5,\"x\":0}},{\"successfullMove\":true,\"successfullAttack\":false,\"direction\":\"DOWN\",\"attack\":{\"y\":4,\"x\":0}},{\"successfullMove\":true,\"successfullAttack\":false,\"direction\":\"DOWN\",\"attack\":{\"y\":3,\"x\":0}},{\"successfullMove\":true,\"successfullAttack\":false,\"direction\":\"DOWN\",\"attack\":{\"y\":2,\"x\":0}},{\"successfullMove\":true,\"successfullAttack\":false,\"direction\":\"DOWN\",\"attack\":{\"y\":1,\"x\":0}},{\"successfullMove\":true,\"successfullAttack\":false,\"direction\":\"DOWN\",\"attack\":{\"y\":0,\"x\":0}},{\"successfullMove\":true,\"successfullAttack\":false,\"direction\":\"UP\",\"attack\":{\"y\":1,\"x\":0}},{\"successfullMove\":true,\"successfullAttack\":false,\"direction\":\"UP\",\"attack\":{\"y\":2,\"x\":0}},{\"successfullMove\":true,\"successfullAttack\":false,\"direction\":\"UP\",\"attack\":{\"y\":3,\"x\":0}},{\"successfullMove\":true,\"successfullAttack\":false,\"direction\":\"UP\",\"attack\":{\"y\":4,\"x\":0}},{\"successfullMove\":true,\"successfullAttack\":false,\"direction\":\"UP\",\"attack\":{\"y\":5,\"x\":0}},{\"successfullMove\":true,\"successfullAttack\":false,\"direction\":\"UP\",\"attack\":{\"y\":6,\"x\":0}},{\"successfullMove\":true,\"successfullAttack\":false,\"direction\":\"UP\",\"attack\":{\"y\":7,\"x\":0}},{\"successfullMove\":true,\"successfullAttack\":false,\"direction\":\"UP\",\"attack\":{\"y\":8,\"x\":0}},{\"successfullMove\":true,\"successfullAttack\":false,\"direction\":\"UP\",\"attack\":{\"y\":9,\"x\":0}},{\"successfullMove\":true,\"successfullAttack\":false,\"direction\":\"DOWN\",\"attack\":{\"y\":8,\"x\":0}},{\"successfullMove\":true,\"successfullAttack\":false,\"direction\":\"DOWN\",\"attack\":{\"y\":7,\"x\":0}},{\"successfullMove\":true,\"successfullAttack\":false,\"direction\":\"DOWN\",\"attack\":{\"y\":6,\"x\":0}},{\"successfullMove\":true,\"successfullAttack\":false,\"direction\":\"DOWN\",\"attack\":{\"y\":5,\"x\":0}},{\"successfullMove\":true,\"successfullAttack\":false,\"direction\":\"DOWN\",\"attack\":{\"y\":4,\"x\":0}},{\"successfullMove\":true,\"successfullAttack\":false,\"direction\":\"DOWN\",\"attack\":{\"y\":3,\"x\":0}},{\"successfullMove\":true,\"successfullAttack\":false,\"direction\":\"DOWN\",\"attack\":{\"y\":2,\"x\":0}},{\"successfullMove\":true,\"successfullAttack\":false,\"direction\":\"DOWN\",\"attack\":{\"y\":1,\"x\":0}},{\"successfullMove\":true,\"successfullAttack\":false,\"direction\":\"DOWN\",\"attack\":{\"y\":0,\"x\":0}},{\"successfullMove\":true,\"successfullAttack\":false,\"direction\":\"UP\",\"attack\":{\"y\":1,\"x\":0}},{\"successfullMove\":true,\"successfullAttack\":false,\"direction\":\"UP\",\"attack\":{\"y\":2,\"x\":0}},{\"successfullMove\":true,\"successfullAttack\":false,\"direction\":\"UP\",\"attack\":{\"y\":3,\"x\":0}},{\"successfullMove\":true,\"successfullAttack\":false,\"direction\":\"UP\",\"attack\":{\"y\":4,\"x\":0}},{\"successfullMove\":true,\"successfullAttack\":false,\"direction\":\"UP\",\"attack\":{\"y\":5,\"x\":0}},{\"successfullMove\":true,\"successfullAttack\":false,\"direction\":\"UP\",\"attack\":{\"y\":6,\"x\":0}},{\"successfullMove\":true,\"successfullAttack\":false,\"direction\":\"UP\",\"attack\":{\"y\":7,\"x\":0}},{\"successfullMove\":true,\"successfullAttack\":false,\"direction\":\"UP\",\"attack\":{\"y\":8,\"x\":0}},{\"successfullMove\":true,\"successfullAttack\":false,\"direction\":\"UP\",\"attack\":{\"y\":9,\"x\":0}},{\"successfullMove\":true,\"successfullAttack\":false,\"direction\":\"DOWN\",\"attack\":{\"y\":8,\"x\":0}},{\"successfullMove\":true,\"successfullAttack\":false,\"direction\":\"DOWN\",\"attack\":{\"y\":7,\"x\":0}},{\"successfullMove\":true,\"successfullAttack\":false,\"direction\":\"DOWN\",\"attack\":{\"y\":6,\"x\":0}},{\"successfullMove\":true,\"successfullAttack\":false,\"direction\":\"DOWN\",\"attack\":{\"y\":5,\"x\":0}},{\"successfullMove\":true,\"successfullAttack\":false,\"direction\":\"DOWN\",\"attack\":{\"y\":4,\"x\":0}},{\"successfullMove\":true,\"successfullAttack\":false,\"direction\":\"DOWN\",\"attack\":{\"y\":3,\"x\":0}},{\"successfullMove\":true,\"successfullAttack\":false,\"direction\":\"DOWN\",\"attack\":{\"y\":2,\"x\":0}},{\"successfullMove\":true,\"successfullAttack\":false,\"direction\":\"DOWN\",\"attack\":{\"y\":1,\"x\":0}},{\"successfullMove\":true,\"successfullAttack\":false,\"direction\":\"DOWN\",\"attack\":{\"y\":0,\"x\":0}},{\"successfullMove\":true,\"successfullAttack\":false,\"direction\":\"UP\",\"attack\":{\"y\":1,\"x\":0}},{\"successfullMove\":true,\"successfullAttack\":false,\"direction\":\"UP\",\"attack\":{\"y\":2,\"x\":0}},{\"successfullMove\":true,\"successfullAttack\":false,\"direction\":\"UP\",\"attack\":{\"y\":3,\"x\":0}},{\"successfullMove\":true,\"successfullAttack\":false,\"direction\":\"UP\",\"attack\":{\"y\":4,\"x\":0}},{\"successfullMove\":true,\"successfullAttack\":false,\"direction\":\"UP\",\"attack\":{\"y\":5,\"x\":0}},{\"successfullMove\":true,\"successfullAttack\":false,\"direction\":\"UP\",\"attack\":{\"y\":6,\"x\":0}},{\"successfullMove\":true,\"successfullAttack\":false,\"direction\":\"UP\",\"attack\":{\"y\":7,\"x\":0}},{\"successfullMove\":true,\"successfullAttack\":false,\"direction\":\"UP\",\"attack\":{\"y\":8,\"x\":0}},{\"successfullMove\":true,\"successfullAttack\":false,\"direction\":\"UP\",\"attack\":{\"y\":9,\"x\":0}},{\"successfullMove\":true,\"successfullAttack\":false,\"direction\":\"DOWN\",\"attack\":{\"y\":8,\"x\":0}},{\"successfullMove\":true,\"successfullAttack\":false,\"direction\":\"DOWN\",\"attack\":{\"y\":7,\"x\":0}},{\"successfullMove\":true,\"successfullAttack\":false,\"direction\":\"DOWN\",\"attack\":{\"y\":6,\"x\":0}},{\"successfullMove\":true,\"successfullAttack\":false,\"direction\":\"DOWN\",\"attack\":{\"y\":5,\"x\":0}},{\"successfullMove\":true,\"successfullAttack\":false,\"direction\":\"DOWN\",\"attack\":{\"y\":4,\"x\":0}},{\"successfullMove\":true,\"successfullAttack\":false,\"direction\":\"DOWN\",\"attack\":{\"y\":3,\"x\":0}},{\"successfullMove\":true,\"successfullAttack\":false,\"direction\":\"DOWN\",\"attack\":{\"y\":2,\"x\":0}},{\"successfullMove\":true,\"successfullAttack\":false,\"direction\":\"DOWN\",\"attack\":{\"y\":1,\"x\":0}},{\"successfullMove\":true,\"successfullAttack\":false,\"direction\":\"DOWN\",\"attack\":{\"y\":0,\"x\":0}}]}",
+            "IsWinner__c": false,
+            "Product2": {
+              "attributes": {
+                "type": "Product2",
+                "url": "/services/data/v53.0/sobjects/Product2/01t1X000008UbzKQAS"
+              },
+              "TankModel__c": "VerticallyMovingTank"
+            },
+            "Quantity": 1,
+            "TotalPrice": 1
+          },
+          {
+            "attributes": {
+              "type": "OpportunityLineItem",
+              "referenceId": "OpportunityLineItemRef12"
+            },
+            "BattleHistory__c": "{\"rounds\":[{\"successfullMove\":null,\"successfullAttack\":null,\"direction\":\"NOMOVE\",\"attack\":null},{\"successfullMove\":null,\"successfullAttack\":null,\"direction\":\"NOMOVE\",\"attack\":null},{\"successfullMove\":null,\"successfullAttack\":null,\"direction\":\"NOMOVE\",\"attack\":null},{\"successfullMove\":null,\"successfullAttack\":null,\"direction\":\"NOMOVE\",\"attack\":null},{\"successfullMove\":null,\"successfullAttack\":null,\"direction\":\"NOMOVE\",\"attack\":null},{\"successfullMove\":null,\"successfullAttack\":null,\"direction\":\"NOMOVE\",\"attack\":null},{\"successfullMove\":null,\"successfullAttack\":null,\"direction\":\"NOMOVE\",\"attack\":null},{\"successfullMove\":null,\"successfullAttack\":null,\"direction\":\"NOMOVE\",\"attack\":null},{\"successfullMove\":null,\"successfullAttack\":null,\"direction\":\"NOMOVE\",\"attack\":null},{\"successfullMove\":null,\"successfullAttack\":null,\"direction\":\"NOMOVE\",\"attack\":null},{\"successfullMove\":null,\"successfullAttack\":null,\"direction\":\"NOMOVE\",\"attack\":null},{\"successfullMove\":null,\"successfullAttack\":null,\"direction\":\"NOMOVE\",\"attack\":null},{\"successfullMove\":null,\"successfullAttack\":null,\"direction\":\"NOMOVE\",\"attack\":null},{\"successfullMove\":null,\"successfullAttack\":null,\"direction\":\"NOMOVE\",\"attack\":null}]}",
+            "IsWinner__c": false,
+            "Product2": {
+              "attributes": {
+                "type": "Product2",
+                "url": "/services/data/v53.0/sobjects/Product2/01t1X000008UbzPQAS"
+              },
+              "TankModel__c": "PiecefulTank"
+            },
+            "Quantity": 1,
+            "TotalPrice": 1
+          }
+        ]
+      }
+    }
+  ]
+}
