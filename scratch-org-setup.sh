@@ -3,7 +3,7 @@
 scratchOrg="battle-test"
 echo "Creating scratch org for development..."
 echo "sfdx force:org:create -f config/project-scratch-def.json -s -a $scratchOrg"
-# sfdx force:org:create -f config/project-scratch-def.json -s -a $scratchOrg
+sfdx force:org:create -f config/project-scratch-def.json -s -a $scratchOrg
 
 rc=$?
 if [ $rc -ne 0 ]; then
