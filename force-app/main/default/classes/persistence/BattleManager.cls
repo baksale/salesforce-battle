@@ -93,24 +93,37 @@ public class BattleManager {
   }
 
   private Opportunity battleOpportunity(final GameEngine battleInTheBeginning) {
+    final Account league = [
+      SELECT Id, NumberOfBattles__c
+      FROM Account
+      WHERE League__c = :leagueName
+    ];
+    final String battleId = calculateBattleId(league.NumberOfBattles__c);
     return new Opportunity(
-      Name = 'Battle in League: ' + leagueName,
-      StageName = 'Open',
+      AccountId = league.Id,
+      BattleId__c = battleId,
       CloseDate = System.today(),
-      AccountId = [SELECT Id FROM Account WHERE League__c = :leagueName]
-      .Id,
       FieldDefinition__c = battleInTheBeginning.fieldDefinition(),
-      MaxRounds__c = battleInTheBeginning.maxNumberOfRounds,
       InitialLiveLevel__c = battleInTheBeginning.initialLiveLevel,
-      Pricebook2Id = priceBookId
+      MaxRounds__c = battleInTheBeginning.maxNumberOfRounds,
+      Name = 'Battle in League: ' + leagueName,
+      Pricebook2Id = priceBookId,
+      StageName = 'Open'
     );
   }
 
+  private String calculateBattleId(final Decimal numberOfBattles) {
+    return 'Battle-' + mask(numberOfBattles, 6);
+  }
+
   private void setupPlayers() {
-    for (Product2 tankModel : tanksModels) {
+    for (Integer i = 0; i < tanksModels.size(); i++) {
+      final Product2 tankModel = tanksModels[i];
       final ApexTankBase tank = tankFrom(tankModel);
       singleBattle.withTank(tank);
-      tankPlayerRecords.put(tank, playerAsOpportunityLineItem(tankModel));
+      final OpportunityLineItem player = playerAsOpportunityLineItem(tankModel);
+      player.PlayerId__c = calculatePlayerId(i);
+      tankPlayerRecords.put(tank, player);
     }
     insert tankPlayerRecords.values();
   }
@@ -129,6 +142,21 @@ public class BattleManager {
       Quantity = 1,
       TotalPrice = 1
     );
+  }
+
+  private String calculatePlayerId(final Integer playerNumberWithinBattle) {
+    return battleOpportunity.BattleId__c +
+      '-Player-' +
+      mask(playerNumberWithinBattle, 7);
+  }
+
+  private String mask(final Decimal input, final Integer maskLength) {
+    final String digitsAsString = String.valueOf(input);
+    String mask = '';
+    for (Integer i = digitsAsString.length(); i < maskLength; i++) {
+      mask += '0';
+    }
+    return mask + digitsAsString;
   }
 
   private void completeBattle() {

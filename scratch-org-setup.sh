@@ -47,6 +47,8 @@ if [ $rc -ne 0 ]; then
     exit $rc;
 fi
 
+sfdx force:user:permset:assign -n BattleManagement
+
 echo ""
 echo "Uploading static data and battles history..."
 echo "./scripts/import-data.sh"

@@ -6,7 +6,7 @@
   >External Id in order to be able to migrate data consistently.</description>
     <externalId>true</externalId>
     <label>Player Id</label>
-    <length>15</length>
+    <length>30</length>
     <required>false</required>
     <type>Text</type>
     <unique>true</unique>
