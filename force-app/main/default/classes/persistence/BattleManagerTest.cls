@@ -203,7 +203,7 @@ public class BattleManagerTest {
 
   @isTest
   static void aliveTanksHaveUnitInQuantity() {
-    final List<Product2> tanksModels = [SELECT Name FROM Product2];
+    final List<Product2> tanksModels = [SELECT Id, Name FROM Product2];
     battleOrchestrator.withTanksModels(tanksModels).runBattle();
 
     final Opportunity battle = [SELECT Id FROM Opportunity];
@@ -219,7 +219,7 @@ public class BattleManagerTest {
 
   @isTest
   static void deadTanksHaveZeroQuantity() {
-    final List<Product2> tanksModels = [SELECT Name FROM Product2];
+    final List<Product2> tanksModels = [SELECT Id, Name FROM Product2];
     battleOrchestrator.withTanksModels(tanksModels).runBattle();
 
     final Opportunity battle = [SELECT Id FROM Opportunity];
@@ -233,6 +233,43 @@ public class BattleManagerTest {
     for (OpportunityLineItem player : players) {
       System.assertEquals(0, player.TotalPrice);
       System.assert(!player.IsWinner__c);
+    }
+  }
+
+  @isTest
+  static void setsNumericIdsToBattles() {
+    final Integer numberOfBattles = 3;
+    for (Integer i = 0; i < numberOfBattles; i++) {
+      battleOrchestrator.runBattle();
+    }
+
+    final List<Opportunity> battles = [
+      SELECT BattleId__c
+      FROM Opportunity
+      ORDER BY CreatedDate
+    ];
+    for (Integer i = 0; i < numberOfBattles; i++) {
+      final String battleId = 'Battle-00000' + i;
+      System.assertEquals(battleId, battles[i].BattleId__c);
+    }
+  }
+
+  @isTest
+  static void setsNumericIdsToPlayers() {
+    battleOrchestrator
+      .withTanksModels([SELECT Id, Name FROM Product2])
+      .runBattle();
+
+    final List<OpportunityLineItem> players = [
+      SELECT Id, PlayerId__c
+      FROM OpportunityLineItem
+    ];
+
+    Integer i = 0;
+    for (OpportunityLineItem player : players) {
+      final String playerId = 'Battle-000000-Player-000000' + i;
+      System.assertEquals(playerId, player.PlayerId__c);
+      i++;
     }
   }
 }

@@ -49,8 +49,6 @@ fi
 
 sfdx force:user:permset:assign -n BattleManagement
 
-./scripts/import-data.sh   
-
 echo ""
 echo "Uploading static data and battles history..."
 echo "./scripts/import-data.sh"
