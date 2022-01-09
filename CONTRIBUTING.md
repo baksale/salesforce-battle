@@ -9,7 +9,7 @@
   ```bash
   ./scripts/import-data.sh
   ```
-- You can run a test battle via Anonyous Apex from Developer Console
+- You can run a test battle via Anonymous Apex from Developer Console
 
 ```
 Id stdPB = [SELECT Id FROM PriceBook2 WHERE IsStandard = true].Id;

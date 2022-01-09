@@ -7,7 +7,7 @@ public class BattleManagerTest {
     .withPriceBook(Test.getStandardPricebookId());
 
   @TestSetup
-  static void makeData() {
+  public static void makeData() {
     setupLeaguesAccounts();
     setupTankModels();
   }
