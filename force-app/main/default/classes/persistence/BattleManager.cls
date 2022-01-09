@@ -102,7 +102,6 @@ public class BattleManager {
       FieldDefinition__c = battleInTheBeginning.fieldDefinition(),
       MaxRounds__c = battleInTheBeginning.maxNumberOfRounds,
       InitialLiveLevel__c = battleInTheBeginning.initialLiveLevel,
-      Players__c = battleInTheBeginning.initialNumberOfPlayers,
       Pricebook2Id = priceBookId
     );
   }
@@ -154,9 +153,7 @@ public class BattleManager {
   private void updateBattleInfo() {
     update new Opportunity(
       Id = battleOpportunity.Id,
-      RoundsCompleted__c = singleBattle.numberOfRounds,
-      Players__c = singleBattle.initialNumberOfPlayers,
-      Winners__c = singleBattle.winners().size()
+      RoundsCompleted__c = singleBattle.numberOfRounds
     );
   }
 }

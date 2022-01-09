@@ -1,4 +1,4 @@
-Name,IsActive,Author__r.GithubUsername__c,TankModel__c
-PiecefulTank,true,baksale,PiecefulTank
-TowerTank,true,baksale,TowerTank
-VerticallyMovingTank,true,baksale,VerticallyMovingTank
+Name,IsActive,Author__r.GithubUsername__c,TankModel__c,Family
+PiecefulTank,true,baksale,PiecefulTank,Tank Models
+TowerTank,true,baksale,TowerTank,Tank Models
+VerticallyMovingTank,true,baksale,VerticallyMovingTank,Tank Models
