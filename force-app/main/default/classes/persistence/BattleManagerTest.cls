@@ -228,14 +228,14 @@ public class BattleManagerTest {
 
     final Opportunity battle = [SELECT Id FROM Opportunity];
     final List<OpportunityLineItem> players = [
-      SELECT Id, Quantity
+      SELECT Id, TotalPrice
       FROM OpportunityLineItem
       WHERE Product2.Name != 'VerticallyMovingTank'
     ];
 
     System.assert(players.size() > 0);
     for (OpportunityLineItem player : players) {
-      System.assertEquals(0, player.Quantity);
+      System.assertEquals(0, player.TotalPrice);
     }
   }
 }

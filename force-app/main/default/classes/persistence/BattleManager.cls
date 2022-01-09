@@ -138,9 +138,13 @@ public class BattleManager {
   }
 
   private void recordHistory() {
+    final Set<ApexTank> winners = singleBattle.winners();
     for (ApexTank tank : tankPlayerRecords.keySet()) {
       final OpportunityLineItem battlePlayer = tankPlayerRecords.get(tank);
       battlePlayer.BattleHistory__c = battleHistoryService.getHistory(tank);
+      if (!winners.contains(tank)) {
+        battlePlayer.TotalPrice = 0;
+      }
     }
     update tankPlayerRecords.values();
   }
