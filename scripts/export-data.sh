@@ -21,3 +21,14 @@ if [ $rc -ne 0 ]; then
     exit $rc;
 fi
 echo "Exported Authors successfully"
+
+echo "Exporting Tank Models..."
+echo 'sfdx force:data:soql:query -q "SELECT Name, IsActive, Author__r.GithubUserName__c, TankModel__c FROM Product2 WHERE Author__c != null" -r csv > data/tankModels.csv'
+sfdx force:data:soql:query -q "SELECT Name, IsActive, Author__r.GithubUserName__c, TankModel__c FROM Product2 WHERE Author__c != null" -r csv > data/tankModels.csv
+
+rc=$?
+if [ $rc -ne 0 ]; then
+    echo "could not export Tank Models from Products";
+    exit $rc;
+fi
+echo "Exported Tank Models successfully"
