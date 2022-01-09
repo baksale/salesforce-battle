@@ -30,6 +30,10 @@
                 <behavior>Required</behavior>
                 <field>Quantity</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>IsWinner__c</field>
+            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>

@@ -144,6 +144,8 @@ public class BattleManager {
       battlePlayer.BattleHistory__c = battleHistoryService.getHistory(tank);
       if (!winners.contains(tank)) {
         battlePlayer.TotalPrice = 0;
+      } else {
+        battlePlayer.IsWinner__c = true;
       }
     }
     update tankPlayerRecords.values();

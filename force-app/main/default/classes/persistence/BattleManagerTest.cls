@@ -213,12 +213,13 @@ public class BattleManagerTest {
 
     final Opportunity battle = [SELECT Id FROM Opportunity];
     final OpportunityLineItem winner = [
-      SELECT Id, Quantity
+      SELECT Id, TotalPrice, IsWinner__c
       FROM OpportunityLineItem
       WHERE Product2.Name = 'VerticallyMovingTank'
     ];
 
-    System.assertEquals(1, winner.Quantity);
+    System.assertEquals(1, winner.TotalPrice);
+    System.assert(winner.IsWinner__c);
   }
 
   @isTest
@@ -228,7 +229,7 @@ public class BattleManagerTest {
 
     final Opportunity battle = [SELECT Id FROM Opportunity];
     final List<OpportunityLineItem> players = [
-      SELECT Id, TotalPrice
+      SELECT Id, TotalPrice, IsWinner__c
       FROM OpportunityLineItem
       WHERE Product2.Name != 'VerticallyMovingTank'
     ];
@@ -236,6 +237,7 @@ public class BattleManagerTest {
     System.assert(players.size() > 0);
     for (OpportunityLineItem player : players) {
       System.assertEquals(0, player.TotalPrice);
+      System.assert(!player.IsWinner__c);
     }
   }
 }
