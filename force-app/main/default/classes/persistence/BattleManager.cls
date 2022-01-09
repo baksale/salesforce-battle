@@ -13,7 +13,7 @@ public class BattleManager {
   private Map<ApexTank, OpportunityLineItem> tankPlayerRecords;
 
   private BattleManager() {
-    leagueName = 'Apex League';
+    leagueName = 'Apex';
     tanksModels = new List<Product2>();
     maxNumberOfRounds = 100;
     battleLifeService = LifeService.lifeService(10);
@@ -97,7 +97,7 @@ public class BattleManager {
       Name = 'Battle in League: ' + leagueName,
       StageName = 'Open',
       CloseDate = System.today(),
-      AccountId = [SELECT Id FROM Account WHERE Name = :leagueName]
+      AccountId = [SELECT Id FROM Account WHERE League__c = :leagueName]
       .Id,
       FieldDefinition__c = battleInTheBeginning.fieldDefinition(),
       MaxRounds__c = battleInTheBeginning.maxNumberOfRounds,
