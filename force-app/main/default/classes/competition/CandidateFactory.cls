@@ -6,8 +6,8 @@ public class CandidateFactory {
   public static CandidateFactory getInstane() {
     return new CandidateFactory();
   }
-
-  public ApexTankBase candidate() {
-    return new VerticallyMovingTank();
-  }
+  
+	public ApexTankBase candidate(){
+		return new HorizontallyMovingTank();
+	} 
 }
