@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>PlayerId__c</fullName>
+    <caseSensitive>false</caseSensitive>
+    <description
+  >External Id in order to be able to migrate data consistently.</description>
+    <externalId>true</externalId>
+    <label>Player Id</label>
+    <length>30</length>
+    <required>false</required>
+    <type>Text</type>
+    <unique>true</unique>
+</CustomField>

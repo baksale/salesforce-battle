@@ -1,15 +1,15 @@
 public abstract class ApexTankBase implements ApexTank {
-    protected Radar fieldRadar;
+  protected Radar fieldRadar;
 
-    public ApexTankBase withRadar(final Radar fieldRadar) {
-        this.fieldRadar = fieldRadar;
-        return this;
-    }
+  public ApexTankBase withRadar(final Radar fieldRadar) {
+    this.fieldRadar = fieldRadar;
+    return this;
+  }
 
-    protected abstract MoveDirectionEnum nextMoveDirection();
-    protected abstract Point pointToAttack();
+  protected abstract MoveDirectionEnum nextMoveDirection();
+  protected abstract Point pointToAttack();
 
-    public RoundAction getAction() {
-        return new RoundAction(nextMoveDirection(), pointToAttack());
-    }
+  public RoundAction getAction() {
+    return new RoundAction(nextMoveDirection(), pointToAttack());
+  }
 }

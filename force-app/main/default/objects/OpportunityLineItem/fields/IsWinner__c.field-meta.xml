@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>IsWinner__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description
+  >Indicates if this particular model instance is among the winners of the battle.</description>
+    <externalId>false</externalId>
+    <label>Is Winner</label>
+    <type>Checkbox</type>
+</CustomField>
