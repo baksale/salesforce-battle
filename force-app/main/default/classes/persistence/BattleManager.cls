@@ -6,6 +6,7 @@ public class BattleManager {
   private FieldService battleFieldService;
   private LifeService battleLifeService;
   private HistoryService battleHistoryService;
+  private ScoreService battleScoreService;
 
   private GameEngine singleBattle;
   private Opportunity battleOpportunity;
@@ -19,6 +20,7 @@ public class BattleManager {
     battleLifeService = LifeService.lifeService(10);
     battleFieldService = FieldService.service(10, 10);
     battleHistoryService = new HistoryService();
+    battleScoreService = ScoreService.service();
     tankPlayerRecords = new Map<ApexTank, OpportunityLineItem>();
   }
 
@@ -84,7 +86,8 @@ public class BattleManager {
       .withNumberOfRounds(maxNumberOfRounds)
       .withFieldService(battleFieldService)
       .withLifeService(battleLifeService)
-      .withHistoryService(battleHistoryService);
+      .withHistoryService(battleHistoryService)
+      .withScoreService(battleScoreService);
   }
 
   private void ensureOpportunityForBattle() {
@@ -93,11 +96,7 @@ public class BattleManager {
   }
 
   private Opportunity battleOpportunity(final GameEngine battleInTheBeginning) {
-    final Account league = [
-      SELECT Id, NumberOfBattles__c
-      FROM Account
-      WHERE League__c = :leagueName
-    ];
+    final Account league = [SELECT Id, NumberOfBattles__c FROM Account WHERE League__c = :leagueName];
     final String battleId = calculateBattleId(league.NumberOfBattles__c);
     return new Opportunity(
       AccountId = league.Id,
@@ -133,9 +132,7 @@ public class BattleManager {
     return (ApexTankBase) Type.forName(tankModelClassName).newInstance();
   }
 
-  private OpportunityLineItem playerAsOpportunityLineItem(
-    final Product2 tankModel
-  ) {
+  private OpportunityLineItem playerAsOpportunityLineItem(final Product2 tankModel) {
     return new OpportunityLineItem(
       OpportunityId = battleOpportunity.Id,
       Product2Id = tankModel.Id,
@@ -145,9 +142,7 @@ public class BattleManager {
   }
 
   private String calculatePlayerId(final Integer playerNumberWithinBattle) {
-    return battleOpportunity.BattleId__c +
-      '-Player-' +
-      mask(playerNumberWithinBattle, 7);
+    return battleOpportunity.BattleId__c + '-Player-' + mask(playerNumberWithinBattle, 7);
   }
 
   private String mask(final Decimal input, final Integer maskLength) {
@@ -160,15 +155,17 @@ public class BattleManager {
   }
 
   private void completeBattle() {
-    recordHistory();
+    recordPlayerResults();
     updateBattleInfo();
   }
 
-  private void recordHistory() {
+  private void recordPlayerResults() {
     final Set<ApexTank> winners = singleBattle.winners();
     for (ApexTank tank : tankPlayerRecords.keySet()) {
       final OpportunityLineItem battlePlayer = tankPlayerRecords.get(tank);
       battlePlayer.BattleHistory__c = battleHistoryService.getHistory(tank);
+      battlePlayer.NumberOfLives__c = battleLifeService.getCurrentLifeLevel(tank);
+      battlePlayer.Score__c = battleScoreService.scoreOf(tank);
       if (!winners.contains(tank)) {
         battlePlayer.TotalPrice = 0;
       } else {
@@ -179,9 +176,6 @@ public class BattleManager {
   }
 
   private void updateBattleInfo() {
-    update new Opportunity(
-      Id = battleOpportunity.Id,
-      RoundsCompleted__c = singleBattle.numberOfRounds
-    );
+    update new Opportunity(Id = battleOpportunity.Id, RoundsCompleted__c = singleBattle.numberOfRounds);
   }
 }

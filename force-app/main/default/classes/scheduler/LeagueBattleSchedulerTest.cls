@@ -13,7 +13,7 @@ public class LeagueBattleSchedulerTest {
   static void runsApexLeagueBattleWithAllModelsAtMidnight() {
     Test.startTest();
     System.schedule(
-      'League Competition: Apex',
+      'League Competition: Apex Test',
       LeagueBattleScheduler.CRON_EXPRESSION,
       LeagueBattleScheduler.scheduler()
         .inLeague('Apex')

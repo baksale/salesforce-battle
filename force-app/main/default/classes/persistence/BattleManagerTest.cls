@@ -55,22 +55,14 @@ public class BattleManagerTest {
   static void associatesEachBattleWithALeagueAsAccount() {
     battleOrchestrator.runBattle();
 
-    System.assertEquals(
-      LEAGUE_NAME_APEX,
-      [SELECT Account.Name FROM Opportunity]
-      .Account.Name
-    );
+    System.assertEquals(LEAGUE_NAME_APEX, [SELECT Account.Name FROM Opportunity].Account.Name);
   }
 
   @isTest
   static void choosesLeagueBasedOnParameter() {
     battleOrchestrator.inLeague(LEAGUE_NAME_FLOW).runBattle();
 
-    System.assertEquals(
-      LEAGUE_NAME_FLOW,
-      [SELECT Account.Name FROM Opportunity]
-      .Account.Name
-    );
+    System.assertEquals(LEAGUE_NAME_FLOW, [SELECT Account.Name FROM Opportunity].Account.Name);
   }
 
   @isTest
@@ -84,13 +76,8 @@ public class BattleManagerTest {
       .withMaxNumberOfRounds(maxNumberOfRounds)
       .runBattle();
 
-    final Opportunity battleAsOpportunity = [
-      SELECT Id, FieldDefinition__c, MaxRounds__c
-      FROM Opportunity
-    ];
-    final String fieldDefinition = String.valueOf(
-      battleAsOpportunity.FieldDefinition__c
-    );
+    final Opportunity battleAsOpportunity = [SELECT Id, FieldDefinition__c, MaxRounds__c FROM Opportunity];
+    final String fieldDefinition = String.valueOf(battleAsOpportunity.FieldDefinition__c);
     System.assert(fieldDefinition.contains(String.valueOf(fieldSizeX)));
     System.assert(fieldDefinition.contains(String.valueOf(fieldSizeY)));
     System.assertEquals(maxNumberOfRounds, battleAsOpportunity.MaxRounds__c);
@@ -99,11 +86,7 @@ public class BattleManagerTest {
   @isTest
   static void recordsBattlePlayersInformationAsOpportunityFields() {
     final Integer numberOfAims = 4;
-    final Product2 piecefullModel = [
-      SELECT Id, Name
-      FROM Product2
-      WHERE Name LIKE 'Piece%'
-    ];
+    final Product2 piecefullModel = [SELECT Id, Name FROM Product2 WHERE Name LIKE 'Piece%'];
     final Integer initialLiveLevel = 2;
     final Integer numberOfRoundsCompleted = numberOfAims * initialLiveLevel;
     final Integer numberOfWinners = 1;
@@ -111,42 +94,55 @@ public class BattleManagerTest {
     for (Integer i = 0; i < numberOfAims; i++) {
       battleOrchestrator.withTankModel(piecefullModel);
     }
-    final Product2 towerModel = [
-      SELECT Id, Name
-      FROM Product2
-      WHERE Name LIKE 'Tower%'
-    ];
+    final Product2 towerModel = [SELECT Id, Name FROM Product2 WHERE Name LIKE 'Tower%'];
     battleOrchestrator.withTankModel(towerModel);
 
+    battleOrchestrator.withLifeService(LifeService.lifeService(initialLiveLevel)).runBattle();
+
+    final Opportunity battleAsOpportunity = [
+      SELECT Id, InitialLiveLevel__c, RoundsCompleted__c, NumberOfPlayers__c, NumberOfWinners__c
+      FROM Opportunity
+    ];
+    System.assertEquals(numberOfRoundsCompleted, battleAsOpportunity.RoundsCompleted__c);
+    System.assertEquals(initialLiveLevel, battleAsOpportunity.InitialLiveLevel__c);
+    System.assertEquals(numberOfAims + numberOfWinners, battleAsOpportunity.NumberOfPlayers__c);
+    System.assertEquals(numberOfWinners, battleAsOpportunity.NumberOfWinners__c);
+  }
+
+  @isTest
+  static void recordsLifeLeftForEachPlayerAsOpportunityFields() {
+    final Integer initialLiveLevel = 25;
+    final Integer numberOfRounds = 10;
+
     battleOrchestrator
+      .withTankModel(piecefulModel())
+      .withTankModel(towerModel())
+      .withMaxNumberOfRounds(numberOfRounds)
       .withLifeService(LifeService.lifeService(initialLiveLevel))
       .runBattle();
 
-    final Opportunity battleAsOpportunity = [
-      SELECT
-        Id,
-        InitialLiveLevel__c,
-        RoundsCompleted__c,
-        NumberOfPlayers__c,
-        NumberOfWinners__c
-      FROM Opportunity
-    ];
-    System.assertEquals(
-      numberOfRoundsCompleted,
-      battleAsOpportunity.RoundsCompleted__c
-    );
-    System.assertEquals(
-      initialLiveLevel,
-      battleAsOpportunity.InitialLiveLevel__c
-    );
-    System.assertEquals(
-      numberOfAims + numberOfWinners,
-      battleAsOpportunity.NumberOfPlayers__c
-    );
-    System.assertEquals(
-      numberOfWinners,
-      battleAsOpportunity.NumberOfWinners__c
-    );
+    final OpportunityLineItem towerTank = towerPlayer();
+    System.assertEquals(initialLiveLevel, towerTank.NumberOfLives__c);
+
+    final OpportunityLineItem pieceFulTank = piecefulPlayer();
+    System.assertEquals(initialLiveLevel - numberOfRounds, pieceFulTank.NumberOfLives__c);
+  }
+
+  @isTest
+  static void recordsScoreForEachPlayerAsOpportunityFields() {
+    final Integer initialLiveLevel = 4;
+    final Integer numberOfRounds = 10;
+
+    battleOrchestrator
+      .withTankModel(piecefulModel())
+      .withTankModel(piecefulModel())
+      .withTankModel(towerModel())
+      .withMaxNumberOfRounds(numberOfRounds)
+      .withLifeService(LifeService.lifeService(initialLiveLevel))
+      .runBattle();
+
+    final OpportunityLineItem towerTank = towerPlayer();
+    System.assertEquals(initialLiveLevel * 2, towerTank.Score__c);
   }
 
   @isTest
@@ -155,28 +151,17 @@ public class BattleManagerTest {
     battleOrchestrator.withTanksModels(tanksModels).runBattle();
 
     final Opportunity battle = [SELECT Id FROM Opportunity];
-    final List<OpportunityLineItem> players = [
-      SELECT Id
-      FROM OpportunityLineItem
-      WHERE OpportunityId = :battle.Id
-    ];
+    final List<OpportunityLineItem> players = [SELECT Id FROM OpportunityLineItem WHERE OpportunityId = :battle.Id];
 
     System.assertEquals(tanksModels.size(), players.size());
   }
 
   @isTest
   static void tankActionsAreStoredOnOpportunityLineItems() {
-    final Product2 movingTankModel = [
-      SELECT Id, Name
-      FROM Product2
-      WHERE Name LIKE '%Moving%'
-    ];
+    final Product2 movingTankModel = movingModel();
     final List<Product2> tanksModels = [SELECT Id, Name FROM Product2];
     final Integer numberOfRounds = 3;
-    battleOrchestrator
-      .withTanksModels(tanksModels)
-      .withMaxNumberOfRounds(numberOfRounds)
-      .runBattle();
+    battleOrchestrator.withTanksModels(tanksModels).withMaxNumberOfRounds(numberOfRounds).runBattle();
 
     final OpportunityLineItem movingPlayer = [
       SELECT Id, BattleHistory__c
@@ -184,18 +169,12 @@ public class BattleManagerTest {
       WHERE Product2Id = :movingTankModel.Id
     ];
 
-    final TankHistory tankHistory = (TankHistory) JSON.deserialize(
-      movingPlayer.BattleHistory__c,
-      TankHistory.class
-    );
+    final TankHistory tankHistory = (TankHistory) JSON.deserialize(movingPlayer.BattleHistory__c, TankHistory.class);
 
     for (Integer i = 0; i < numberOfRounds; i++) {
       final RoundHistory roundHistory = tankHistory.getRoundRecord(i);
 
-      System.assert(
-        MoveDirectionEnum.UP == roundHistory.direction ||
-        MoveDirectionEnum.DOWN == roundHistory.direction
-      );
+      System.assert(MoveDirectionEnum.UP == roundHistory.direction || MoveDirectionEnum.DOWN == roundHistory.direction);
       System.assertNotEquals(null, roundHistory.attack);
       System.assertEquals(true, roundHistory.successfullAttack);
     }
@@ -243,11 +222,7 @@ public class BattleManagerTest {
       battleOrchestrator.runBattle();
     }
 
-    final List<Opportunity> battles = [
-      SELECT BattleId__c
-      FROM Opportunity
-      ORDER BY CreatedDate
-    ];
+    final List<Opportunity> battles = [SELECT BattleId__c FROM Opportunity ORDER BY CreatedDate];
     for (Integer i = 0; i < numberOfBattles; i++) {
       final String battleId = 'Battle-00000' + i;
       System.assertEquals(battleId, battles[i].BattleId__c);
@@ -256,14 +231,9 @@ public class BattleManagerTest {
 
   @isTest
   static void setsNumericIdsToPlayers() {
-    battleOrchestrator
-      .withTanksModels([SELECT Id, Name FROM Product2])
-      .runBattle();
+    battleOrchestrator.withTanksModels([SELECT Id, Name FROM Product2]).runBattle();
 
-    final List<OpportunityLineItem> players = [
-      SELECT Id, PlayerId__c
-      FROM OpportunityLineItem
-    ];
+    final List<OpportunityLineItem> players = [SELECT Id, PlayerId__c FROM OpportunityLineItem];
 
     Integer i = 0;
     for (OpportunityLineItem player : players) {
@@ -271,5 +241,33 @@ public class BattleManagerTest {
       System.assertEquals(playerId, player.PlayerId__c);
       i++;
     }
+  }
+
+  private static OpportunityLineItem piecefulPlayer() {
+    return tankPlayer(PiecefulTank.class);
+  }
+
+  private static OpportunityLineItem towerPlayer() {
+    return tankPlayer(TowerTank.class);
+  }
+
+  private static OpportunityLineItem tankPlayer(final Type type) {
+    return [SELECT Id, Name, NumberOfLives__c, Score__c FROM OpportunityLineItem WHERE Product2.Name = :type.getName()];
+  }
+
+  private static Product2 movingModel() {
+    return model(VerticallyMovingTank.class);
+  }
+
+  private static Product2 piecefulModel() {
+    return model(PiecefulTank.class);
+  }
+
+  private static Product2 towerModel() {
+    return model(TowerTank.class);
+  }
+
+  private static Product2 model(final Type type) {
+    return [SELECT Id, Name FROM Product2 WHERE Name = :type.getName()];
   }
 }
