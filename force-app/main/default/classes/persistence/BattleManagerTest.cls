@@ -150,6 +150,40 @@ public class BattleManagerTest {
   }
 
   @isTest
+  static void recordsLifeLeftForEachPlayerAsOpportunityFields() {
+    final List<Product2> tanksModels = [
+      SELECT Id, Name
+      FROM Product2
+      WHERE Name IN ('PiecefulTank', 'TowerTank')
+    ];
+    final Integer initialLiveLevel = 25;
+    final Integer numberOfRounds = 10;
+
+    battleOrchestrator
+      .withTanksModels(tanksModels)
+      .withMaxNumberOfRounds(numberOfRounds)
+      .withLifeService(LifeService.lifeService(initialLiveLevel))
+      .runBattle();
+
+    final OpportunityLineItem towerTank = [
+      SELECT Id, NumberOfLives__c
+      FROM OpportunityLineItem
+      WHERE Product2.Name = 'TowerTank'
+    ];
+    System.assertEquals(initialLiveLevel, towerTank.NumberOfLives__c);
+
+    final OpportunityLineItem pieceFulTank = [
+      SELECT Id, NumberOfLives__c
+      FROM OpportunityLineItem
+      WHERE Product2.Name = 'PiecefulTank'
+    ];
+    System.assertEquals(
+      initialLiveLevel - numberOfRounds,
+      pieceFulTank.NumberOfLives__c
+    );
+  }
+
+  @isTest
   static void eachPlayerIsAddedAsOpportunityLineItemIntoBattleOportunity() {
     final List<Product2> tanksModels = [SELECT Name FROM Product2];
     battleOrchestrator.withTanksModels(tanksModels).runBattle();

@@ -160,15 +160,18 @@ public class BattleManager {
   }
 
   private void completeBattle() {
-    recordHistory();
+    recordPlayerResults();
     updateBattleInfo();
   }
 
-  private void recordHistory() {
+  private void recordPlayerResults() {
     final Set<ApexTank> winners = singleBattle.winners();
     for (ApexTank tank : tankPlayerRecords.keySet()) {
       final OpportunityLineItem battlePlayer = tankPlayerRecords.get(tank);
       battlePlayer.BattleHistory__c = battleHistoryService.getHistory(tank);
+      battlePlayer.NumberOfLives__c = battleLifeService.getCurrentLifeLevel(
+        tank
+      );
       if (!winners.contains(tank)) {
         battlePlayer.TotalPrice = 0;
       } else {
