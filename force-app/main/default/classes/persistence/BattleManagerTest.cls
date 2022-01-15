@@ -151,32 +151,20 @@ public class BattleManagerTest {
 
   @isTest
   static void recordsLifeLeftForEachPlayerAsOpportunityFields() {
-    final List<Product2> tanksModels = [
-      SELECT Id, Name
-      FROM Product2
-      WHERE Name IN ('PiecefulTank', 'TowerTank')
-    ];
     final Integer initialLiveLevel = 25;
     final Integer numberOfRounds = 10;
 
     battleOrchestrator
-      .withTanksModels(tanksModels)
+      .withTankModel(piecefulModel())
+      .withTankModel(towerModel())
       .withMaxNumberOfRounds(numberOfRounds)
       .withLifeService(LifeService.lifeService(initialLiveLevel))
       .runBattle();
 
-    final OpportunityLineItem towerTank = [
-      SELECT Id, NumberOfLives__c
-      FROM OpportunityLineItem
-      WHERE Product2.Name = 'TowerTank'
-    ];
+    final OpportunityLineItem towerTank = towerPlayer();
     System.assertEquals(initialLiveLevel, towerTank.NumberOfLives__c);
 
-    final OpportunityLineItem pieceFulTank = [
-      SELECT Id, NumberOfLives__c
-      FROM OpportunityLineItem
-      WHERE Product2.Name = 'PiecefulTank'
-    ];
+    final OpportunityLineItem pieceFulTank = piecefulPlayer();
     System.assertEquals(
       initialLiveLevel - numberOfRounds,
       pieceFulTank.NumberOfLives__c
@@ -305,5 +293,33 @@ public class BattleManagerTest {
       System.assertEquals(playerId, player.PlayerId__c);
       i++;
     }
+  }
+
+  private static OpportunityLineItem piecefulPlayer() {
+    return tankPlayer(PiecefulTank.class);
+  }
+
+  private static OpportunityLineItem towerPlayer() {
+    return tankPlayer(TowerTank.class);
+  }
+
+  private static OpportunityLineItem tankPlayer(final Type type) {
+    return [
+      SELECT Id, Name, NumberOfLives__c
+      FROM OpportunityLineItem
+      WHERE Product2.Name = :type.getName()
+    ];
+  }
+
+  private static Product2 piecefulModel() {
+    return model(PiecefulTank.class);
+  }
+
+  private static Product2 towerModel() {
+    return model(TowerTank.class);
+  }
+
+  private static Product2 model(final Type type) {
+    return [SELECT Id, Name FROM Product2 WHERE Name = :type.getName()];
   }
 }
