@@ -1,13 +1,1 @@
 PlayerId__c,IsWinner__c,Product2.TankModel__c,Quantity,TotalPrice,Opportunity.BattleId__c
-Player-000003,false,VerticallyMovingTank,1,1,Battle-00001
-Player-000002,false,TowerTank,1,1,Battle-00001
-Player-000001,false,PiecefulTank,1,1,Battle-00001
-Player-000012,false,VerticallyMovingTank,1,1,Battle-00002
-Player-000011,false,TowerTank,1,1,Battle-00002
-Player-000010,false,PiecefulTank,1,1,Battle-00002
-Player-000009,false,VerticallyMovingTank,1,1,Battle-00002
-Player-000008,false,TowerTank,1,1,Battle-00002
-Player-000007,false,PiecefulTank,1,1,Battle-00002
-Player-000006,false,VerticallyMovingTank,1,1,Battle-00002
-Player-000005,false,TowerTank,1,1,Battle-00002
-Player-000004,false,PiecefulTank,1,1,Battle-00002

@@ -2,3 +2,4 @@ Name,IsActive,Author__r.GithubUsername__c,TankModel__c,Family
 PiecefulTank,true,baksale,PiecefulTank,Tank Models
 TowerTank,true,baksale,TowerTank,Tank Models
 VerticallyMovingTank,true,baksale,VerticallyMovingTank,Tank Models
+HorizontallyMovingTank,true,baksale,HorizontallyMovingTank,Tank Models

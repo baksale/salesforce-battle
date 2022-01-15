@@ -1,9 +1,9 @@
 #!/bin/bash
 
-scratchOrg="battle-test"
+scratchOrg="battle"
 echo "Creating scratch org for development..."
-echo "sfdx force:org:create -f config/project-scratch-def.json -s -a $scratchOrg"
-sfdx force:org:create -f config/project-scratch-def.json -s -a $scratchOrg
+echo "sfdx force:org:create -f config/project-scratch-def.json -d 30 -s -a $scratchOrg"
+sfdx force:org:create -f config/project-scratch-def.json -d 30 -s -a $scratchOrg
 
 rc=$?
 if [ $rc -ne 0 ]; then
@@ -53,6 +53,19 @@ echo ""
 echo "Uploading static data and battles history..."
 echo "./scripts/import-data.sh"
 ./scripts/import-data.sh
+
+rc=$?
+if [ $rc -ne 0 ]; then
+    echo "could not upload static data and battles history into scratch org";
+    exit $rc;
+fi
+echo ""
+
+
+echo ""
+echo "Scheduling regular battles..."
+echo "sfdx force:apex:execute -f scripts/scheduler.apex"
+sfdx force:apex:execute -f scripts/scheduler.apex
 
 rc=$?
 if [ $rc -ne 0 ]; then
