@@ -11,6 +11,7 @@ public class GameEngine {
   private FieldService fieldService;
   private LifeService lifeService;
   private HistoryService historyService;
+  private ScoreService scoreService;
 
   private GameEngine() {
     this.activePlayers = new List<ApexTankBase>();
@@ -23,7 +24,8 @@ public class GameEngine {
     return engine
       .withFieldService(FieldService.service(10, 10))
       .withLifeService(LifeService.lifeService(10))
-      .withHistoryService(new HistoryService());
+      .withHistoryService(new HistoryService())
+      .withScoreService(ScoreService.service());
   }
 
   public void battle() {
@@ -66,13 +68,13 @@ public class GameEngine {
       final ApexTank tankUnderAttack = fieldService.tankAt(pointToAttack);
       Boolean successfullAttack = false;
       if (!attacker.equals(tankUnderAttack)) {
-        successfullAttack = lifeService.modifyLifeLevel(tankUnderAttack, -1);
+        final Integer attackScore = 1;
+        successfullAttack = lifeService.modifyLifeLevel(tankUnderAttack, -attackScore);
+        if (successfullAttack) {
+          scoreService.modifyScore(attacker, attackScore);
+        }
       }
-      historyService.updateAttackStatus(
-        numberOfRounds,
-        attacker,
-        successfullAttack
-      );
+      historyService.updateAttackStatus(numberOfRounds, attacker, successfullAttack);
     }
   }
 
@@ -108,6 +110,7 @@ public class GameEngine {
       activePlayers.add(extraPlayer);
       lifeService.withTank(extraPlayer);
       extraPlayer.withRadar(fieldService);
+      scoreService.withTank(extraPlayer);
       return this;
     }
     throw new IllegalArgumentException('Cannot add tanks anymore');
@@ -125,6 +128,11 @@ public class GameEngine {
 
   public GameEngine withHistoryService(final HistoryService historyService) {
     this.historyService = historyService;
+    return this;
+  }
+
+  public GameEngine withScoreService(final ScoreService scoreService) {
+    this.scoreService = scoreService;
     return this;
   }
 
@@ -162,16 +170,9 @@ public class GameEngine {
   private class TankMoveVisitor extends TankVisitor {
     private Map<ApexTankBase, MoveDirectionEnum> moves = new Map<ApexTankBase, MoveDirectionEnum>();
 
-    public void visit(
-      final ApexTankBase apexTank,
-      final RoundAction tankAction
-    ) {
+    public void visit(final ApexTankBase apexTank, final RoundAction tankAction) {
       final MoveDirectionEnum direction = tankAction.direction;
-      historyService.recordMoveAttempt(
-        roundNumber,
-        apexTank,
-        tankAction.direction
-      );
+      historyService.recordMoveAttempt(roundNumber, apexTank, tankAction.direction);
       if (MoveDirectionEnum.NOMOVE != direction) {
         moves.put(apexTank, direction);
       }
@@ -187,10 +188,7 @@ public class GameEngine {
   private class TankAttackVisitor extends TankVisitor {
     private Map<ApexTankBase, Point> attacks = new Map<ApexTankBase, Point>();
 
-    public void visit(
-      final ApexTankBase apexTank,
-      final RoundAction tankAction
-    ) {
+    public void visit(final ApexTankBase apexTank, final RoundAction tankAction) {
       final Point coordinateToAttack = tankAction.coordinateToAttack;
       historyService.recordAttack(roundNumber, apexTank, coordinateToAttack);
       if (null != coordinateToAttack) {
