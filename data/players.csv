@@ -1,1 +1,9 @@
-PlayerId__c,IsWinner__c,Product2.TankModel__c,Quantity,TotalPrice,Opportunity.BattleId__c
+PlayerId__c,IsWinner__c,Product2.TankModel__c,Quantity,TotalPrice,Opportunity.BattleId__c,NumberOfLives__c,Score__c
+Battle-000000-Player-0000000,false,PiecefulTank,1,0,Battle-000000,,0
+Battle-000000-Player-0000001,false,TowerTank,1,0,Battle-000000,,0
+Battle-000000-Player-0000002,true,VerticallyMovingTank,1,1,Battle-000000,,8
+Battle-000000-Player-0000003,true,HorizontallyMovingTank,1,1,Battle-000000,,9
+Battle-000001-Player-0000000,false,PiecefulTank,1,0,Battle-000001,0,0
+Battle-000001-Player-0000001,false,TowerTank,1,0,Battle-000001,0,0
+Battle-000001-Player-0000002,true,VerticallyMovingTank,1,1,Battle-000001,10,9
+Battle-000001-Player-0000003,true,HorizontallyMovingTank,1,1,Battle-000001,9,7
