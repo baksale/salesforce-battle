@@ -131,7 +131,7 @@
                 <useReportChart>false</useReportChart>
             </dashboardComponent>
             <rowIndex>9</rowIndex>
-            <rowSpan>11</rowSpan>
+            <rowSpan>10</rowSpan>
         </dashboardGridComponents>
         <dashboardGridComponents>
             <colSpan>3</colSpan>
@@ -156,7 +156,7 @@
                 <showRange>false</showRange>
             </dashboardComponent>
             <rowIndex>12</rowIndex>
-            <rowSpan>4</rowSpan>
+            <rowSpan>7</rowSpan>
         </dashboardGridComponents>
         <dashboardGridComponents>
             <colSpan>3</colSpan>
