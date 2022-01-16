@@ -46,6 +46,10 @@
                 <behavior>Edit</behavior>
                 <field>Score__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Readonly</behavior>
+                <field>ScorePoints__c</field>
+            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>
