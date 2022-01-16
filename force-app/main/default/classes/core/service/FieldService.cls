@@ -1,11 +1,4 @@
 public class FieldService implements Radar {
-  private Map<MoveDirectionEnum, Point> pointsShift = new Map<MoveDirectionEnum, Point>{
-    MoveDirectionEnum.UP => new Point(0, 1),
-    MoveDirectionEnum.RIGHT => new Point(1, 0),
-    MoveDirectionEnum.DOWN => new Point(0, -1),
-    MoveDirectionEnum.LEFT => new Point(-1, 0),
-    MoveDirectionEnum.NOMOVE => new Point(0, 0)
-  };
   private Map<Point, ApexTank> cellsWithTanks;
   private Map<ApexTank, Point> tankCoordinates;
 
@@ -30,10 +23,7 @@ public class FieldService implements Radar {
     return x * y;
   }
 
-  public Boolean addTankToField(
-    final ApexTank tank,
-    final Point tankCoordinate
-  ) {
+  public Boolean addTankToField(final ApexTank tank, final Point tankCoordinate) {
     if (storeIntoCell(tank, tankCoordinate)) {
       tankCoordinates.put(tank, tankCoordinate);
       return true;
@@ -41,23 +31,16 @@ public class FieldService implements Radar {
     return false;
   }
   private Boolean storeIntoCell(final ApexTank tank, final Point cell) {
-    return cellsWithTanks.containsKey(cell)
-      ? false
-      : cellsWithTanks.put(cell, tank) == null;
+    return cellsWithTanks.containsKey(cell) ? false : cellsWithTanks.put(cell, tank) == null;
   }
 
   public ApexTank tankAt(final Point tankCoordinate) {
     return cellsWithTanks.get(tankCoordinate);
   }
 
-  public Boolean moveTank(
-    final ApexTank tank,
-    final MoveDirectionEnum moveDirection
-  ) {
+  public Boolean moveTank(final ApexTank tank, final MoveDirectionEnum moveDirection) {
     final Point currentCoordinate = tankCoordinates.get(tank);
-    final Point targetCoordinate = currentCoordinate.add(
-      pointsShift.get(moveDirection)
-    );
+    final Point targetCoordinate = currentCoordinate.add(moveDirection);
     return moveTank(tank, targetCoordinate);
   }
 
@@ -77,17 +60,11 @@ public class FieldService implements Radar {
   }
 
   private Boolean isTargetWithinField(final Point targetCoordinate) {
-    return 0 <= targetCoordinate.x &&
-      targetCoordinate.x < x &&
-      0 <= targetCoordinate.y &&
-      targetCoordinate.y < y;
+    return 0 <= targetCoordinate.x && targetCoordinate.x < x && 0 <= targetCoordinate.y && targetCoordinate.y < y;
   }
 
-  public Boolean pathExists(
-    final Point relativePoint,
-    final MoveDirectionEnum direction
-  ) {
-    final Point targetPoint = relativePoint.add(pointsShift.get(direction));
+  public Boolean pathExists(final Point relativePoint, final MoveDirectionEnum direction) {
+    final Point targetPoint = relativePoint.add(direction);
     return isTargetWithinField(targetPoint);
   }
 
@@ -123,8 +100,6 @@ public class FieldService implements Radar {
   }
 
   public String definition() {
-    return JSON.serialize(
-      new Map<String, Integer>{ 'fieldSizeX' => x, 'fieldSizeY' => y }
-    );
+    return JSON.serialize(new Map<String, Integer>{ 'fieldSizeX' => x, 'fieldSizeY' => y });
   }
 }
